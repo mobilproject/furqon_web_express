@@ -30,7 +30,7 @@ var lang = {
         close_app_title:"Exit App",
         close_app_buttons:["Yes","No"],
         greeting: "Assalaamu alaykum",
-        gr_text: "Dear brothers and sisters, I have tried to make the application easy to use as much as I could and I am continually working on improving it. <br>My goal is to bring high quality products to spread the truth. <br> Your support in any form is highly appreciated and will surely be rewarded accordingly by Allah Almighty. <br> Please, share and purchase to support the cause."
+        gr_text: "Dear brothers and sisters, I have tried to make the application easy to use as much as I could and I am continually working on improving it. <br>My goal is to bring high quality products to spread the truth. <br>The application is the result of knowledge and hard work of a person. <br> Your support in any form is highly appreciated and will surely be rewarded accordingly by Allah Almighty. <br> Please, share and purchase to support the cause."
     },
     uzbek: {
         home_title: "Suralar",
@@ -49,7 +49,7 @@ var lang = {
         close_app_title:"Chiqish",
         close_app_buttons:["Ha","Yo`q"],
         greeting: "Assalomu alaykum",
-        gr_text: "Qadrli muxlislar, men bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildim va bunda davom etmoqdaman. Maqsadimiz yuqori sifatli dasturlar taklif qilish va haqiqatni shu yo`l bilan yetkazish. <br> Sababimizni qo`lingizdan kelganicha qo`llab quvvatlang va tanishlaringizga ham ulashing. <br> Olloh Taolo sizdan va bizdan har bir xayrli amalimizni qabul qilsin."
+        gr_text: "Qadrli muxlislar, men bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildim va bunda davom etmoqdaman. Maqsadimiz yuqori sifatli dasturlar taklif qilish va haqiqatni shu yo`l bilan yetkazish. <br>Dastur insonning mehnati, bilimi va harakati evaziga keladigan narsadir. Uni haqqini qo`lingizdan kelganicha qo`llab quvvatlash va tanishlaringizga ham ulashish orqali ado qiling. <br> Olloh Taolo sizdan va bizdan har bir xayrli amalimizni qabul qilsin."
     },
     russian: {
         home_title: "Суры",
@@ -68,7 +68,7 @@ var lang = {
         close_app_title:"Выход",
         close_app_buttons:["Да","нет"],
         greeting: "Ассаляму аляйкум",
-        gr_text: "Дорогие братья и сестры, я постарался чтобы эта программа стала наиболее удобна в пользовании и все еще продолжаю работу. <br>Моя цель расспространить верный путь посредством своей работы. <br>Аллах Субханаху ва Таала вознаградит каждого за вклад обязательно. Присоединитесь же своим.<br>Пожалуйста поделитесь с друзьями и приобретайте, чтобы я мог дальше, лучше и больше писать."
+        gr_text: "Дорогие братья и сестры, я постарался чтобы эта программа стала наиболее удобна в пользовании и все еще продолжаю работу. <br>Моя цель расспространить верный путь посредством своей работы.<br>Приложение является результатом знаний и упорного труда человека. <br>Аллах Субханаху ва Таала вознаградит каждого за вклад обязательно. Присоединитесь же своим.<br>Пожалуйста поделитесь с друзьями и приобретайте, чтобы я мог дальше, лучше и больше писать."
     }
 };
 
@@ -97,7 +97,7 @@ window.fn.load = function (page) {
             .load(page)
             .then(menu.close.bind(menu));
 };
-
+//pages
 document.addEventListener('show', function (event) {
     var page = event.target;
     console.log(page.id); // can detect which page
@@ -108,7 +108,7 @@ document.addEventListener('show', function (event) {
     {
         case "titles":
             console.log("surah title list");
-            get_surah_names();
+            get_surah_names();            
             //show only once
             if (!Boolean(localStorage.first_open))
             {
@@ -122,6 +122,8 @@ document.addEventListener('show', function (event) {
                     callback: function () {
                         // Alert button is closed!
                         localStorage.first_open = "done";
+                        showPopover(document.getElementsByClassName("ayah_id")[0]);
+                        document.getElementById("poptext").innerHTML = "Surani tanlang";
                     }
                 });
             }
@@ -451,3 +453,16 @@ function showInterstitialFunc(){
     window.plugins.AdMob.createInterstitialView();	//get the interstitials ready to be shown and show when it's loaded.
     window.plugins.AdMob.requestInterstitialAd();
 }
+
+var showPopover = function(target) {
+  document
+    .getElementById('popover')
+    .show(target);
+    
+};
+
+var hidePopover = function() {
+  document
+    .getElementById('popover')
+    .hide();
+};

@@ -43,26 +43,32 @@ function show_surah_content_now()
     //console.log(rows);
     document.querySelector("#ayah_list").innerHTML = rows;
     $("ons-list-item").off().on("click", function () {
-                    $(event.currentTarget).find(".qavs_ichi").toggle();
-                    $(event.currentTarget).find(".zmdi-comment").toggle();
-                });
-                rows = "";
-                big_data = [];
-            }
+        $(event.currentTarget).find(".qavs_ichi").toggle();
+        $(event.currentTarget).find(".zmdi-comment").toggle();
+    });
+    rows = "";
+    big_data = [];
+    if (!Boolean(localStorage.first_surah))
+    {
+        localStorage.first_surah = "done";
+        showPopover(document.getElementsByClassName("ayah_id")[0]);
+        document.getElementById("poptext").innerHTML = "Ofarin! <br>Bu surani endi avtonom tarzda har doim o`qish va qolgan suralarni ham shu tarzda yuklab olish mumkin";
+    }
+}
 function create_row(rows, i)
 {
     if (big_data[i]['DatabaseID'] == 1)
-            {
-                rows += `<ons-list-item id="ayah-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
+    {
+        rows += `<ons-list-item id="ayah-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
              <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
-            } else {
-                
-                    var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-comment"></i><span class="qavs_ichi">');
-                    izohsiz = izohsiz.replace(/\)/g, '</span>');
-                    rows += `<ons-list-item tappable><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
-                
-            }
-            return rows;
+    } else {
+
+        var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-comment"></i><span class="qavs_ichi">');
+        izohsiz = izohsiz.replace(/\)/g, '</span>');
+        rows += `<ons-list-item tappable><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
+
+    }
+    return rows;
 }
 
 function manage_object_stores(databaseName, selected_surah, rd) {
