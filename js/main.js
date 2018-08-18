@@ -367,7 +367,7 @@ function display_surah_names(data)
     location.hash = "sura-" + (Number(selected_surah) - 1);
     if (deviceready)
     {
-        showInterstitialFunc();
+      
         window.plugins.AdMob.destroyBannerView();
     }
     
@@ -449,11 +449,6 @@ function showBannerFunc(){
 }
 
 //display the interstitial
-function showInterstitialFunc(){    
-    window.plugins.AdMob.createInterstitialView();	//get the interstitials ready to be shown and show when it's loaded.
-    window.plugins.AdMob.requestInterstitialAd();
-}
-
 var showPopover = function(target) {
   document
     .getElementById('popover')
