@@ -11,6 +11,7 @@ var selected_surah = 1;
 var selected_title;
 var ayah_tracker = Boolean(localStorage.ayah_tracker) ? localStorage.ayah_tracker : {};
 var deviceready;
+var lastdayopen = Date.now();
 
 var lang = {
     english: {
@@ -259,6 +260,21 @@ function ajax(d)
 
             }
 
+        },
+        error: function ()
+        {
+            ons.notification.alert({
+                    message: 'Keyinroq harakat qilib ko`ring',
+                    // or messageHTML: '<div>Message in HTML</div>',
+                    title: 'Xatolik',
+                    buttonLabel: 'OK',
+                    animation: 'default', // or 'none'
+                    // modifier: 'optional-modifier'
+                    callback: function () {
+                        // Alert button is closed!
+                        
+                                            }
+                });
         }
     });
 }
