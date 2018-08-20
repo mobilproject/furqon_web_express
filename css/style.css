@@ -7,7 +7,12 @@
 {
     background-color: rgb(105, 142, 45);
 }
-
+ons-fab{
+    width: 0px!important;
+}
+.fab__icon{
+    display: none;
+}
 ons-toolbar.toolbar {
     background-color: rgba(167, 176, 0, 0.66);
 }
