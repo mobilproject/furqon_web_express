@@ -48,29 +48,69 @@ function show_surah_content_now()
     });
     rows = "";
     big_data = [];
+
     if (!Boolean(localStorage.first_surah))
     {
         localStorage.first_surah = "done";
         showPopover(document.getElementsByClassName("ayah_id")[0]);
-        document.getElementById("poptext").innerHTML = "Ofarin! <br>Bu surani endi avtonom tarzda har doim o`qish va qolgan suralarni ham shu tarzda yuklab olish mumkin";
+        document.getElementById("poptext").innerHTML = lang[language].chapter_loaded;
     }
+
+    restore_bookmark();
+}
+
+function restore_bookmark()
+{
+    
+    
+        
+            try {
+                $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].scrollIntoView();
+                        ons.notification.toast(lang[language].bookmark_found_message + bookmarklist[selected_surah], {timeout: 2000, animation: 'ascend'});
+                        //console.log($("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).find(".zmdi-bookmark-outline")[0].classList.removeClass("zmdi-bookmark-outline").addClass("zmdi-bookmark"));
+            } catch (e) {
+
+            }
+        
+    
 }
 function create_row(rows, i)
 {
     if (big_data[i]['DatabaseID'] == 1)
     {
-        rows += `<ons-list-item id="ayah-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
+        rows += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
              <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
     } else {
 
         var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-comment"></i><span class="qavs_ichi">');
         izohsiz = izohsiz.replace(/\)/g, '</span>');
-        rows += `<ons-list-item tappable><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
+        rows += `<ons-list-item tappable onmousedown="toggle_sd(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-bookmark-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
+    <ons-fab>
+      <ons-icon icon="md-share"></ons-icon>
+    </ons-fab>
+    <ons-speed-dial-item onmousedown="bookmark_ayahid(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>
+      <ons-icon icon="md-bookmark"></ons-icon>
+    </ons-speed-dial-item>
+    
+  </ons-speed-dial><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
 
     }
     return rows;
 }
 
+function toggle_sd(event)
+{
+    event.currentTarget.querySelector('ons-speed-dial').toggleItems();
+}
+function bookmark_ayahid(event)
+{
+    var bookmark_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
+    var bookmark_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
+    console.log(bookmark_sura_no, bookmark_ayah_no);
+    bookmarklist[Number(bookmark_sura_no)] = Number(bookmark_ayah_no);
+    localStorage.bookmarklist = JSON.stringify(bookmarklist);
+
+}
 function manage_object_stores(databaseName, selected_surah, rd) {
 
     var request = indexedDB.open(databaseName);

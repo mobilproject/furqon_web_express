@@ -9,7 +9,7 @@ var languages = Boolean(localStorage.language) ? JSON.parse(localStorage.languag
 var language = Boolean(localStorage.menu_language) ? localStorage.menu_language : "uzbek";
 var selected_surah = 1;
 var selected_title;
-var ayah_tracker = Boolean(localStorage.ayah_tracker) ? localStorage.ayah_tracker : {};
+var bookmarklist = Boolean(localStorage.bookmarklist) ? JSON.parse(localStorage.bookmarklist) : {};
 var deviceready;
 var lastdayopen = Date.now();
 
@@ -30,7 +30,11 @@ var lang = {
         close_app: "Do you want to close the app?",
         close_app_title:"Exit App",
         close_app_buttons:["Yes","No"],
+        first_message:["Good news!","Now you chapters are downloaded and are available offline upon the first access"],
         greeting: "Assalaamu alaykum",
+        bookmark_found_message: "Bookmark found at verse: ",
+        chapter_loaded: "Now this chapter is available offline. You can download any other chapter the same way",
+        choose_chapter: "Click a title to open a chapter",
         gr_text: "Dear brothers and sisters, I have tried to make the application easy to use as much as I could and I am continually working on improving it. <br>My goal is to bring high quality products to spread the truth. <br>The application is the result of knowledge and hard work of a person. <br> Your support in any form is highly appreciated and will surely be rewarded accordingly by Allah Almighty. <br> Please, share and purchase to support the cause."
     },
     uzbek: {
@@ -49,7 +53,11 @@ var lang = {
         close_app: "Dasturdan chiqmoqchimisiz?",
         close_app_title:"Chiqish",
         close_app_buttons:["Ha","Yo`q"],
+        first_message:["Xushxabar!","Endi suralar birinchi marta o`qishdayoq offline bo`lib qoladi. <br>Qayta o`qish uchun traffik talab qilinmaydi."],
         greeting: "Assalomu alaykum",
+        bookmark_found_message: "Xat cho`pli oyat: ",
+        chapter_loaded: "Ofarin! <br>Bu surani endi avtonom tarzda har doim o`qish va qolgan suralarni ham shu tarzda yuklab olish mumkin",
+        choose_chapter: "Surani tanlash uchun nomini bosing",
         gr_text: "Qadrli muxlislar, men bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildim va bunda davom etmoqdaman. Maqsadimiz yuqori sifatli dasturlar taklif qilish va haqiqatni shu yo`l bilan yetkazish. <br>Dastur insonning mehnati, bilimi va harakati evaziga keladigan narsadir. Uni haqqini qo`lingizdan kelganicha qo`llab quvvatlash va tanishlaringizga ham ulashish orqali ado qiling. <br> Olloh Taolo sizdan va bizdan har bir xayrli amalimizni qabul qilsin."
     },
     russian: {
@@ -68,7 +76,11 @@ var lang = {
         close_app: "Вы хотите закрыть приложение?",
         close_app_title:"Выход",
         close_app_buttons:["Да","нет"],
+        first_message:["Отличная новость!", "Теперь главы загружаются и доступны в автономном режиме при первом доступе"],
         greeting: "Ассаляму аляйкум",
+        bookmark_found_message: "Закладка найдена на стихе: ",
+        chapter_loaded: "Теперь эту суру можно читать автономно, а остальные суры могут быть загружены таким же образом",
+        choose_chapter: "Нажмите, чтобы выбрать суру",
         gr_text: "Дорогие братья и сестры, я постарался чтобы эта программа стала наиболее удобна в пользовании и все еще продолжаю работу. <br>Моя цель расспространить верный путь посредством своей работы.<br>Приложение является результатом знаний и упорного труда человека. <br>Аллах Субханаху ва Таала вознаградит каждого за вклад обязательно. Присоединитесь же своим.<br>Пожалуйста поделитесь с друзьями и приобретайте, чтобы я мог дальше, лучше и больше писать."
     }
 };
@@ -114,9 +126,9 @@ document.addEventListener('show', function (event) {
             if (!Boolean(localStorage.first_open))
             {
                 ons.notification.alert({
-                    message: 'Endi suralar birinchi marta o`qishdayoq offline bo`lib qoladi. <br>Qayta o`qish uchun traffik talab qilinmaydi.',
+                    message: lang[language].first_message[1],
                     // or messageHTML: '<div>Message in HTML</div>',
-                    title: 'Xushxabar!',
+                    title: lang[language].first_message[0],
                     buttonLabel: 'OK',
                     animation: 'default', // or 'none'
                     // modifier: 'optional-modifier'
@@ -124,7 +136,7 @@ document.addEventListener('show', function (event) {
                         // Alert button is closed!
                         localStorage.first_open = "done";
                         showPopover(document.getElementsByClassName("ayah_id")[0]);
-                        document.getElementById("poptext").innerHTML = "Surani tanlang";
+                        document.getElementById("poptext").innerHTML = lang[language].choose_chapter;
                     }
                 });
             }
@@ -405,7 +417,7 @@ function set_languages(event)
         if (this.checked)
         {
             console.log(event.target);
-            ar.push(this.getAttribute("db_id"));
+            ar.push(Number(this.getAttribute("db_id")));
         }
         localStorage.language = JSON.stringify(ar);
         languages = ar;
