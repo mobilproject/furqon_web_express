@@ -109,6 +109,9 @@ function bookmark_ayahid(event)
     console.log(bookmark_sura_no, bookmark_ayah_no);
     bookmarklist[Number(bookmark_sura_no)] = Number(bookmark_ayah_no);
     localStorage.bookmarklist = JSON.stringify(bookmarklist);
+    
+    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
+    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
 
 }
 function manage_object_stores(databaseName, selected_surah, rd) {

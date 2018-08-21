@@ -28,9 +28,9 @@ var lang = {
         loading: "Loading...",
         toast_disabled: "Option disabled",
         close_app: "Do you want to close the app?",
-        close_app_title:"Exit App",
-        close_app_buttons:["Yes","No"],
-        first_message:["Good news!","Now you chapters are downloaded and are available offline upon the first access"],
+        close_app_title: "Exit App",
+        close_app_buttons: ["Yes", "No"],
+        first_message: ["Good news!", "Now you chapters are downloaded and are available offline upon the first access"],
         greeting: "Assalaamu alaykum",
         bookmark_found_message: "Bookmark found at verse: ",
         chapter_loaded: "Now this chapter is available offline. You can download any other chapter the same way",
@@ -51,9 +51,9 @@ var lang = {
         loading: "Yuklash...",
         toast_disabled: "Vaqtinchalik o`chirilgan",
         close_app: "Dasturdan chiqmoqchimisiz?",
-        close_app_title:"Chiqish",
-        close_app_buttons:["Ha","Yo`q"],
-        first_message:["Xushxabar!","Endi suralar birinchi marta o`qishdayoq offline bo`lib qoladi. <br>Qayta o`qish uchun traffik talab qilinmaydi."],
+        close_app_title: "Chiqish",
+        close_app_buttons: ["Ha", "Yo`q"],
+        first_message: ["Xushxabar!", "Endi suralar birinchi marta o`qishdayoq offline bo`lib qoladi. <br>Qayta o`qish uchun traffik talab qilinmaydi."],
         greeting: "Assalomu alaykum",
         bookmark_found_message: "Xat cho`pli oyat: ",
         chapter_loaded: "Ofarin! <br>Bu surani endi avtonom tarzda har doim o`qish va qolgan suralarni ham shu tarzda yuklab olish mumkin",
@@ -74,9 +74,9 @@ var lang = {
         loading: "Загрузка...",
         toast_disabled: "Опция отключена",
         close_app: "Вы хотите закрыть приложение?",
-        close_app_title:"Выход",
-        close_app_buttons:["Да","нет"],
-        first_message:["Отличная новость!", "Теперь главы загружаются и доступны в автономном режиме при первом доступе"],
+        close_app_title: "Выход",
+        close_app_buttons: ["Да", "нет"],
+        first_message: ["Отличная новость!", "Теперь главы загружаются и доступны в автономном режиме при первом доступе"],
         greeting: "Ассаляму аляйкум",
         bookmark_found_message: "Закладка найдена на стихе: ",
         chapter_loaded: "Теперь эту суру можно читать автономно, а остальные суры могут быть загружены таким же образом",
@@ -121,7 +121,7 @@ document.addEventListener('show', function (event) {
     {
         case "titles":
             console.log("surah title list");
-            get_surah_names();            
+            get_surah_names();
             //show only once
             if (!Boolean(localStorage.first_open))
             {
@@ -140,34 +140,85 @@ document.addEventListener('show', function (event) {
                     }
                 });
             }
-            
+
             break;
         case "surah_text":
             console.log("surah text");
             select_surah();
             //showBannerFunc();
-            if(deviceready){
+            if (deviceready) {
                 window.plugins.AdMob.destroyBannerView();
             }
             break;
         case "settings":
             set_settings();
             if (deviceready)
-    {
-            showBannerFunc();
-    }
+            {
+                showBannerFunc();
+            }
             break;
         case "about":
             set_about_page();
             if (deviceready)
-    {
-            showBannerFunc();
-    }
-        
+            {
+                showBannerFunc();
+            }
+
             break;
     }
 });
+document.addEventListener("deviceready", function () {
+        window.FirebasePlugin.getToken(function (token) {
+            // save this server-side and use it to push notifications to this device
+            console.log("Device ready token", token);
+            deviceready = true;
+        }, function (error) {
+            console.error(error);
+        });
 
+        // Get notified when a token is refreshed
+        window.FirebasePlugin.onTokenRefresh(function (token) {
+            // save this server-side and use it to push notifications to this device
+            console.log("Refresh to get new token: " + token);
+        }, function (error) {
+            alert(error);
+        });
+
+        // Get notified when the user opens a notification
+        window.FirebasePlugin.onNotificationOpen(function (notification) {
+            console.log(JSON.stringify(notification));
+            ons.notification.alert(notification.body);
+        }, function (error) {
+            console.error(error);
+        });
+        initAd();
+        registerAdEvents();
+
+    }, false);
+
+    ons.setDefaultDeviceBackButtonListener(function (event) {
+        ons.notification.confirm({
+            message: lang[language].close_app,
+            title: lang[language].close_app_title,
+            buttonLabels: lang[language].close_app_buttons,
+            animation: 'default', // or 'none'
+            primaryButtonIndex: 1,
+            cancelable: true,
+            callback: function (index) {
+                // -1: Cancel
+                // 0-: Button index from the left
+                console.log(index, "index");
+                if (index == 0) { // OK button                    
+                    navigator.app.exitApp(); // Close the app
+                }
+            }
+        });
+
+        for (i in languages)
+        {
+            languages[i] = JSON.parse(languages[i]);
+        }
+    });
 function set_about_page() {
 
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
@@ -257,8 +308,12 @@ function ajax(d)
                 //display_surah_names(data);
                 for (i in data)
                 {
-                    console.log(data[i]);
-                    data[i] = JSON.parse(data[i]);
+                    
+                    try {
+                        data[i] = JSON.parse(data[i]);
+                    } catch (e) {
+                        input_title_data(data);
+                    }
                 }
                 input_title_data(data);
 
@@ -267,7 +322,7 @@ function ajax(d)
                 var data = JSON.parse(data);
                 for (i in data)
                 {
-                    data[i] = JSON.parse(data[i])
+                    data[i] = JSON.parse(data[i]);
                 }
                 show_surah_content(data);
 
@@ -277,17 +332,17 @@ function ajax(d)
         error: function ()
         {
             ons.notification.alert({
-                    message: 'Keyinroq harakat qilib ko`ring',
-                    // or messageHTML: '<div>Message in HTML</div>',
-                    title: 'Xatolik',
-                    buttonLabel: 'OK',
-                    animation: 'default', // or 'none'
-                    // modifier: 'optional-modifier'
-                    callback: function () {
-                        // Alert button is closed!
-                        
-                                            }
-                });
+                message: 'Keyinroq harakat qilib ko`ring',
+                // or messageHTML: '<div>Message in HTML</div>',
+                title: 'Xatolik',
+                buttonLabel: 'OK',
+                animation: 'default', // or 'none'
+                // modifier: 'optional-modifier'
+                callback: function () {
+                    // Alert button is closed!
+
+                }
+            });
         }
     });
 }
@@ -306,58 +361,7 @@ function addListeners()
         document.querySelector("#abouttitle").innerHTML = lang[language].about;
     }
 
-    document.addEventListener("deviceready", function () {
-        window.FirebasePlugin.getToken(function (token) {
-            // save this server-side and use it to push notifications to this device
-            console.log("Device ready token", token);
-            deviceready = true;
-        }, function (error) {
-            console.error(error);
-        });
-
-        // Get notified when a token is refreshed
-        window.FirebasePlugin.onTokenRefresh(function (token) {
-            // save this server-side and use it to push notifications to this device
-            console.log("Refresh to get new token: " + token);
-        }, function (error) {
-            alert(error);
-        });
-
-        // Get notified when the user opens a notification
-        window.FirebasePlugin.onNotificationOpen(function (notification) {
-            console.log(JSON.stringify(notification));
-            ons.notification.alert(notification.body);
-        }, function (error) {
-            console.error(error);
-        });
-        initAd();
-        registerAdEvents();
-        
-    }, false);
-
-    ons.setDefaultDeviceBackButtonListener(function (event) {
-        ons.notification.confirm({
-            message: lang[language].close_app,
-            title: lang[language].close_app_title,
-            buttonLabels: lang[language].close_app_buttons,
-            animation: 'default', // or 'none'
-            primaryButtonIndex: 1,
-            cancelable: true,
-            callback: function (index) {
-                // -1: Cancel
-                // 0-: Button index from the left
-                console.log(index, "index");
-                if (index == 0) { // OK button                    
-                        navigator.app.exitApp(); // Close the app
-                    }
-            }
-        });
-
-    for (i in languages)
-    {
-        languages[i] = JSON.parse(languages[i]);
-    }
-});
+    
 
 }
 
@@ -396,10 +400,10 @@ function display_surah_names(data)
     location.hash = "sura-" + (Number(selected_surah) - 1);
     if (deviceready)
     {
-      
+
         window.plugins.AdMob.destroyBannerView();
     }
-    
+
 }
 
 function show_surah()
@@ -431,62 +435,62 @@ function set_languages(event)
 }
 
 //initialize the goodies
-function initAd(){
-        if ( window.plugins && window.plugins.AdMob ) {
-            var ad_units = {
-                ios : {
-                    banner: 'ca-app-pub-3838820812386239/2551267023',		//PUT ADMOB ADCODE HERE
-                    interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
-                },
-                android : {
-                    banner: 'ca-app-pub-3838820812386239/6533462802',		//PUT ADMOB ADCODE HERE
-                    interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
-                }
-            };
-            var admobid = ( /(android)/i.test(navigator.userAgent) ) ? ad_units.android : ad_units.ios;
- 
-            window.plugins.AdMob.setOptions( {
-                publisherId: admobid.banner,
-                interstitialAdId: admobid.interstitial,
-                adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER,	//use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
-                bannerAtTop: true, // set to true, to put banner at top
-                overlap: true, // banner will overlap webview
-                offsetTopBar: false, // set to true to avoid ios7 status bar overlap
-                isTesting: false, // receiving test ad
-                autoShow: true // auto show interstitial ad when loaded
-            });
- 
-            registerAdEvents();
-        } else {
-            //alert( 'admob plugin not ready' );
-        }
+function initAd() {
+    if (window.plugins && window.plugins.AdMob) {
+        var ad_units = {
+            ios: {
+                banner: 'ca-app-pub-3838820812386239/2551267023', //PUT ADMOB ADCODE HERE
+                interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
+            },
+            android: {
+                banner: 'ca-app-pub-3838820812386239/6533462802', //PUT ADMOB ADCODE HERE
+                interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
+            }
+        };
+        var admobid = (/(android)/i.test(navigator.userAgent)) ? ad_units.android : ad_units.ios;
+
+        window.plugins.AdMob.setOptions({
+            publisherId: admobid.banner,
+            interstitialAdId: admobid.interstitial,
+            adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER, //use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
+            bannerAtTop: false, // set to true, to put banner at top
+            overlap: true, // banner will overlap webview
+            offsetTopBar: false, // set to true to avoid ios7 status bar overlap
+            isTesting: false, // receiving test ad
+            autoShow: true // auto show interstitial ad when loaded
+        });
+
+        registerAdEvents();
+    } else {
+        //alert( 'admob plugin not ready' );
+    }
 }
 //functions to allow you to know when ads are shown, etc.
 function registerAdEvents() {
-        document.addEventListener('onReceiveAd', function(){});
-        document.addEventListener('onFailedToReceiveAd', function(data){});
-        document.addEventListener('onPresentAd', function(){});
-        document.addEventListener('onDismissAd', function(){ });
-        document.addEventListener('onLeaveToAd', function(){ });
-        document.addEventListener('onReceiveInterstitialAd', function(){ });
-        document.addEventListener('onPresentInterstitialAd', function(){ });
-        document.addEventListener('onDismissInterstitialAd', function(){ });
-    }
- //display the banner
-function showBannerFunc(){
+    document.addEventListener('onReceiveAd', function () {});
+    document.addEventListener('onFailedToReceiveAd', function (data) {});
+    document.addEventListener('onPresentAd', function () {});
+    document.addEventListener('onDismissAd', function () { });
+    document.addEventListener('onLeaveToAd', function () { });
+    document.addEventListener('onReceiveInterstitialAd', function () { });
+    document.addEventListener('onPresentInterstitialAd', function () { });
+    document.addEventListener('onDismissInterstitialAd', function () { });
+}
+//display the banner
+function showBannerFunc() {
     window.plugins.AdMob.createBannerView();
 }
 
 //display the interstitial
-var showPopover = function(target) {
-  document
-    .getElementById('popover')
-    .show(target);
-    
+var showPopover = function (target) {
+    document
+            .getElementById('popover')
+            .show(target);
+
 };
 
-var hidePopover = function() {
-  document
-    .getElementById('popover')
-    .hide();
+var hidePopover = function () {
+    document
+            .getElementById('popover')
+            .hide();
 };
