@@ -257,7 +257,8 @@ function ajax(d)
                 //display_surah_names(data);
                 for (i in data)
                 {
-                    data[i] = JSON.parse(data[i])
+                    console.log(data[i]);
+                    data[i] = JSON.parse(data[i]);
                 }
                 input_title_data(data);
 
