@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-var language_id = 1;
 var languages = Boolean(localStorage.language) ? JSON.parse(localStorage.language) : [120];
 var language = Boolean(localStorage.menu_language) ? localStorage.menu_language : "uzbek";
 var selected_surah = 1;
@@ -26,6 +25,8 @@ var lang = {
         about_page: "From the Author",
         surah_title: "Surah: ",
         loading: "Loading...",
+        data_load_error_message:"Please, try later",
+        dle_title:"Error loading data",
         toast_disabled: "Option disabled",
         close_app: "Do you want to close the app?",
         close_app_title: "Exit App",
@@ -49,6 +50,8 @@ var lang = {
         about_page: "Muallifdan",
         surah_title: "Sura: ",
         loading: "Yuklash...",
+        data_load_error_message:"Keyinroq yana urinib ko`ring",
+        dle_title:"Xatolik",
         toast_disabled: "Vaqtinchalik o`chirilgan",
         close_app: "Dasturdan chiqmoqchimisiz?",
         close_app_title: "Chiqish",
@@ -72,6 +75,8 @@ var lang = {
         about_page: "От Автора",
         surah_title: "Сура: ",
         loading: "Загрузка...",
+        data_load_error_message:"Пожалуйста, попробуйте позднее",
+        dle_title:"Ошибка при загрузке",
         toast_disabled: "Опция отключена",
         close_app: "Вы хотите закрыть приложение?",
         close_app_title: "Выход",
@@ -194,7 +199,7 @@ document.addEventListener("deviceready", function () {
         initAd();
         registerAdEvents();
 
-    }, false);
+   
 
     ons.setDefaultDeviceBackButtonListener(function (event) {
         ons.notification.confirm({
@@ -219,6 +224,7 @@ document.addEventListener("deviceready", function () {
             languages[i] = JSON.parse(languages[i]);
         }
     });
+     }, false);
 function set_about_page() {
 
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
@@ -332,9 +338,9 @@ function ajax(d)
         error: function ()
         {
             ons.notification.alert({
-                message: 'Keyinroq harakat qilib ko`ring',
+                message: lang[language].data_load_error_message,
                 // or messageHTML: '<div>Message in HTML</div>',
-                title: 'Xatolik',
+                title: lang[language].dle_title,
                 buttonLabel: 'OK',
                 animation: 'default', // or 'none'
                 // modifier: 'optional-modifier'
