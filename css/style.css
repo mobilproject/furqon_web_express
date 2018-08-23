@@ -22,7 +22,7 @@ ons-list-item.list-item {
 }
 span.ayah_id {
         padding: 5px;
-        display: block;
+        display: none;
         box-shadow: inset 1px 1px 1px 1px;
         border-radius: 15px;
         border-top-left-radius: 15px;
@@ -77,4 +77,19 @@ span.ayah_text {
 ons-card.card {
     background-color: olive;
     color: aliceblue;
+}
+.zmdi-bookmark-outline{
+    float: right;
+    color: coral;
+}
+i.zmdi.zmdi-comment {
+    color: steelblue;
+}
+
+i.zmdi.zmdi-bookmark {
+    color: coral;
+}
+
+ons-speed-dial-item.fab.fab--mini.speed-dial__item.speed-dial__item--mini {
+    background-color: rgba(0, 0, 128, 0.8);
 }

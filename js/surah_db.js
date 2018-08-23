@@ -61,18 +61,26 @@ function show_surah_content_now()
 
 function restore_bookmark()
 {
-    
-    
-        
-            try {
-                $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].scrollIntoView();
-                        ons.notification.toast(lang[language].bookmark_found_message + bookmarklist[selected_surah], {timeout: 2000, animation: 'ascend'});
-                        //console.log($("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).find(".zmdi-bookmark-outline")[0].classList.removeClass("zmdi-bookmark-outline").addClass("zmdi-bookmark"));
-            } catch (e) {
 
-            }
-        
-    
+
+
+    try {
+        set_bookmarks();
+    } catch (e) {
+
+    }
+
+
+}
+function set_bookmarks()
+{
+    $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].scrollIntoView();
+    ons.notification.toast(lang[language].bookmark_found_message + bookmarklist[selected_surah], {timeout: 2500, animation: 'ascend'});
+    //mark ayat as bookmarked
+    $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
+    $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
+    //
+    //console.log($("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).find(".zmdi-bookmark-outline")[0].classList.removeClass("zmdi-bookmark-outline").addClass("zmdi-bookmark"));
 }
 function create_row(rows, i)
 {
@@ -109,7 +117,7 @@ function bookmark_ayahid(event)
     console.log(bookmark_sura_no, bookmark_ayah_no);
     bookmarklist[Number(bookmark_sura_no)] = Number(bookmark_ayah_no);
     localStorage.bookmarklist = JSON.stringify(bookmarklist);
-    
+
     event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
     event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
 
