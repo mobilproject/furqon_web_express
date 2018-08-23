@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+var language_id = 1;
 var languages = Boolean(localStorage.language) ? JSON.parse(localStorage.language) : [120];
 var language = Boolean(localStorage.menu_language) ? localStorage.menu_language : "uzbek";
 var selected_surah = 1;
