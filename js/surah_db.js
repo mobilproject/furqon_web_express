@@ -28,26 +28,43 @@ function show_surah_content(data)
 
 function show_surah_content_now()
 {
-    //load data from 
-    var rows = "";
-    if (izoh_data.action == "izohsiz_text_obj")
-    {
-        for (var i = 0; i < big_data.length; i++)
-        {
-            rows = create_row(rows, i);
-        }
-    } else if (izoh_data.action == "surah_text_obj")
-    {
+    var infiniteList = document.getElementById('infinite-list');
+    
+    console.log(infiniteList);
 
+  infiniteList.delegate = {
+    createItemContent: function(i) {
+        //console.log(create_row(i), infiniteList);
+      return ons.createElement(create_row(i));
+    },
+    countItems: function() {
+      return big_data.length;
     }
-    //console.log(rows);
-    document.querySelector("#ayah_list").innerHTML = rows;
+  };
+
+  infiniteList.refresh();
+    
+    
+    //load data from 
+    //console.log(rows);    
     $("ons-list-item").off().on("click", function () {
-        $(event.currentTarget).find(".qavs_ichi").toggle();
-        $(event.currentTarget).find(".zmdi-comment").toggle();
+        if($(event.currentTarget).find(".qavs_ichi").is(":visible"))
+        {
+            console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
+            $(event.currentTarget).find(".qavs_ichi").hide();
+            $(event.currentTarget).find(".zmdi-code-setting").show();
+            event.currentTarget.querySelector("ons-speed-dial").hideItems();
+            $(event.currentTarget).find(".ayah_id").hide();
+        }
+        else {
+            $(event.currentTarget).find(".qavs_ichi").show();
+            $(event.currentTarget).find(".zmdi-code-setting").hide();
+            event.currentTarget.querySelector("ons-speed-dial").showItems();
+            $(event.currentTarget).find(".ayah_id").show();
+        }
+        
     });
-    rows = "";
-    big_data = [];
+        
 
     if (!Boolean(localStorage.first_surah))
     {
@@ -56,70 +73,73 @@ function show_surah_content_now()
         document.getElementById("poptext").innerHTML = lang[language].chapter_loaded;
     }
 
-    restore_bookmark();
+    restore_favorite();
 }
 
-function restore_bookmark()
+function restore_favorite()
 {
 
 
 
     try {
-        set_bookmarks();
+        set_favorites();
     } catch (e) {
 
     }
 
 
 }
-function set_bookmarks()
+function set_favorites()
 {
-    $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].scrollIntoView();
-    ons.notification.toast(lang[language].bookmark_found_message + bookmarklist[selected_surah], {timeout: 2500, animation: 'ascend'});
-    //mark ayat as bookmarked
-    $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
-    $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
+    $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].scrollIntoView();
+    ons.notification.toast(lang[language].favorite_found_message + favoritelist[selected_surah], {timeout: 3000, animation: 'ascend'});
+    //mark ayat as favoriteed
+
+    $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
+    $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
     //
-    //console.log($("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).find(".zmdi-bookmark-outline")[0].classList.removeClass("zmdi-bookmark-outline").addClass("zmdi-bookmark"));
+    //console.log($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).find(".zmdi-favorite-outline")[0].classList.removeClass("zmdi-favorite-outline").addClass("zmdi-favorite"));
 }
-function create_row(rows, i)
+function create_row(i)
 {
+    var row = "";
     if (big_data[i]['DatabaseID'] == 1)
     {
-        rows += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
+        
+        row += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
              <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
     } else {
-
-        var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-comment"></i><span class="qavs_ichi">');
+        var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
         izohsiz = izohsiz.replace(/\)/g, '</span>');
-        rows += `<ons-list-item tappable onmousedown="toggle_sd(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-bookmark-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
+        row += `<ons-list-item tappable onmousedown="toggle_sd(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
     <ons-fab>
       <ons-icon icon="md-share"></ons-icon>
     </ons-fab>
-    <ons-speed-dial-item onmousedown="bookmark_ayahid(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>
-      <ons-icon icon="md-bookmark"></ons-icon>
+    <ons-speed-dial-item onmousedown="favorite_ayahid(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>
+      <ons-icon icon="md-favorite"></ons-icon>
     </ons-speed-dial-item>
     
   </ons-speed-dial><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
 
     }
-    return rows;
+    return row;
 }
 
 function toggle_sd(event)
 {
     event.currentTarget.querySelector('ons-speed-dial').toggleItems();
 }
-function bookmark_ayahid(event)
+function favorite_ayahid(event)
 {
-    var bookmark_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
-    var bookmark_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
-    console.log(bookmark_sura_no, bookmark_ayah_no);
-    bookmarklist[Number(bookmark_sura_no)] = Number(bookmark_ayah_no);
-    localStorage.bookmarklist = JSON.stringify(bookmarklist);
-
-    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
-    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
+    var favorite_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
+    var favorite_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
+    console.log(favorite_sura_no, favorite_ayah_no);
+    
+    favoritelist[Number(favorite_sura_no)] = Number(favorite_ayah_no);
+    localStorage.favoritelist = JSON.stringify(favoritelist);
+    $(".zmdi-favorite").removeClass("zmdi-favorite").addClass("zmdi-favorite-outline");
+    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
+    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
 
 }
 function manage_object_stores(databaseName, selected_surah, rd) {
@@ -242,7 +262,10 @@ function get_by_suraid() {
                     cursor.continue();
                 } else {
                     //console.log("loading complete", big_data);
+                   
                     show_surah_content_now();
+                   
+                    
                 }
             };
             console.log(cursor, "cursor length");

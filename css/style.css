@@ -78,15 +78,15 @@ ons-card.card {
     background-color: olive;
     color: aliceblue;
 }
-.zmdi-bookmark-outline{
+.zmdi-favorite-outline{
     float: right;
     color: coral;
 }
-i.zmdi.zmdi-comment {
+i.zmdi.zmdi-code-setting {
     color: steelblue;
 }
 
-i.zmdi.zmdi-bookmark {
+i.zmdi.zmdi-favorite {
     color: coral;
 }
 

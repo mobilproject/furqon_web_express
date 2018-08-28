@@ -1,4 +1,4 @@
-/* 
+ /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,7 +9,7 @@ var languages = Boolean(localStorage.language) ? JSON.parse(localStorage.languag
 var language = Boolean(localStorage.menu_language) ? localStorage.menu_language : "uzbek";
 var selected_surah = 1;
 var selected_title;
-var bookmarklist = Boolean(localStorage.bookmarklist) ? JSON.parse(localStorage.bookmarklist) : {};
+var favoritelist = Boolean(localStorage.favoritelist) ? JSON.parse(localStorage.favoritelist) : {};
 var deviceready;
 var lastdayopen = Date.now();
 
@@ -34,7 +34,7 @@ var lang = {
         close_app_buttons: ["Yes", "No"],
         first_message: ["Good news!", "Now you chapters are downloaded and are available offline upon the first access"],
         greeting: "Assalaamu alaykum",
-        bookmark_found_message: "Bookmark found at verse: ",
+        favorite_found_message: "Bookmark found at verse: ",
         chapter_loaded: "Now this chapter is available offline. You can download any other chapter the same way",
         choose_chapter: "Click a title to open a chapter",
         gr_text: "Dear brothers and sisters, I have tried to make the application easy to use as much as I could and I am continually working on improving it. <br>My goal is to bring high quality products to spread the truth. <br>The application is the result of knowledge and hard work of a person. <br> Your support in any form is highly appreciated and will surely be rewarded accordingly by Allah Almighty. <br> Please, share and purchase to support the cause."
@@ -59,7 +59,7 @@ var lang = {
         close_app_buttons: ["Ha", "Yo`q"],
         first_message: ["Xushxabar!", "Endi suralar birinchi marta o`qishdayoq offline bo`lib qoladi. <br>Qayta o`qish uchun traffik talab qilinmaydi."],
         greeting: "Assalomu alaykum",
-        bookmark_found_message: "Xat cho`pli oyat: ",
+        favorite_found_message: "Xat cho`pli oyat: ",
         chapter_loaded: "Ofarin! <br>Bu surani endi avtonom tarzda har doim o`qish va qolgan suralarni ham shu tarzda yuklab olish mumkin",
         choose_chapter: "Surani tanlash uchun nomini bosing",
         gr_text: "Qadrli muxlislar, men bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildim va bunda davom etmoqdaman. Maqsadimiz yuqori sifatli dasturlar taklif qilish va haqiqatni shu yo`l bilan yetkazish. <br>Dastur insonning mehnati, bilimi va harakati evaziga keladigan narsadir. Uni haqqini qo`lingizdan kelganicha qo`llab quvvatlash va tanishlaringizga ham ulashish orqali ado qiling. <br> Olloh Taolo sizdan va bizdan har bir xayrli amalimizni qabul qilsin."
@@ -84,7 +84,7 @@ var lang = {
         close_app_buttons: ["Да", "нет"],
         first_message: ["Отличная новость!", "Теперь главы загружаются и доступны в автономном режиме при первом доступе"],
         greeting: "Ассаляму аляйкум",
-        bookmark_found_message: "Закладка найдена на стихе: ",
+        favorite_found_message: "Закладка найдена на стихе: ",
         chapter_loaded: "Теперь эту суру можно читать автономно, а остальные суры могут быть загружены таким же образом",
         choose_chapter: "Нажмите, чтобы выбрать суру",
         gr_text: "Дорогие братья и сестры, я постарался чтобы эта программа стала наиболее удобна в пользовании и все еще продолжаю работу. <br>Моя цель расспространить верный путь посредством своей работы.<br>Приложение является результатом знаний и упорного труда человека. <br>Аллах Субханаху ва Таала вознаградит каждого за вклад обязательно. Присоединитесь же своим.<br>Пожалуйста поделитесь с друзьями и приобретайте, чтобы я мог дальше, лучше и больше писать."
@@ -148,8 +148,7 @@ document.addEventListener('show', function (event) {
             }
 
             break;
-        case "surah_text":
-            console.log("surah text");
+        case "surah_text":            
             select_surah();
             //showBannerFunc();
             if (deviceready) {
@@ -239,16 +238,13 @@ function set_settings()
     document.querySelector("#appsettingstitle").innerHTML = lang[language].settings_page;
     document.querySelector("#menulangtitle").innerHTML = lang[language].menu_language;
     document.querySelector("#textsettitle").innerHTML = lang[language].text_settings;
-    document.querySelector("#izohlartitle").innerHTML = lang[language].comments;
+    
 
     document.querySelector("ons-list-item[lang-id='" + language + "']").querySelector("ons-radio").checked = true;
 
-    if (localStorage.izohlar === "true")
-    {
-        $("#izoh").prop("checked", true);
+    
+        
         //$(".qavs_ichi").hide();
-    }
-
     try {
         languages = JSON.parse(localStorage.language);
     } catch (e)
@@ -276,12 +272,7 @@ function set_settings()
 
 function select_surah(event) {
 
-    if (localStorage.izohlar != "true")
-    {
-        izoh_data = {action: "izohsiz_text_obj", surah_id: selected_surah, database_id: languages};
-    } else {
-        izoh_data = {action: "surah_text_obj", surah_id: selected_surah, database_id: languages};
-    }
+    izoh_data = {action: "izohsiz_text_obj", surah_id: selected_surah, database_id: languages};
 
     if (check_store(selected_surah)) {
         get_by_suraid();
@@ -291,10 +282,6 @@ function select_surah(event) {
     $("#sura_title").text(selected_surah + ", " + selected_title);
 }
 
-function izohlar(event)
-{
-    localStorage.izohlar = event.target.checked;
-}
 
 function ajax(d)
 {

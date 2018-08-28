@@ -43,7 +43,6 @@
     <ons-template id="home.html">
         <ons-page id="titles">
             <ons-toolbar>
-
                 <div class="left">
                     <ons-toolbar-button onclick="fn.open()">
                         <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
@@ -52,11 +51,14 @@
                 <div class="center">
                     <span id="selectsurahtitle"></span>
                 </div>
-            </ons-toolbar>            
+            </ons-toolbar>
+            <ons-carousel swipeable auto-scroll overscrollable>
+                <ons-carousel-item>
+                        
             <ons-list id="main_table">
-
-
             </ons-list>
+                    </ons-carousel-item>
+                </ons-carousel>
         </ons-page>
     </ons-template>
 
@@ -108,14 +110,6 @@
             </ons-list>
             <ons-list>
                 <ons-list-header><span id="textsettitle">textsettitle</span></ons-list-header>
-                <ons-list-item>
-                    <div class="center">
-                        <span id="izohlartitle">izohlartitle</span>
-                    </div>
-                    <div class="right">
-                        <ons-switch  input-id='izoh' onchange="izohlar(event)" class="setting_checks"></ons-switch>
-                    </div>
-                </ons-list-item>
                 <ons-list-item>
                     <div class="center">
                         O'zbekcha
@@ -177,8 +171,7 @@
                         <p id="greetingtext">Qadrli muxlis, biz bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildik va bunda davom etmoqdamiz. </p>
                     </div>
                     <ons-list>
-                        <audio controls>
-  
+                        <audio controls>  
   <source src="https://inventivesolutionste.ipage.com/q_audio/juz01-Fotiha-Baqara141_vbr.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
@@ -202,8 +195,8 @@ Your browser does not support the audio element.
                     <span id="surahtitle"></span><span id="sura_title"></span>
                 </div>
             </ons-toolbar>
-            <ons-list id='ayah_list'>
-
+            <ons-list>
+            <ons-lazy-repeat id="infinite-list"></ons-lazy-repeat>
             </ons-list>
         </ons-page>
     </ons-template>
