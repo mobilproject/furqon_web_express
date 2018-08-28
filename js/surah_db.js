@@ -47,7 +47,7 @@ function show_surah_content_now()
     
     //load data from 
     //console.log(rows);    
-    $("ons-list-item").off().on("click", function () {
+    $("#surah_text ons-list-item").off().on("click", function () {
         if($(event.currentTarget).find(".qavs_ichi").is(":visible"))
         {
             console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
