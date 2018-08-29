@@ -379,6 +379,8 @@ function audio_dialog(d)
         case "stop":
             break;
         case "play":
+            var audio = new Audio();
+            audio.src = '../downloads/test.mp3';            
             break;
         case "pause":
             break;
