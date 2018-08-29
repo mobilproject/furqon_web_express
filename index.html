@@ -192,15 +192,29 @@ Your browser does not support the audio element.
                 <div class="left">
                     <ons-toolbar-button onclick="fn.open()">
                         <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
-                    </ons-toolbar-button>
+                    </ons-toolbar-button>                                        
                 </div>
                 <div class="center">
                     <span id="surahtitle"></span><span id="sura_title"></span>
                 </div>
+                <div class="right">
+                    <ons-toolbar-button onclick="audio_dialog('dialog')">
+                        <ons-icon icon="md-volume-up"></ons-icon>
+                    </ons-toolbar-button>                    
+                    <ons-toolbar-button onclick="audio_dialog('stop')">
+                        <ons-icon icon="md-stop"></ons-icon>                        
+                    </ons-toolbar-button>                    
+                    <ons-toolbar-button onclick="audio_dialog('play')">
+                        <ons-icon icon="md-play"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="audio_dialog('pause')">
+                        <ons-icon icon="md-pause"></ons-icon>
+                    </ons-toolbar-button>
+                </div>                
             </ons-toolbar>
             <ons-list>
             <ons-lazy-repeat id="infinite-list"></ons-lazy-repeat>
-            </ons-list>
+            </ons-list>            
         </ons-page>
     </ons-template>
     <ons-modal direction="up" id="loading_circle">
@@ -211,6 +225,17 @@ Your browser does not support the audio element.
         </div>
     </ons-modal>
     
+    <ons-template id="dialogcontent">
+  <ons-dialog id="dialogitem">
+          
+      <audio width="auto" height="auto" controls controlsList="nodownload" style="margin: 10px;">
+                <source src="https://mobilproject.github.io/furqon_web_express/by_sura/0-kirish_suzi.mp3" type="audio/mpeg">
+            </audio>
+      <div class="center-content">
+      <ons-button onclick="hideDialog('dialogitem')">X</ons-button>
+      </div>
+  </ons-dialog>
+</ons-template>
     <ons-popover id="popover">
   <div style="padding: 10px; text-align: center;">
       <p id="poptext">

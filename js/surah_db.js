@@ -154,6 +154,7 @@ function manage_object_stores(databaseName, selected_surah, rd) {
         {
             //the selected_surah exists. Call startTransaction            
             console.log("secondRequest");
+            startTransaction(rd);
         } else {
             sdb.close();
             //objectStoreNames does not CONTAIN the selected_surah
@@ -225,7 +226,8 @@ function startTransaction(rd) {
         };
         transaction.onerror = function (event) {
             // Don't forget to handle errors!
-            //console.log("error! " + event.target.error.message);
+            console.log("error! " + event.target.error.message);
+            
         };
     };
     request.onerror = function (event) {
@@ -263,7 +265,16 @@ function get_by_suraid() {
                 } else {
                     //console.log("loading complete", big_data);
                    
-                    show_surah_content_now();
+                   if(big_data.length>0)
+                   {
+                       show_surah_content_now();
+                   }
+                   else {
+                       //no data 
+                       console.log(big_data.length, "big data empty for ", selected_surah);
+                       ajax(izoh_data);
+                   }
+                    
                    
                     
                 }

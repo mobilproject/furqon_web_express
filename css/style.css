@@ -93,3 +93,7 @@ i.zmdi.zmdi-favorite {
 ons-speed-dial-item.fab.fab--mini.speed-dial__item.speed-dial__item--mini {
     background-color: rgba(0, 0, 128, 0.8);
 }
+.center-content {
+    text-align:  center;
+    padding: 10px;
+}

@@ -1,4 +1,4 @@
- /* 
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,8 +26,8 @@ var lang = {
         about_page: "From the Author",
         surah_title: "Surah: ",
         loading: "Loading...",
-        data_load_error_message:"Please, try later",
-        dle_title:"Error loading data",
+        data_load_error_message: "Retry?",
+        dle_title: "Error loading data",
         toast_disabled: "Option disabled",
         close_app: "Do you want to close the app?",
         close_app_title: "Exit App",
@@ -51,8 +51,8 @@ var lang = {
         about_page: "Muallifdan",
         surah_title: "Sura: ",
         loading: "Yuklash...",
-        data_load_error_message:"Keyinroq yana urinib ko`ring",
-        dle_title:"Xatolik",
+        data_load_error_message: "Yana urinib ko`rasizmi?",
+        dle_title: "Xatolik",
         toast_disabled: "Vaqtinchalik o`chirilgan",
         close_app: "Dasturdan chiqmoqchimisiz?",
         close_app_title: "Chiqish",
@@ -76,8 +76,8 @@ var lang = {
         about_page: "От Автора",
         surah_title: "Сура: ",
         loading: "Загрузка...",
-        data_load_error_message:"Пожалуйста, попробуйте позднее",
-        dle_title:"Ошибка при загрузке",
+        data_load_error_message: "Повторить попытку?",
+        dle_title: "Ошибка при загрузке",
         toast_disabled: "Опция отключена",
         close_app: "Вы хотите закрыть приложение?",
         close_app_title: "Выход",
@@ -148,7 +148,7 @@ document.addEventListener('show', function (event) {
             }
 
             break;
-        case "surah_text":            
+        case "surah_text":
             select_surah();
             //showBannerFunc();
             if (deviceready) {
@@ -173,33 +173,33 @@ document.addEventListener('show', function (event) {
     }
 });
 document.addEventListener("deviceready", function () {
-        window.FirebasePlugin.getToken(function (token) {
-            // save this server-side and use it to push notifications to this device
-            console.log("Device ready token", token);
-            deviceready = true;
-        }, function (error) {
-            console.error(error);
-        });
+    window.FirebasePlugin.getToken(function (token) {
+        // save this server-side and use it to push notifications to this device
+        console.log("Device ready token", token);
+        deviceready = true;
+    }, function (error) {
+        console.error(error);
+    });
 
-        // Get notified when a token is refreshed
-        window.FirebasePlugin.onTokenRefresh(function (token) {
-            // save this server-side and use it to push notifications to this device
-            console.log("Refresh to get new token: " + token);
-        }, function (error) {
-            alert(error);
-        });
+    // Get notified when a token is refreshed
+    window.FirebasePlugin.onTokenRefresh(function (token) {
+        // save this server-side and use it to push notifications to this device
+        console.log("Refresh to get new token: " + token);
+    }, function (error) {
+        alert(error);
+    });
 
-        // Get notified when the user opens a notification
-        window.FirebasePlugin.onNotificationOpen(function (notification) {
-            console.log(JSON.stringify(notification));
-            ons.notification.alert(notification.body);
-        }, function (error) {
-            console.error(error);
-        });
-        initAd();
-        registerAdEvents();
+    // Get notified when the user opens a notification
+    window.FirebasePlugin.onNotificationOpen(function (notification) {
+        console.log(JSON.stringify(notification));
+        ons.notification.alert(notification.body);
+    }, function (error) {
+        console.error(error);
+    });
+    initAd();
+    registerAdEvents();
 
-   
+
 
     ons.setDefaultDeviceBackButtonListener(function (event) {
         ons.notification.confirm({
@@ -224,7 +224,7 @@ document.addEventListener("deviceready", function () {
             languages[i] = JSON.parse(languages[i]);
         }
     });
-     }, false);
+}, false);
 function set_about_page() {
 
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
@@ -238,13 +238,13 @@ function set_settings()
     document.querySelector("#appsettingstitle").innerHTML = lang[language].settings_page;
     document.querySelector("#menulangtitle").innerHTML = lang[language].menu_language;
     document.querySelector("#textsettitle").innerHTML = lang[language].text_settings;
-    
+
 
     document.querySelector("ons-list-item[lang-id='" + language + "']").querySelector("ons-radio").checked = true;
 
-    
-        
-        //$(".qavs_ichi").hide();
+
+
+    //$(".qavs_ichi").hide();
     try {
         languages = JSON.parse(localStorage.language);
     } catch (e)
@@ -302,7 +302,7 @@ function ajax(d)
                 //display_surah_names(data);
                 for (i in data)
                 {
-                    
+
                     try {
                         data[i] = JSON.parse(data[i]);
                     } catch (e) {
@@ -325,20 +325,66 @@ function ajax(d)
         },
         error: function ()
         {
-            ons.notification.alert({
+            ons.notification.confirm({
                 message: lang[language].data_load_error_message,
                 // or messageHTML: '<div>Message in HTML</div>',
                 title: lang[language].dle_title,
-                buttonLabel: 'OK',
+                buttonLabel: lang[language].close_app_buttons,
                 animation: 'default', // or 'none'
+                primaryButtonIndex: 2,
+                cancelable: true,
                 // modifier: 'optional-modifier'
-                callback: function () {
-                    // Alert button is closed!
+                callback: function (index) {
+                    // Alert button is closed!                    
+                    document.querySelector('#loading_circle').hide();
+                    switch (index)
+                    {
+                        case - 1:
+                            //cancel
+                            break;
+                        case 0:
+                            console.log("yes");
+                            ajax(izoh_data);
+                            break;
+                        case 1:
+                            console.log("no");
+                            break;
+                    }
 
                 }
             });
         }
     });
+}
+var hideDialog = function(id) {
+  document
+    .getElementById(id)
+    .hide();
+};
+function audio_dialog(d)
+{
+    switch (d)
+    {
+        case "dialog":
+            var dialog = document.getElementById('my-dialog');
+
+  if (dialog) {
+    dialog.show();
+  } else {
+            ons.createDialog('dialogcontent').then(function (dialog) {
+                dialog.show();
+            });
+        }
+            break;
+        case "stop":
+            break;
+        case "play":
+            break;
+        case "pause":
+            break;
+
+    }
+
 }
 
 function addListeners()
@@ -355,7 +401,7 @@ function addListeners()
         document.querySelector("#abouttitle").innerHTML = lang[language].about;
     }
 
-    
+
 
 }
 
