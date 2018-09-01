@@ -12,6 +12,9 @@ var selected_title;
 var favoritelist = Boolean(localStorage.favoritelist) ? JSON.parse(localStorage.favoritelist) : {};
 var deviceready;
 var lastdayopen = Date.now();
+var au;
+var aus;
+var dialog;
 
 var lang = {
     english: {
@@ -279,6 +282,12 @@ function select_surah(event) {
     } else {
         ajax(izoh_data);
     }
+    aus = document.createElement("source");
+    au = document.querySelector("#surahaudio");
+    au.innerHTML = "";
+    aus.src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3";
+    au.appendChild(aus);  
+    
     $("#sura_title").text(selected_surah + ", " + selected_title);
 }
 
@@ -356,33 +365,42 @@ function ajax(d)
         }
     });
 }
-var hideDialog = function(id) {
-  document
-    .getElementById(id)
-    .hide();
+var hideDialog = function (id) {
+    document
+            .getElementById(id)
+            .hide();
 };
 function audio_dialog(d)
 {
     switch (d)
     {
         case "dialog":
-            var dialog = document.getElementById('my-dialog');
 
-  if (dialog) {
-    dialog.show();
-  } else {
-            ons.createDialog('dialogcontent').then(function (dialog) {
-                dialog.show();
-            });
-        }
             break;
         case "stop":
+            if(au)
+            {
+                au.load();   
+            }            
             break;
         case "play":
-            var audio = new Audio();
-            audio.src = '../downloads/test.mp3';            
+            if (au)
+            {
+                aus.src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3";
+                au.play();
+                console.log(au);
+            } else {
+                au = document.getElementById("audio");
+                
+                aus.src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3";
+                au.appendChild(aus);
+                au.play();
+            }
             break;
         case "pause":
+            if(au){
+               au.pause();
+            }        
             break;
 
     }
