@@ -20,7 +20,7 @@
     <body>
 
     <ons-splitter>
-        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+        <ons-splitter-side id="menu" side="right" width="220px" collapse swipeable>
             <ons-page>
                 <ons-list>
                     <ons-list-item onclick="fn.load('home.html')" tappable>
@@ -32,8 +32,8 @@
                     <ons-list-item onclick="fn.load('about.html')" tappable>
                         <span id="abouttitle">abouttitle</span>
                     </ons-list-item>
-                    
-                    
+
+
                 </ons-list>
             </ons-page>
         </ons-splitter-side>
@@ -43,7 +43,7 @@
     <ons-template id="home.html">
         <ons-page id="titles">
             <ons-toolbar>
-                <div class="left">
+                <div class="right">
                     <ons-toolbar-button onclick="fn.open()">
                         <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
                     </ons-toolbar-button>
@@ -52,23 +52,17 @@
                     <span id="selectsurahtitle"></span>
                 </div>
             </ons-toolbar>
-            <ons-carousel swipeable auto-scroll overscrollable>
-                <ons-carousel-item>
-                        
+
             <ons-list id="main_table">
             </ons-list>
-                    </ons-carousel-item>
-                <ons-carousel-item>
-                    
-                </ons-carousel-item>
-                </ons-carousel>
+
         </ons-page>
     </ons-template>
 
     <ons-template id="settings.html">
         <ons-page id="settings">
             <ons-toolbar>
-                <div class="left">
+                <div class="right">
                     <ons-toolbar-button onclick="fn.open()">
                         <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
                     </ons-toolbar-button>
@@ -78,38 +72,38 @@
                 </div>
             </ons-toolbar>
             <ons-list>
-                
-                
+
+
                 <ons-list-title>
                     <span id="menulangtitle">menulangtitle</span>
                 </ons-list-title>
-                            <ons-list-item  onmousedown="set_langauge(event)" lang-id="uzbek">
-                                <label class="left">
-                                    <ons-radio name="color" input-id="radio-1"></ons-radio>
-                                </label>
-                                <label for="radio-1" class="center">
-                                    O`zbek
-                                </label>
-                            </ons-list-item>
-                            <ons-list-item  onmousedown="set_langauge(event)" lang-id="english">
-                                <label class="left">
-                                    <ons-radio name="color" input-id="radio-2" checked></ons-radio>
-                                </label>
-                                <label for="radio-2" class="center">
-                                    English
-                                </label>
-                            </ons-list-item>
-                            <ons-list-item onmousedown="set_langauge(event)" lang-id="russian">
-                                <label class="left">
-                                    <ons-radio name="color" input-id="radio-3" ></ons-radio>
-                                </label>
-                                <label for="radio-3" class="center">
-                                    Русский
-                                </label>
-                            </ons-list-item>
-                        
-                   
-                
+                <ons-list-item  onmousedown="set_langauge(event)" lang-id="uzbek">
+                    <label class="right">
+                        <ons-radio name="color" input-id="radio-1"></ons-radio>
+                    </label>
+                    <label for="radio-1" class="center">
+                        O`zbek
+                    </label>
+                </ons-list-item>
+                <ons-list-item  onmousedown="set_langauge(event)" lang-id="english">
+                    <label class="right">
+                        <ons-radio name="color" input-id="radio-2" checked></ons-radio>
+                    </label>
+                    <label for="radio-2" class="center">
+                        English
+                    </label>
+                </ons-list-item>
+                <ons-list-item onmousedown="set_langauge(event)" lang-id="russian">
+                    <label class="right">
+                        <ons-radio name="color" input-id="radio-3" ></ons-radio>
+                    </label>
+                    <label for="radio-3" class="center">
+                        Русский
+                    </label>
+                </ons-list-item>
+
+
+
             </ons-list>
             <ons-list>
                 <ons-list-header><span id="textsettitle">textsettitle</span></ons-list-header>
@@ -152,7 +146,7 @@
     <ons-template id="about.html">
         <ons-page id="about">
             <ons-toolbar>
-                <div class="left">
+                <div class="right">
                     <ons-toolbar-button onclick="fn.open()">
                         <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
                     </ons-toolbar-button>
@@ -175,9 +169,9 @@
                     </div>
                     <ons-list>
                         <audio controls>  
-  <source src="https://mobilproject.github.io/furqon_web_express/by_sura/0-kirish_suzi.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
+                            <source src="https://mobilproject.github.io/furqon_web_express/by_sura/0-kirish_suzi.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
 
                     </ons-list>
                 </div>
@@ -189,26 +183,27 @@ Your browser does not support the audio element.
     <ons-template id="surah.html">
         <ons-page id="surah_text">
             <ons-toolbar>
-                <div class="left">
+                <div class="right">
                     <ons-toolbar-button onclick="fn.open()">
                         <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
                     </ons-toolbar-button>                                        
                 </div>
                 <div class="center">
                     <span id="surahtitle"></span><span id="sura_title"></span>
-                </div>
-                
-                <audio  height="auto" controls controlsList="nodownload" style="margin: 1px; width:50%" id="surahaudio">
-                        
-                </audio>
-                
+                </div>             
+
             </ons-toolbar>         
+
+
+
             <ons-list>                
-            <ons-lazy-repeat id="infinite-list"></ons-lazy-repeat>
+                <ons-lazy-repeat id="infinite-list"></ons-lazy-repeat>
             </ons-list>            
-            
-            
-            
+            <ons-bottom-toolbar>
+                <audio  height="auto" controls controlsList="nodownload" style="width:100%" id="surahaudio">
+
+                </audio>
+            </ons-bottom-toolbar> 
         </ons-page>
     </ons-template>
     <ons-modal direction="up" id="loading_circle">
@@ -219,25 +214,26 @@ Your browser does not support the audio element.
         </div>
     </ons-modal>
     <ons-template id="audioplayer">
-        
-        
+
+
+
     </ons-template>   
     <ons-template id="dialogcontent">
-  <ons-dialog id="dialogitem">
-          
-      <div class="center-content">
-      <ons-button onclick="hideDialog('dialogitem')">X</ons-button>
-      </div>
-  </ons-dialog>
-</ons-template>
+        <ons-dialog id="dialogitem">
+
+            <div class="center-content">
+                <ons-button onclick="hideDialog('dialogitem')">X</ons-button>
+            </div>
+        </ons-dialog>
+    </ons-template>
     <ons-popover id="popover">
-  <div style="padding: 10px; text-align: center;">
-      <p id="poptext">
-    </p>
-    <p>
-      <ons-button onclick="hidePopover()">Close</ons-button>
-    </p>
-  </div>
-</ons-popover>
+        <div style="padding: 10px; text-align: center;">
+            <p id="poptext">
+            </p>
+            <p>
+            <ons-button onclick="hidePopover()">Close</ons-button>
+            </p>
+        </div>
+    </ons-popover>
 </body>
 </html>
