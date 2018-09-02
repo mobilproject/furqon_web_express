@@ -10,6 +10,7 @@ var language = Boolean(localStorage.menu_language) ? localStorage.menu_language 
 var selected_surah = 1;
 var selected_title;
 var favoritelist = Boolean(localStorage.favoritelist) ? JSON.parse(localStorage.favoritelist) : {};
+var playpositions = Boolean(localStorage.playpositions) ? JSON.parse(localStorage.playpositions) : {};
 var deviceready;
 var lastdayopen = Date.now();
 var au;
@@ -34,6 +35,7 @@ var lang = {
         toast_disabled: "Option disabled",
         close_app: "Do you want to close the app?",
         close_app_title: "Exit App",
+        playposition_text:"Surah play position stored",
         close_app_buttons: ["Yes", "No"],
         first_message: ["Good news!", "Now you chapters are downloaded and are available offline upon the first access"],
         greeting: "Assalaamu alaykum",
@@ -60,6 +62,7 @@ var lang = {
         close_app: "Dasturdan chiqmoqchimisiz?",
         close_app_title: "Chiqish",
         close_app_buttons: ["Ha", "Yo`q"],
+        playposition_text:"Xotiraga joylandi",
         first_message: ["Xushxabar!", "Endi suralar birinchi marta o`qishdayoq offline bo`lib qoladi. <br>Qayta o`qish uchun traffik talab qilinmaydi."],
         greeting: "Assalomu alaykum",
         favorite_found_message: "Xat cho`pli oyat: ",
@@ -85,6 +88,7 @@ var lang = {
         close_app: "Вы хотите закрыть приложение?",
         close_app_title: "Выход",
         close_app_buttons: ["Да", "нет"],
+        playposition_text:"сохранена последняя позиция",
         first_message: ["Отличная новость!", "Теперь главы загружаются и доступны в автономном режиме при первом доступе"],
         greeting: "Ассаляму аляйкум",
         favorite_found_message: "Закладка найдена на стихе: ",
@@ -155,7 +159,7 @@ document.addEventListener('show', function (event) {
             select_surah();
             //showBannerFunc();
             if (deviceready) {
-                window.plugins.AdMob.destroyBannerView();
+                window.plugins.AdMob.destroyBannerView();                
             }
             break;
         case "settings":
@@ -175,7 +179,7 @@ document.addEventListener('show', function (event) {
             break;
     }
 });
-document.addEventListener("deviceready", function () {
+document.addEventListener("deviceready", function () {    
     window.FirebasePlugin.getToken(function (token) {
         // save this server-side and use it to push notifications to this device
         console.log("Device ready token", token);
@@ -286,9 +290,21 @@ function select_surah(event) {
     au = document.querySelector("#surahaudio");
     au.innerHTML = "";
     aus.src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3";
-    au.appendChild(aus);  
-    
+    au.appendChild(aus);
+
     $("#sura_title").text(selected_surah + ", " + selected_title);
+    
+    $(document).off().on('swiperight', function (event) {
+        console.log("SWIPE");
+                    if ($('#surah_text').has(event.target).length>0) {
+                        console.log('Swipe left is detected.');
+                        setTimeout(function (){
+                            fn.load('home.html');
+                        }, 100);
+                        
+                    }
+                    
+                });
 }
 
 
@@ -378,10 +394,10 @@ function audio_dialog(d)
 
             break;
         case "stop":
-            if(au)
+            if (au)
             {
-                au.load();   
-            }            
+                au.load();
+            }
             break;
         case "play":
             if (au)
@@ -391,16 +407,16 @@ function audio_dialog(d)
                 console.log(au);
             } else {
                 au = document.getElementById("audio");
-                
+
                 aus.src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3";
                 au.appendChild(aus);
                 au.play();
             }
             break;
         case "pause":
-            if(au){
-               au.pause();
-            }        
+            if (au) {
+                au.pause();
+            }
             break;
 
     }
@@ -462,6 +478,7 @@ function display_surah_names(data)
     {
 
         window.plugins.AdMob.destroyBannerView();
+        
     }
 
 }

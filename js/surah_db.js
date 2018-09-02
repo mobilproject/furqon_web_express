@@ -29,42 +29,48 @@ function show_surah_content(data)
 function show_surah_content_now()
 {
     var infiniteList = document.getElementById('infinite-list');
-    
+
     console.log(infiniteList);
 
-  infiniteList.delegate = {
-    createItemContent: function(i) {
-        //console.log(create_row(i), infiniteList);
-      return ons.createElement(create_row(i));
-    },
-    countItems: function() {
-      return big_data.length;
-    }
-  };
+    infiniteList.delegate = {
+        createItemContent: function (i) {
+            //console.log(create_row(i), infiniteList);         
+            return ons.createElement(create_row(i));
+        },
+        configureItemScope: function (index, itemScope) {
+            console.log(index, itemScope);
+            itemScope.name = infiniteList.filteredItems[index].name;
+        },
+        countItems: function () {
+            return big_data.length;
+        }
+    };
 
-  infiniteList.refresh();
-    
-    
+    infiniteList.refresh();
+
+
     //load data from 
     //console.log(rows);    
     $("#surah_text ons-list-item").off().on("click", function () {
-        if($(event.currentTarget).find(".qavs_ichi").is(":visible"))
+        if ($(event.currentTarget).find(".ayah_id").is(":visible"))
         {
             console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
             $(event.currentTarget).find(".qavs_ichi").hide();
             $(event.currentTarget).find(".zmdi-code-setting").show();
             event.currentTarget.querySelector("ons-speed-dial").hideItems();
             $(event.currentTarget).find(".ayah_id").hide();
-        }
-        else {
+        } else {
             $(event.currentTarget).find(".qavs_ichi").show();
             $(event.currentTarget).find(".zmdi-code-setting").hide();
             event.currentTarget.querySelector("ons-speed-dial").showItems();
             $(event.currentTarget).find(".ayah_id").show();
         }
-        
+
     });
-        
+
+    $("#surahaudio").off().on("pause", function (){
+        save_playposition();        
+    });
 
     if (!Boolean(localStorage.first_surah))
     {
@@ -91,27 +97,46 @@ function restore_favorite()
 }
 function set_favorites()
 {
-    $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].scrollIntoView();
-    ons.notification.toast(lang[language].favorite_found_message + favoritelist[selected_surah], {timeout: 3000, animation: 'ascend'});
-    //mark ayat as favoriteed
+    if (favoritelist[selected_surah])
+    {
+        if ($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).length > 0)
+        {
+            console.log(selected_surah, favoritelist[selected_surah]);
+            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].scrollIntoView();
+            ons.notification.toast(lang[language].favorite_found_message + favoritelist[selected_surah], {timeout: 1000, animation: 'fall'});
+            //mark ayat as favoriteed
 
-    $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
-    $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
-    //
-    //console.log($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).find(".zmdi-favorite-outline")[0].classList.removeClass("zmdi-favorite-outline").addClass("zmdi-favorite"));
+            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
+            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
+            //
+            //console.log($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).find(".zmdi-favorite-outline")[0].classList.removeClass("zmdi-favorite-outline").addClass("zmdi-favorite"));
+        } else {
+            var listitems = $(".list-item");
+            listitems[listitems.length - 1].scrollIntoView();
+            setTimeout(function () {
+                set_favorites();
+            }, 300);
+        }
+    }
+
+    if (playpositions[selected_surah])
+    {
+        $("#surahaudio")[0].currentTime = playpositions[selected_surah]-5;
+    }
 }
 function create_row(i)
 {
+
     var row = "";
     if (big_data[i]['DatabaseID'] == 1)
     {
-        
+
         row += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
              <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
     } else {
         var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
         izohsiz = izohsiz.replace(/\)/g, '</span>');
-        row += `<ons-list-item tappable onmousedown="toggle_sd(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
+        row += `<ons-list-item tappable id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
     <ons-fab>
       <ons-icon icon="md-share"></ons-icon>
     </ons-fab>
@@ -125,16 +150,21 @@ function create_row(i)
     return row;
 }
 
-function toggle_sd(event)
-{
-    event.currentTarget.querySelector('ons-speed-dial').toggleItems();
+function save_playposition()
+{    
+    var playpos = Math.floor(document.querySelector("#surahaudio").currentTime);
+    console.log("save_playposition", selected_surah, playpos);
+
+    playpositions[Number(selected_surah)] = Number(playpos);
+    localStorage.playpositions = JSON.stringify(playpositions);
+    ons.notification.toast(lang[language].playposition_text, {timeout: 1000, animation: "fall"});
 }
 function favorite_ayahid(event)
 {
     var favorite_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
     var favorite_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
     console.log(favorite_sura_no, favorite_ayah_no);
-    
+
     favoritelist[Number(favorite_sura_no)] = Number(favorite_ayah_no);
     localStorage.favoritelist = JSON.stringify(favoritelist);
     $(".zmdi-favorite").removeClass("zmdi-favorite").addClass("zmdi-favorite-outline");
@@ -227,7 +257,7 @@ function startTransaction(rd) {
         transaction.onerror = function (event) {
             // Don't forget to handle errors!
             console.log("error! " + event.target.error.message);
-            
+
         };
     };
     request.onerror = function (event) {
@@ -264,19 +294,18 @@ function get_by_suraid() {
                     cursor.continue();
                 } else {
                     //console.log("loading complete", big_data);
-                   
-                   if(big_data.length>0)
-                   {
-                       show_surah_content_now();
-                   }
-                   else {
-                       //no data 
-                       console.log(big_data.length, "big data empty for ", selected_surah);
-                       ajax(izoh_data);
-                   }
-                    
-                   
-                    
+
+                    if (big_data.length > 0)
+                    {
+                        show_surah_content_now();
+                    } else {
+                        //no data 
+                        console.log(big_data.length, "big data empty for ", selected_surah);
+                        ajax(izoh_data);
+                    }
+
+
+
                 }
             };
             console.log(cursor, "cursor length");
