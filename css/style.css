@@ -34,6 +34,7 @@ span.ayah_id {
         text-align:center;
         font-size:small;
         color: green;
+        margin: 5px;
 }
 
 .ayah_text.arabic {
@@ -82,18 +83,60 @@ ons-card.card {
     float: right;
     color: coral;
 }
-i.zmdi.zmdi-code-setting {
+.zmdi.zmdi-code-setting {
     color: steelblue;
 }
 
-i.zmdi.zmdi-favorite {
+.zmdi.zmdi-favorite {
     color: coral;
 }
 
 ons-speed-dial-item.fab.fab--mini.speed-dial__item.speed-dial__item--mini {
-    background-color: rgba(0, 0, 128, 0.8);
+    background-color: rgba(0, 0, 128, 0.2);
+    right: -18px;
+}
+ons-speed-dial-item {
+    transition-delay: 0ms;
+    bottom: auto;
+    right: -14px!important;
+    top: -18px!important;
+    left: auto;    
 }
 .center-content {
     text-align:  center;
     padding: 10px;
+}
+
+
+.gridview ons-list-item.list-item {
+    background-color: rgba(119, 197, 32, 0.35);
+    color: black;
+    width: 48vw;
+    float: right;
+    margin: 1vw;
+    padding: 0px;
+    min-height: 3em;
+    font-size: small;
+    border-radius: 5px;
+}
+.gridview  span.ayah_id {
+    padding: 4px;
+    /* display: none; */
+    box-shadow: inset 1px 1px 1px 1px;
+    border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    width: 20px;
+    margin: 9px;
+    min-width: 20px;
+    text-align: center;
+    font-size: xx-small;
+    color: green;
+}
+.gridview  .center.list-item__center.arabic {
+    width: 40vw;
+    text-align: right;
+    font-size: large;
 }

@@ -51,22 +51,7 @@ function show_surah_content_now()
 
     //load data from 
     //console.log(rows);    
-    $("#surah_text ons-list-item").off().on("click", function () {
-        if ($(event.currentTarget).find(".ayah_id").is(":visible"))
-        {
-            console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
-            $(event.currentTarget).find(".qavs_ichi").hide();
-            $(event.currentTarget).find(".zmdi-code-setting").show();
-            event.currentTarget.querySelector("ons-speed-dial").hideItems();
-            $(event.currentTarget).find(".ayah_id").hide();
-        } else {
-            $(event.currentTarget).find(".qavs_ichi").show();
-            $(event.currentTarget).find(".zmdi-code-setting").hide();
-            event.currentTarget.querySelector("ons-speed-dial").showItems();
-            $(event.currentTarget).find(".ayah_id").show();
-        }
-
-    });
+    
 
     $("#surahaudio").off().on("pause", function (){
         save_playposition();        
@@ -95,6 +80,22 @@ function restore_favorite()
 
 
 }
+function ayah_click (event) {
+        if ($(event.currentTarget).find(".ayah_id").is(":visible"))
+        {
+            console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
+            $(event.currentTarget).find(".qavs_ichi").hide();
+            $(event.currentTarget).find(".zmdi-code-setting").show();
+            event.currentTarget.querySelector("ons-speed-dial").hideItems();
+            $(event.currentTarget).find(".ayah_id").hide();
+        } else {
+            $(event.currentTarget).find(".qavs_ichi").show();
+            $(event.currentTarget).find(".zmdi-code-setting").hide();
+            event.currentTarget.querySelector("ons-speed-dial").showItems();
+            $(event.currentTarget).find(".ayah_id").show();
+        }
+
+    }
 function set_favorites()
 {
     if (favoritelist[selected_surah])
@@ -130,13 +131,12 @@ function create_row(i)
     var row = "";
     if (big_data[i]['DatabaseID'] == 1)
     {
-
-        row += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
+        row += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" onclick="ayah_click(event)"><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
              <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
     } else {
         var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
         izohsiz = izohsiz.replace(/\)/g, '</span>');
-        row += `<ons-list-item tappable id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
+        row += `<ons-list-item tappable  onclick="ayah_click(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
     <ons-fab>
       <ons-icon icon="md-share"></ons-icon>
     </ons-fab>
