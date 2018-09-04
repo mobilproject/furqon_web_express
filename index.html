@@ -18,34 +18,16 @@
 
     </head>
     <body>
+         <ons-navigator id="navigator" page="home.html"></ons-navigator>
+         
 
-    <ons-splitter>
-        <ons-splitter-side id="menu" side="right" width="220px" collapse swipeable>
-            <ons-page>
-                <ons-list>
-                    <ons-list-item onclick="fn.load('home.html')" tappable>
-                        <span id="surahlisttitle">surahlisttitle</span>
-                    </ons-list-item>
-                    <ons-list-item onclick="fn.load('settings.html')" tappable>
-                        <span id="settingstitle">settingstitle</span>
-                    </ons-list-item>
-                    <ons-list-item onclick="fn.load('about.html')" tappable>
-                        <span id="abouttitle">abouttitle</span>
-                    </ons-list-item>
-
-
-                </ons-list>
-            </ons-page>
-        </ons-splitter-side>
-        <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
-    </ons-splitter>
 
     <ons-template id="home.html">
         <ons-page id="titles">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="fn.open()">
-                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    <ons-toolbar-button onclick="document.querySelector('#navigator').pushPage('settings.html')">
+                        <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">
@@ -63,8 +45,8 @@
         <ons-page id="settings">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="fn.open()">
-                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    <ons-toolbar-button onclick="document.querySelector('#navigator').popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">
@@ -147,8 +129,8 @@
         <ons-page id="about">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="fn.open()">
-                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    <ons-toolbar-button onclick="document.querySelector('#navigator').popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">
@@ -184,8 +166,8 @@
         <ons-page id="surah_text">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="fn.open()">
-                        <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+                    <ons-toolbar-button onclick="document.querySelector('#navigator').popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>                                        
                 </div>
                 <div class="center">

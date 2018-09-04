@@ -35,7 +35,7 @@ var lang = {
         toast_disabled: "Option disabled",
         close_app: "Do you want to close the app?",
         close_app_title: "Exit App",
-        playposition_text:"Surah play position stored",
+        playposition_text: "Surah play position stored",
         close_app_buttons: ["Yes", "No"],
         first_message: ["Version updates", "Offline mode for text(after each first access)<br>Audio player<br>Continue from the last position of text and audio"],
         greeting: "Assalaamu alaykum",
@@ -62,7 +62,7 @@ var lang = {
         close_app: "Dasturdan chiqmoqchimisiz?",
         close_app_title: "Chiqish",
         close_app_buttons: ["Ha", "Yo`q"],
-        playposition_text:"Xotiraga joylandi",
+        playposition_text: "Xotiraga joylandi",
         first_message: ["Versiya yangiliklari", "Avtonom rejim<br>Audio player<br>Matn va audio uchun kelgan joyidan davom etish"],
         greeting: "Assalomu alaykum",
         favorite_found_message: "Xat cho`pli oyat: ",
@@ -88,7 +88,7 @@ var lang = {
         close_app: "Вы хотите закрыть приложение?",
         close_app_title: "Выход",
         close_app_buttons: ["Да", "нет"],
-        playposition_text:"сохранена последняя позиция",
+        playposition_text: "сохранена последняя позиция",
         first_message: ["Новости версии", "Автономный режим<br>Аудиоплеер<br>Продолжить с последней позиции текста и аудио"],
         greeting: "Ассаляму аляйкум",
         favorite_found_message: "Закладка найдена на стихе: ",
@@ -111,25 +111,14 @@ ons.ready(function () {
     }
 });
 
-window.fn = {};
-window.fn.open = function () {
-    var menu = document.getElementById('menu');
-    menu.open();
-};
-window.fn.load = function (page) {
-    var content = document.getElementById('content');
-    var menu = document.getElementById('menu');
-    content
-            .load(page)
-            .then(menu.close.bind(menu));
-};
+
 //pages
-document.addEventListener('show', function (event) {
+document.addEventListener('init', function (event) {
     var page = event.target;
     console.log(page.id); // can detect which page
     //
     //resetDate();
-    addListeners();
+    
     switch (page.id)
     {
         case "titles":
@@ -153,13 +142,13 @@ document.addEventListener('show', function (event) {
                     }
                 });
             }
-
+            
             break;
         case "surah_text":
             select_surah();
             //showBannerFunc();
             if (deviceready) {
-                window.plugins.AdMob.destroyBannerView();                
+                window.plugins.AdMob.destroyBannerView();
             }
             break;
         case "settings":
@@ -179,7 +168,7 @@ document.addEventListener('show', function (event) {
             break;
     }
 });
-document.addEventListener("deviceready", function () {    
+document.addEventListener("deviceready", function () {
     window.FirebasePlugin.getToken(function (token) {
         // save this server-side and use it to push notifications to this device
         console.log("Device ready token", token);
@@ -206,7 +195,10 @@ document.addEventListener("deviceready", function () {
     initAd();
     registerAdEvents();
 
-
+    for (i in languages)
+    {
+        languages[i] = JSON.parse(languages[i]);
+    }
 
     ons.setDefaultDeviceBackButtonListener(function (event) {
         ons.notification.confirm({
@@ -226,10 +218,7 @@ document.addEventListener("deviceready", function () {
             }
         });
 
-        for (i in languages)
-        {
-            languages[i] = JSON.parse(languages[i]);
-        }
+
     });
 }, false);
 function set_about_page() {
@@ -237,16 +226,16 @@ function set_about_page() {
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
     document.querySelector("#greetingtitle").innerHTML = lang[language].greeting;
     document.querySelector("#greetingtext").innerHTML = lang[language].gr_text;
+    document.querySelector("#abouttitle").innerHTML = lang[language].about;
 
 }
 
 function set_settings()
 {
+    //document.querySelector("#settingstitle").innerHTML = lang[language].settings;
     document.querySelector("#appsettingstitle").innerHTML = lang[language].settings_page;
     document.querySelector("#menulangtitle").innerHTML = lang[language].menu_language;
-    document.querySelector("#textsettitle").innerHTML = lang[language].text_settings;
-
-
+    document.querySelector("#textsettitle").innerHTML = lang[language].text_settings;    
     document.querySelector("ons-list-item[lang-id='" + language + "']").querySelector("ons-radio").checked = true;
 
 
@@ -293,18 +282,18 @@ function select_surah(event) {
     au.appendChild(aus);
 
     $("#sura_title").text(selected_surah + ", " + selected_title);
-    
+
     $(document).off().on('swiperight', function (event) {
         console.log("SWIPE");
-                    if ($('#surah_text').has(event.target).length>0) {
-                        console.log('Swipe left is detected.');
-                        setTimeout(function (){
-                            fn.load('home.html');
-                        }, 100);
-                        
-                    }
-                    
-                });
+        if ($('#surah_text').has(event.target).length > 0) {
+            console.log('Swipe left is detected.');
+            setTimeout(function () {
+                document.querySelector('#navigator').popPage();
+            }, 100);
+
+        }
+
+    });
 }
 
 
@@ -425,36 +414,31 @@ function audio_dialog(d)
 
 function addListeners()
 {
-    try {
-        document.querySelector("#surahlisttitle").innerHTML = lang[language].home_title;
-        document.querySelector("#settingstitle").innerHTML = lang[language].settings;
-        document.querySelector("#abouttitle").innerHTML = lang[language].about;
-    } catch (e)
-    {
-        language = "english";
-        document.querySelector("#surahlisttitle").innerHTML = lang[language].home_title;
-        document.querySelector("#settingstitle").innerHTML = lang[language].settings;
-        document.querySelector("#abouttitle").innerHTML = lang[language].about;
-    }
+  
+        
+    
 
 
 
 }
 
 function set_langauge()
-{
+{    
     if (event.currentTarget.querySelector("ons-radio").disabled)
     {
         ons.notification.toast(lang[language].toast_disabled, {timeout: 500, animation: "fall"});
     } else {
         language = event.currentTarget.getAttribute("lang-id");
         localStorage.menu_language = language;
+        console.log(event.currentTarget);
     }
 }
 
 function display_surah_names(data)
 {
-    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
+    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;    
+        
+        
     for (i in data)
     {
         //data[i] = JSON.parse(data[i]);
@@ -478,9 +462,9 @@ function display_surah_names(data)
     {
 
         window.plugins.AdMob.destroyBannerView();
-        
-    }
 
+    }
+    
 }
 
 function show_surah()
@@ -488,7 +472,8 @@ function show_surah()
     selected_surah = event.currentTarget.getAttribute("surahno");
     selected_title = event.currentTarget.getAttribute("title");
     console.log(selected_surah, "selected_surah");
-    fn.load("surah.html");
+    //fn.load("surah.html");
+    document.querySelector('#navigator').pushPage('surah.html');
 }
 
 
@@ -571,3 +556,36 @@ var hidePopover = function () {
             .getElementById('popover')
             .hide();
 };
+
+$(window).ready(function () {
+
+    document.querySelector('ons-navigator').addEventListener('prepop', function () {
+        console.log("prepop");
+        try{
+            $("#surahaudio")[0].pause();
+        }
+        catch (e){
+            
+        }
+    });
+    
+    document.querySelector('ons-navigator').addEventListener('postpop', function () {
+        console.log("postpop", event.enterPage);
+        switch (event.enterPage.getAttribute("id"))
+    {
+        case "titles":
+            console.log("surah title list");
+            document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
+            break;
+        case "surah_text":
+            
+            break;
+        case "settings":
+            
+            break;
+        case "about":
+            
+            break;
+    }
+    });
+});
