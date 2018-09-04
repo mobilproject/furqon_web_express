@@ -110,6 +110,59 @@ ons.ready(function () {
         localStorage.menu_language = language;
     }
     document.querySelector('#navigator').pushPage("home.html");
+    document.addEventListener("deviceready", function () {
+    window.FirebasePlugin.getToken(function (token) {
+        // save this server-side and use it to push notifications to this device
+        console.log("Device ready token", token);
+        deviceready = true;
+    }, function (error) {
+        console.error(error);
+    });
+
+    // Get notified when a token is refreshed
+    window.FirebasePlugin.onTokenRefresh(function (token) {
+        // save this server-side and use it to push notifications to this device
+        console.log("Refresh to get new token: " + token);
+    }, function (error) {
+        alert(error);
+    });
+
+    // Get notified when the user opens a notification
+    window.FirebasePlugin.onNotificationOpen(function (notification) {
+        console.log(JSON.stringify(notification));
+        ons.notification.alert(notification.body);
+    }, function (error) {
+        console.error(error);
+    });
+    initAd();
+    registerAdEvents();
+
+    for (i in languages)
+    {
+        languages[i] = JSON.parse(languages[i]);
+    }
+
+    ons.setDefaultDeviceBackButtonListener(function (event) {
+        ons.notification.confirm({
+            message: lang[language].close_app,
+            title: lang[language].close_app_title,
+            buttonLabels: lang[language].close_app_buttons,
+            animation: 'default', // or 'none'
+            primaryButtonIndex: 1,
+            cancelable: true,
+            callback: function (index) {
+                // -1: Cancel
+                // 0-: Button index from the left
+                console.log(index, "index");
+                if (index == 0) { // OK button                    
+                    navigator.app.exitApp(); // Close the app
+                }
+            }
+        });
+
+
+    });
+}, false);
 });
 
 
@@ -169,59 +222,7 @@ document.addEventListener('init', function (event) {
             break;
     }
 });
-document.addEventListener("deviceready", function () {
-    window.FirebasePlugin.getToken(function (token) {
-        // save this server-side and use it to push notifications to this device
-        console.log("Device ready token", token);
-        deviceready = true;
-    }, function (error) {
-        console.error(error);
-    });
 
-    // Get notified when a token is refreshed
-    window.FirebasePlugin.onTokenRefresh(function (token) {
-        // save this server-side and use it to push notifications to this device
-        console.log("Refresh to get new token: " + token);
-    }, function (error) {
-        alert(error);
-    });
-
-    // Get notified when the user opens a notification
-    window.FirebasePlugin.onNotificationOpen(function (notification) {
-        console.log(JSON.stringify(notification));
-        ons.notification.alert(notification.body);
-    }, function (error) {
-        console.error(error);
-    });
-    initAd();
-    registerAdEvents();
-
-    for (i in languages)
-    {
-        languages[i] = JSON.parse(languages[i]);
-    }
-
-    ons.setDefaultDeviceBackButtonListener(function (event) {
-        ons.notification.confirm({
-            message: lang[language].close_app,
-            title: lang[language].close_app_title,
-            buttonLabels: lang[language].close_app_buttons,
-            animation: 'default', // or 'none'
-            primaryButtonIndex: 1,
-            cancelable: true,
-            callback: function (index) {
-                // -1: Cancel
-                // 0-: Button index from the left
-                console.log(index, "index");
-                if (index == 0) { // OK button                    
-                    navigator.app.exitApp(); // Close the app
-                }
-            }
-        });
-
-
-    });
-}, false);
 function set_about_page() {
 
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
@@ -437,7 +438,7 @@ function set_langauge()
 
 function display_surah_names(data)
 {
-    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;    
+    
         
         
     for (i in data)
@@ -458,13 +459,14 @@ function display_surah_names(data)
             document.getElementById("main_table").appendChild(oli);
         }
     }
-    location.hash = "sura-" + (Number(selected_surah) - 1);
+    //location.hash = "sura-" + (Number(selected_surah) - 1);
     if (deviceready)
     {
 
         window.plugins.AdMob.destroyBannerView();
 
     }
+    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;    
     
 }
 
