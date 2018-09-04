@@ -100,8 +100,8 @@ var lang = {
 
 ons.ready(function () {
     console.log("Onsen UI is ready!");
-
-
+    
+    
     if (Boolean(localStorage.language))
     {
         language = localStorage.menu_language;
@@ -109,6 +109,7 @@ ons.ready(function () {
 
         localStorage.menu_language = language;
     }
+    document.querySelector('#navigator').pushPage("home.html");
 });
 
 
