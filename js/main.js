@@ -593,7 +593,7 @@ $(window).ready(function () {
     });
 });
 
-function openSeeings()
+function openSetting()
 {
     document.querySelector('#navigator').pushPage('settings.html');
 }
