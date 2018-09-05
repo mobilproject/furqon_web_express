@@ -599,5 +599,5 @@ function openSetting()
 }
 function popPage()
 {
-    document.querySelector('#navigator').popPage()
+    document.querySelector('#navigator').popPage();
 }
