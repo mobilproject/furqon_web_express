@@ -18,7 +18,7 @@
 
     </head>
     <body>
-         <ons-navigator id="navigator" page="home.html"></ons-navigator>
+         <ons-navigator id="navigator" page=""></ons-navigator>
          
 
 
@@ -26,7 +26,7 @@
         <ons-page id="titles">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="document.querySelector('#navigator').pushPage('settings.html')">
+                    <ons-toolbar-button onclick="openSetting()">
                         <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -45,7 +45,7 @@
         <ons-page id="settings">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="document.querySelector('#navigator').popPage(); document.querySelector('#navigator').pushPage('home.html')">
+                    <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -129,7 +129,7 @@
         <ons-page id="about">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="document.querySelector('#navigator').popPage()">
+                    <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>
                 </div>
@@ -166,7 +166,7 @@
         <ons-page id="surah_text">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="document.querySelector('#navigator').popPage()">
+                    <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>                                        
                 </div>

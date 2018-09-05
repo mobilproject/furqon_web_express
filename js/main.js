@@ -592,3 +592,12 @@ $(window).ready(function () {
     }
     });
 });
+
+function openSeeings()
+{
+    document.querySelector('#navigator').pushPage('settings.html');
+}
+function popPage()
+{
+    document.querySelector('#navigator').popPage()
+}
