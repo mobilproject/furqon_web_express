@@ -51,10 +51,10 @@ function show_surah_content_now()
 
     //load data from 
     //console.log(rows);    
-    
 
-    $("#surahaudio").off().on("pause", function (){
-        save_playposition();        
+
+    $("#surahaudio").off().on("pause", function () {
+        save_playposition();
     });
 
     if (!Boolean(localStorage.first_surah))
@@ -80,22 +80,22 @@ function restore_favorite()
 
 
 }
-function ayah_click (event) {
-        if ($(event.currentTarget).find(".ayah_id").is(":visible"))
-        {
-            console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
-            $(event.currentTarget).find(".qavs_ichi").hide();
-            $(event.currentTarget).find(".zmdi-code-setting").show();
-            event.currentTarget.querySelector("ons-speed-dial").hideItems();
-            $(event.currentTarget).find(".ayah_id").hide();
-        } else {
-            $(event.currentTarget).find(".qavs_ichi").show();
-            $(event.currentTarget).find(".zmdi-code-setting").hide();
-            event.currentTarget.querySelector("ons-speed-dial").showItems();
-            $(event.currentTarget).find(".ayah_id").show();
-        }
-
+function ayah_click(event) {
+    if ($(event.currentTarget).find(".ayah_id").is(":visible"))
+    {
+        console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
+        $(event.currentTarget).find(".qavs_ichi").hide();
+        $(event.currentTarget).find(".zmdi-code-setting").show();
+        event.currentTarget.querySelector("ons-speed-dial").hideItems();
+        $(event.currentTarget).find(".ayah_id").hide();
+    } else {
+        $(event.currentTarget).find(".qavs_ichi").show();
+        $(event.currentTarget).find(".zmdi-code-setting").hide();
+        event.currentTarget.querySelector("ons-speed-dial").showItems();
+        $(event.currentTarget).find(".ayah_id").show();
     }
+
+}
 function set_favorites()
 {
     if (favoritelist[selected_surah])
@@ -122,7 +122,7 @@ function set_favorites()
 
     if (playpositions[selected_surah])
     {
-        $("#surahaudio")[0].currentTime = playpositions[selected_surah]-5;
+        $("#surahaudio")[0].currentTime = playpositions[selected_surah] - 5;
     }
 }
 function create_row(i)
@@ -131,27 +131,36 @@ function create_row(i)
     var row = "";
     if (big_data[i]['DatabaseID'] == 1)
     {
-        row += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" onclick="ayah_click(event)"><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
-             <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
+        row += '<ons-list-item id="ayah-${big_data[i][\'SuraID\']}-${big_data[i][\'VerseID\']}" onclick="ayah_click(event)"><ons-row><ons-col><span class="ayah_id">${big_data[i][\'VerseID\']}</span></ons-col></ons-row>             <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i][\'AyahText\']}</span></ons-col></ons-row></ons-list-item>';
     } else {
         var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
         izohsiz = izohsiz.replace(/\)/g, '</span>');
-        row += `<ons-list-item tappable  onclick="ayah_click(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
-    <ons-fab>
-      <ons-icon icon="md-share"></ons-icon>
-    </ons-fab>
-    <ons-speed-dial-item onmousedown="favorite_ayahid(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>
-      <ons-icon icon="md-favorite"></ons-icon>
-    </ons-speed-dial-item>
-    
-  </ons-speed-dial><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
-
+        row += '<ons-list-item tappable  onclick="ayah_click(event)" id="ayah-${big_data[i][\'SuraID\']}-${big_data[i][\'VerseID\']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i][\'VerseID\']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">    <ons-fab>      <ons-icon icon="md-share"></ons-icon>    </ons-fab>    <ons-speed-dial-item onmousedown="favorite_ayahid(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>      <ons-icon icon="md-favorite"></ons-icon>    </ons-speed-dial-item>    <ons-speed-dial-item onmousedown="share_ayah(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>      <ons-icon icon="md-share"></ons-icon>    </ons-speed-dial-item>   </ons-speed-dial><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>';
     }
     return row;
 }
+function share_ayah(event)
+{
+    // this is the complete list of currently supported params you can pass to the plugin (all optional)
+    var options = {
+        message: event.currentTarget.parentElement.parentElement.innerText + " (Qur'an, " + event.currentTarget.getAttribute("chapter_no") + ":" + event.currentTarget.getAttribute("ayah_no") + ");",
+        subject: 'the subject', // fi. for email               
+        
+    };
 
+    var onSuccess = function (result) {
+        console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+        console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+    };
+
+    var onError = function (msg) {
+        console.log("Sharing failed with message: " + msg);
+    };
+
+    window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+}
 function save_playposition()
-{    
+{
     var playpos = Math.floor(document.querySelector("#surahaudio").currentTime);
     console.log("save_playposition", selected_surah, playpos);
 
