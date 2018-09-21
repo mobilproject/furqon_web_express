@@ -35,6 +35,7 @@ var lang = {
         toast_disabled: "Option disabled",
         close_app: "Do you want to close the app?",
         close_app_title: "Exit App",
+        adpop: "Click to view ads. Check out for more",
         playposition_text: "Surah play position stored",
         close_app_buttons: ["Yes", "No"],
         first_message: ["Version updates", "Offline mode for text(after each first access)<br>Audio player<br>Continue from the last position of text and audio"],
@@ -61,6 +62,7 @@ var lang = {
         toast_disabled: "Vaqtinchalik o`chirilgan",
         close_app: "Dasturdan chiqmoqchimisiz?",
         close_app_title: "Chiqish",
+        adpop: "Reklama ko`rish - dastur muallifiga minnatdorchilik",
         close_app_buttons: ["Ha", "Yo`q"],
         playposition_text: "Xotiraga joylandi",
         first_message: ["Versiya yangiliklari", "Avtonom rejim<br>Audio player<br>Matn va audio uchun kelgan joyidan davom etish"],
@@ -87,6 +89,7 @@ var lang = {
         toast_disabled: "Опция отключена",
         close_app: "Вы хотите закрыть приложение?",
         close_app_title: "Выход",
+        adpop: "Посмотрите объявление. Средство благодарности автору",
         close_app_buttons: ["Да", "нет"],
         playposition_text: "сохранена последняя позиция",
         first_message: ["Новости версии", "Автономный режим<br>Аудиоплеер<br>Продолжить с последней позиции текста и аудио"],
@@ -453,7 +456,7 @@ function display_surah_names(data)
             oli.setAttribute("title", data[i].title);
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
-            oli.innerHTML = `<div class="left"><ons-row><ons-col><span class="ayah_id"> ${data[i].chapterId} </span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>${data[i].title }</ons-col></ons-row></div>`;
+            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id"> ${data[i].chapterId} </span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>${data[i].title }</ons-col></ons-row></div>';
         } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
             document.getElementById("main_table").appendChild(oli);
@@ -547,6 +550,14 @@ function showBannerFunc() {
 }
 
 //display the interstitial
+function showInterstitialFunc(){    
+    window.plugins.AdMob.createInterstitialView();	//get the interstitials ready to be shown and show when it's loaded.
+    window.plugins.AdMob.requestInterstitialAd();
+}
+function showAboutAd(){
+    showPopover($("#adpop")[0]);
+    document.getElementById("poptext").innerHTML = lang[language].adpop;
+}
 var showPopover = function (target) {
     document
             .getElementById('popover')
@@ -558,6 +569,7 @@ var hidePopover = function () {
     document
             .getElementById('popover')
             .hide();
+    showInterstitialFunc();
 };
 
 $(window).ready(function () {
