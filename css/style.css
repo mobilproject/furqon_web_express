@@ -97,8 +97,7 @@ ons-speed-dial-item.fab.fab--mini.speed-dial__item.speed-dial__item--mini {
 }
 ons-speed-dial-item {
     transition-delay: 0ms;
-    bottom: auto;
-    right: -14px!important;
+    bottom: auto;    
     top: -18px!important;
     left: auto;    
 }
