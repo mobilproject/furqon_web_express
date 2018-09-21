@@ -26,9 +26,16 @@
         <ons-page id="titles">
             <ons-toolbar>
                 <div class="right">
+                    <ons-toolbar-button onclick="showAboutAd()">
+                        <ons-icon icon="md-info"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button id="adpop" onclick="showInterstitialFunc()">
+                        <ons-icon icon="md-toll"></ons-icon>
+                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="openSetting()">
                         <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
+                    
                 </div>
                 <div class="center">
                     <span id="selectsurahtitle"></span>
@@ -44,9 +51,15 @@
     <ons-template id="settings.html">
         <ons-page id="settings">
             <ons-toolbar>
-                <div class="right">
+                <div class="right">                    
+                    <ons-toolbar-button onclick="showInterstitialFunc()">
+                        <ons-icon icon="md-toll"></ons-icon>
+                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">
@@ -129,8 +142,15 @@
         <ons-page id="about">
             <ons-toolbar>
                 <div class="right">
+                    
+                    <ons-toolbar-button onclick="showInterstitialFunc()">
+                        <ons-icon icon="md-toll"></ons-icon>
+                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
                 </div>
                 <div class="center">
@@ -166,9 +186,16 @@
         <ons-page id="surah_text">
             <ons-toolbar>
                 <div class="right">
+                    
+                    <ons-toolbar-button onclick="showInterstitialFunc()">
+                        <ons-icon icon="md-toll"></ons-icon>
+                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
-                    </ons-toolbar-button>                                        
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
+                    </ons-toolbar-button>
                 </div>
                 <div class="center">
                     <span id="surahtitle"></span><span id="sura_title"></span>
@@ -213,7 +240,7 @@
             <p id="poptext">
             </p>
             <p>
-            <ons-button onclick="hidePopover()">Close</ons-button>
+            <ons-button onclick="hidePopover()">OK</ons-button>
             </p>
         </div>
     </ons-popover>
