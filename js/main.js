@@ -457,7 +457,8 @@ function display_surah_names(data)
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
             oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">'+ data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title +'</ons-col></ons-row></div>';
-        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
+        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) { 
+            
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
             document.getElementById("main_table").appendChild(oli);
         }
