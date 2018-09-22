@@ -22,7 +22,7 @@ ons-list-item.list-item {
 }
 span.ayah_id {
         padding: 5px;
-        display: block;
+        display: none;
         box-shadow: inset 1px 1px 1px 1px;
         border-radius: 15px;
         border-top-left-radius: 15px;
