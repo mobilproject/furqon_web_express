@@ -29,24 +29,31 @@ function show_surah_content(data)
 function show_surah_content_now()
 {
     var infiniteList = document.getElementById('infinite-list');
-
+    var itemcount = big_data.length;
     console.log(infiniteList);
 
     infiniteList.delegate = {
         createItemContent: function (i) {
             //console.log(create_row(i), infiniteList);         
-            return ons.createElement(create_row(i));
+            return create_row(i);
         },
-        configureItemScope: function (index, itemScope) {
-            console.log(index, itemScope);
+        configureItemScope: function (i, itemScope) {
+            console.log(i, itemScope, "index and item scope");
             itemScope.name = infiniteList.filteredItems[index].name;
         },
         countItems: function () {
-            return big_data.length;
+            //console.log("list item count", big_data.length);            
+            return itemcount;
+        },     
+
+        destroyItem: function (index, element) {
+            // Remove event listeners, etc. here to avoid memory leaks.
         }
     };
 
     infiniteList.refresh();
+
+
 
 
     //load data from 
@@ -92,7 +99,7 @@ function ayah_click(event) {
         $(event.currentTarget).find(".qavs_ichi").show();
         $(event.currentTarget).find(".zmdi-code-setting").hide();
         event.currentTarget.querySelector("ons-speed-dial").showItems();
-        $(event.currentTarget).find(".ayah_id").show();
+        $(event.currentTarget).find(".ayah_id").css("display", "block");
     }
 
 }
@@ -102,8 +109,8 @@ function set_favorites()
     {
         if ($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).length > 0)
         {
-            console.log(selected_surah, favoritelist[selected_surah]);
-            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].scrollIntoView();
+            console.log("surah and ayah", selected_surah, favoritelist[selected_surah]);
+            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].scrollIntoView({behavior:"smooth"});
             ons.notification.toast(lang[language].favorite_found_message + favoritelist[selected_surah], {timeout: 1000, animation: 'fall'});
             //mark ayat as favoriteed
 
@@ -111,12 +118,13 @@ function set_favorites()
             $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
             //
             //console.log($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).find(".zmdi-favorite-outline")[0].classList.removeClass("zmdi-favorite-outline").addClass("zmdi-favorite"));
+            document.querySelector('#loading_circle').hide();
         } else {
             var listitems = $(".list-item");
-            listitems[listitems.length - 1].scrollIntoView();
+            listitems[listitems.length - 1].scrollIntoView({behavior:"instant"});
             setTimeout(function () {
                 set_favorites();
-            }, 300);
+            }, 100);
         }
     }
 
@@ -124,32 +132,99 @@ function set_favorites()
     {
         $("#surahaudio")[0].currentTime = playpositions[selected_surah] - 5;
     }
+    
+    
 }
 function create_row(i)
 {
-
-    var row = "";
+    var row;
     if (big_data[i]['DatabaseID'] == 1)
     {
-        row += `<ons-list-item id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" onclick="ayah_click(event)"><ons-row><ons-col><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row>
-             <ons-row><ons-col class="arabic"><span class="ayah_text arabic">${big_data[i]['AyahText']}</span></ons-col></ons-row></ons-list-item>`;
+        var oli = ons.createElement("<ons-list-item>");
+        oli.id = "ayah-" + big_data[i]['SuraID'] + "-" + big_data[i]['VerseID'];
+        oli.setAttribute("onclick", "ayah_click(event)");
+        var onrow = document.createElement("ons-row");
+        var oncol = document.createElement("ons-col");
+        var sp = document.createElement("span");
+        sp.setAttribute("class", "ayah_id");
+        sp.innerText = big_data[i]['VerseID'];
+        oncol.appendChild(sp);
+        onrow.appendChild(oncol);
+        oli.appendChild(onrow);
+
+        var onsrow = document.createElement("ons-row");
+        var onscol = document.createElement("ons-col");
+        onscol.setAttribute("class", "arabic");
+        var sp2 = document.createElement("span");
+        sp2.setAttribute("class", "ayah_text arabic");
+        sp2.innerText = big_data[i]['AyahText'];
+        onscol.appendChild(sp2);
+        onsrow.appendChild(onscol);
+        oli.appendChild(onsrow);
+
+        row = oli;
+
     } else {
         var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
         izohsiz = izohsiz.replace(/\)/g, '</span>');
-        row += `<ons-list-item tappable  onclick="ayah_click(event)" id="ayah-${big_data[i]['SuraID']}-${big_data[i]['VerseID']}" ><ons-row><ons-col><i class="zmdi zmdi-favorite-outline"></i><span class="ayah_id">${big_data[i]['VerseID']}</span></ons-col></ons-row><ons-row><ons-col><ons-speed-dial position="top right" direction="left">
-    <ons-fab>
-      <ons-icon icon="md-share"></ons-icon>
-    </ons-fab>
-    <ons-speed-dial-item onmousedown="favorite_ayahid(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>
-      <ons-icon icon="md-favorite"></ons-icon>
-    </ons-speed-dial-item>
-    <ons-speed-dial-item onmousedown="share_ayah(event)" chapter_no=${big_data[i]["SuraID"]} ayah_no=${big_data[i]["VerseID"]}>
-      <ons-icon icon="md-share"></ons-icon>
-    </ons-speed-dial-item>
-    
-  </ons-speed-dial><span class="ayah_text">${izohsiz}</span></ons-col></ons-row></ons-list-item>`;
+        var onslist = ons.createElement("<ons-list-item>");
+        onslist.setAttribute("tappable", "");
+        onslist.setAttribute("onclick", "ayah_click(event)");
+        onslist.id = "ayah-" + big_data[i]['SuraID'] + "-" + big_data[i]['VerseID'];
+        var onsrow = document.createElement("ons-row");
+        var onscol = document.createElement("ons-col");
+        var onsi = document.createElement("i");
+        onsi.setAttribute("class", "zmdi zmdi-favorite-outline");
+        var sp = document.createElement("span");
+        sp.setAttribute("class", "ayah_id");
+        sp.innerText = big_data[i]['VerseID'];
+        onslist.appendChild(onsrow);
+        onsrow.appendChild(onscol);
+        onscol.appendChild(onsi);
+        onscol.appendChild(sp);
 
+        var onsrow2 = document.createElement("ons-row");
+        var onscol2 = document.createElement("ons-col");
+        var onsspeed = document.createElement("ons-speed-dial");
+        onsspeed.setAttribute("position", "top right");
+        onsspeed.setAttribute("direction", "left");
+        onsspeed.setAttribute("direction", "left");
+        onsspeed.setAttribute("class", "ayah_text");
+        var onsfab = document.createElement("ons-fab");
+        var onsicon = document.createElement("ons-icon");
+        onsicon.setAttribute("icon", "md-share");
+        onsfab.appendChild(onsicon);
+
+        var onssdi = document.createElement("ons-speed-dial-item");
+        onssdi.setAttribute("onmousedown", "favorite_ayahid(event)");
+        onssdi.setAttribute("chapter_no", big_data[i]["SuraID"]);
+        onssdi.setAttribute("ayah_no", big_data[i]["VerseID"]);
+        var onsicon2 = document.createElement("ons-icon");
+        onsicon2.setAttribute("icon", "md-favorite");
+        onssdi.appendChild(onsicon2);
+
+        var onssdi2 = document.createElement("ons-speed-dial-item");
+        onssdi2.setAttribute("onmousedown", "share_ayah(event)");
+        onssdi2.setAttribute("chapter_no", big_data[i]["SuraID"]);
+        onssdi2.setAttribute("ayah_no", big_data[i]["VerseID"]);
+        var onsicon3 = document.createElement("ons-icon");
+        onsicon3.setAttribute("icon", "md-share");
+        onssdi2.appendChild(onsicon3);
+
+        var sp2 = document.createElement("span");
+        sp2.innerHTML = izohsiz;
+        onscol2.appendChild(sp2);
+
+        onslist.appendChild(onsrow2);
+        onsrow2.appendChild(onscol2);
+        onscol2.appendChild(onsspeed);
+        onsspeed.appendChild(onsfab);
+        onsspeed.appendChild(onssdi);
+        onsspeed.appendChild(onssdi2);
+
+        row = onslist;
     }
+    console.log(row);
     return row;
 }
 function share_ayah(event)
@@ -158,7 +233,7 @@ function share_ayah(event)
     var options = {
         message: event.currentTarget.parentElement.parentElement.innerText + " (Qur'an, " + event.currentTarget.getAttribute("chapter_no") + ":" + event.currentTarget.getAttribute("ayah_no") + ");",
         subject: 'the subject', // fi. for email               
-        
+
     };
 
     var onSuccess = function (result) {
@@ -292,6 +367,8 @@ function get_by_suraid() {
     console.log("get_by_surah");
     if (sdb.objectStoreNames.contains(selected_surah))
     {
+        document.querySelector("#loadingtitle").innerHTML = lang[language].loading;
+        document.querySelector('#loading_circle').show();
 //the selected_surah exists. Data also exists?
         console.log(selected_surah, "exists, proceed to data retrieval");
         var store = sdb.transaction(selected_surah, "readonly").objectStore(selected_surah);

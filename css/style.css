@@ -22,18 +22,19 @@ ons-list-item.list-item {
 }
 span.ayah_id {
         padding: 5px;
-        display: none;
+        display: block;
         box-shadow: inset 1px 1px 1px 1px;
         border-radius: 15px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
         border-bottom-right-radius: 15px;
         border-bottom-left-radius: 15px;
-        width: 25px;
+        background-color: ivory;
+        width: 15px;
         min-width:20px;
         text-align:center;
         font-size:small;
-        color: green;
+        color: black;
         margin: 5px;
 }
 
