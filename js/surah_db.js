@@ -103,12 +103,14 @@ function set_favorites()
     {
         if ($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).length > 0)
         {
+            $('#loading_circle').css("display","none");
             console.log("surah and ayah", selected_surah, favoritelist[selected_surah]);
-            document.querySelector("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].scrollIntoView({behavior:"smooth"});            
+            document.querySelector("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).scrollIntoView();
             $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
             $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
-            setTimeout(function(){
-                $('#loading_circle').hide();
+            var sectimer = setTimeout(function(){
+                console.log("sttt");
+                
             },300);
             ons.notification.toast(lang[language].favorite_found_message + favoritelist[selected_surah], {timeout: 1000, animation: 'fall'});
         } else {
@@ -117,7 +119,7 @@ function set_favorites()
             listitems[listitems.length - 1].scrollIntoView({behavior:"instant"});
             setTimeout(function () {
                 set_favorites();
-            }, 100);
+            }, 300);
         }
     }
     else {
