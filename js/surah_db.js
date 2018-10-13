@@ -82,16 +82,16 @@ function restore_favorite()
 function ayah_click(event) {
     if ($(event.currentTarget).find(".ayah_id").is(":visible"))
     {
-        console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
+        //console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
         $(event.currentTarget).find(".qavs_ichi").hide();
         $(event.currentTarget).find(".zmdi-code-setting").show();
-        event.currentTarget.querySelector("ons-speed-dial").hideItems();
-        $(event.currentTarget).find(".ayah_id").hide();
+        //event.currentTarget.querySelector("ons-speed-dial").hideItems();
+        //$(event.currentTarget).find(".ayah_id").hide();
     } else {
         $(event.currentTarget).find(".qavs_ichi").show();
         $(event.currentTarget).find(".zmdi-code-setting").hide();
-        event.currentTarget.querySelector("ons-speed-dial").showItems();
-        $(event.currentTarget).find(".ayah_id").css("display", "block");
+        //event.currentTarget.querySelector("ons-speed-dial").showItems();
+        //$(event.currentTarget).find(".ayah_id").css("display", "block");
         event.currentTarget.showExpansion();
         
     }
@@ -186,16 +186,9 @@ function create_row(i)
 
         var onsrow2 = document.createElement("ons-row");
         var onscol2 = document.createElement("ons-col");
-        var onsspeed = document.createElement("ons-speed-dial");
-        onsspeed.setAttribute("position", "bottom right");
-        onsspeed.setAttribute("direction", "left");        
+        var onsspeed = document.createElement("div");
         onsspeed.setAttribute("class", "ayah_text");
-        var onsfab = document.createElement("ons-fab");
-        var onsicon = document.createElement("ons-icon");
-        onsicon.setAttribute("icon", "md-share");
-        onsfab.appendChild(onsicon);
-
-        var onssdi = document.createElement("ons-speed-dial-item");
+        var onssdi = document.createElement("ons-button");
         onssdi.setAttribute("onmousedown", "favorite_ayahid(event)");
         onssdi.setAttribute("chapter_no", big_data[i]["SuraID"]);
         onssdi.setAttribute("ayah_no", big_data[i]["VerseID"]);
@@ -203,7 +196,7 @@ function create_row(i)
         onsicon2.setAttribute("icon", "md-favorite");
         onssdi.appendChild(onsicon2);
 
-        var onssdi2 = document.createElement("ons-speed-dial-item");
+        var onssdi2 = document.createElement("ons-button");
         onssdi2.setAttribute("onmousedown", "share_ayah(event)");
         onssdi2.setAttribute("chapter_no", big_data[i]["SuraID"]);
         onssdi2.setAttribute("ayah_no", big_data[i]["VerseID"]);
@@ -212,6 +205,7 @@ function create_row(i)
         onssdi2.appendChild(onsicon3);
 
         var sp2 = document.createElement("span");
+        sp2.setAttribute("class","oyatmatni");
         sp2.innerHTML = izohsiz;
         onscol2.appendChild(sp2);
 
@@ -224,7 +218,7 @@ function create_row(i)
         
         divx.appendChild(sp);
         divx.appendChild(onsspeed);
-        onsspeed.appendChild(onsfab);
+        
         onsspeed.appendChild(onssdi);
         onsspeed.appendChild(onssdi2);
         onslist.appendChild(divx);
@@ -237,7 +231,7 @@ function share_ayah(event)
 {
     // this is the complete list of currently supported params you can pass to the plugin (all optional)
     var options = {
-        message: event.currentTarget.parentElement.parentElement.innerText + " (Qur'an, " + event.currentTarget.getAttribute("chapter_no") + ":" + event.currentTarget.getAttribute("ayah_no") + ");",
+        message: event.currentTarget.parentElement.parentElement.parentElement.getElementsByClassName("oyatmatni")[0].innerText + " (Qur'an, " + event.currentTarget.getAttribute("chapter_no") + ":" + event.currentTarget.getAttribute("ayah_no") + ");",
         subject: 'the subject', // fi. for email               
 
     };
@@ -271,9 +265,10 @@ function favorite_ayahid(event)
     favoritelist[Number(favorite_sura_no)] = Number(favorite_ayah_no);
     localStorage.favoritelist = JSON.stringify(favoritelist);
     $(".zmdi-favorite").removeClass("zmdi-favorite").addClass("zmdi-favorite-outline");
-    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
-    event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
-
+    var myfav = event.currentTarget.parentElement.parentElement.parentElement.getElementsByClassName("zmdi-favorite-outline")[0];
+    myfav.classList.remove("zmdi-favorite-outline");
+    myfav.classList.add("zmdi-favorite");    
+       
 }
 function manage_object_stores(databaseName, selected_surah, rd) {
 

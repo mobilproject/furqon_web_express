@@ -20,10 +20,14 @@ ons-list-item.list-item {
     background-color: rgba(119, 197, 32, 0.35);
     color: black;
 }
+ons-button.button--material.button {
+    border-radius: 50%;
+    margin: 0 2px 0 2px;
+    background: #6495ed8a;
+    float: right;
+}
 span.ayah_id {
-        padding: 5px;
-        display: none;
-        
+        padding: 5px;        
         border-radius: 15px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;

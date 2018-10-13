@@ -175,7 +175,12 @@ document.addEventListener('init', function (event) {
     console.log(page.id); // can detect which page
     //
     //resetDate();
-    
+    try{
+    showInterstitialFunc();
+    }
+    catch(e){
+        console.log(e);
+    }
     switch (page.id)
     {
         case "titles":
@@ -231,7 +236,7 @@ function set_about_page() {
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
     document.querySelector("#greetingtitle").innerHTML = lang[language].greeting;
     document.querySelector("#greetingtext").innerHTML = lang[language].gr_text;
-    document.querySelector("#abouttitle").innerHTML = lang[language].about;
+    document.querySelector("#muallifdantitle").innerHTML = lang[language].about;
 
 }
 
@@ -456,9 +461,8 @@ function display_surah_names(data)
             oli.setAttribute("title", data[i].title);
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
-            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">'+ data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title +'</ons-col></ons-row></div>';
-        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) { 
-            
+            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">'+data[i].chapterId +'</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
+        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
             document.getElementById("main_table").appendChild(oli);
         }
@@ -586,11 +590,18 @@ $(window).ready(function () {
     });
     
     document.querySelector('ons-navigator').addEventListener('postpop', function () {
-        console.log("postpop", event.enterPage);
+        //console.log("postpop", event.enterPage);
+        try{
+        showInterstitialFunc();
+    }
+        catch (exception) {
+            console.log(exception);
+        }
+
         switch (event.enterPage.getAttribute("id"))
     {
         case "titles":
-            console.log("surah title list");
+            //console.log("surah title list");
             document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
             break;
         case "surah_text":
@@ -609,6 +620,10 @@ $(window).ready(function () {
 function openSetting()
 {
     document.querySelector('#navigator').pushPage('settings.html');
+}
+function openAbout()
+{
+    document.querySelector('#navigator').pushPage('about.html');
 }
 function popPage()
 {

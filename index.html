@@ -18,10 +18,31 @@
 
     </head>
     <body>
-         <ons-navigator id="navigator" page=""></ons-navigator>
-         
+    <ons-navigator id="navigator" page=""></ons-navigator>
+    <ons-template id="login.html">
+        <ons-page id="loginpage">
+            <ons-toolbar>
+                <div class="right">
+                    <ons-toolbar-button onclick="showAboutAd()">
+                        <ons-icon icon="md-info"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button id="adpop" onclick="showInterstitialFunc()">
+                        <ons-icon icon="md-toll"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">
+                    <span id="login"></span>
+                </div>
+            </ons-toolbar>
 
-
+            
+                <div id="my-signin2"></div>
+                <script>
+                    
+                </script>
+            
+        </ons-page>
+    </ons-template>
     <ons-template id="home.html">
         <ons-page id="titles">
             <ons-toolbar>
@@ -35,7 +56,10 @@
                     <ons-toolbar-button onclick="openSetting()">
                         <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
-                    
+                    <ons-toolbar-button onclick="openAbout()">
+                        <ons-icon icon="md-help"></ons-icon>
+                    </ons-toolbar-button>
+
                 </div>
                 <div class="center">
                     <span id="selectsurahtitle"></span>
@@ -139,7 +163,7 @@
         <ons-page id="about">
             <ons-toolbar>
                 <div class="right">
-                    
+
                     <ons-toolbar-button onclick="showInterstitialFunc()">
                         <ons-icon icon="md-toll"></ons-icon>
                     </ons-toolbar-button>
@@ -183,7 +207,7 @@
         <ons-page id="surah_text">
             <ons-toolbar>
                 <div class="right">
-                    
+
                     <ons-toolbar-button onclick="showInterstitialFunc()">
                         <ons-icon icon="md-toll"></ons-icon>
                     </ons-toolbar-button>
