@@ -82,16 +82,16 @@ ons-card.card {
     background-color: olive;
     color: aliceblue;
 }
-.zmdi-favorite-outline{
+.zmdi-bookmark-outline{
     float: right;
-    color: coral;
+    color: midnightblue;
 }
 .zmdi.zmdi-code-setting {
     color: steelblue;
 }
 
-.zmdi.zmdi-favorite {
-    color: coral;
+.zmdi.zmdi-bookmark {
+    color: midnightblue;
 }
 
 ons-speed-dial-item.fab.fab--mini.speed-dial__item.speed-dial__item--mini {

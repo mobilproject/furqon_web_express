@@ -63,16 +63,16 @@ function show_surah_content_now()
         document.getElementById("poptext").innerHTML = lang[language].chapter_loaded;
     }
 
-    restore_favorite();
+    restore_bookmark();
 }
 
-function restore_favorite()
+function restore_bookmark()
 {
 
 
 
     try {
-        set_favorites();
+        set_bookmarks();
     } catch (e) {
 
     }
@@ -80,45 +80,46 @@ function restore_favorite()
 
 }
 function ayah_click(event) {
-    if ($(event.currentTarget).find(".ayah_id").is(":visible"))
+    if ($(event.currentTarget).find(".expandable-content").is(":visible"))
     {
-        //console.log($(event.currentTarget).find(".qavs_ichi").is(":visible"));
+        
         $(event.currentTarget).find(".qavs_ichi").hide();
         $(event.currentTarget).find(".zmdi-code-setting").show();
         //event.currentTarget.querySelector("ons-speed-dial").hideItems();
         //$(event.currentTarget).find(".ayah_id").hide();
     } else {
+        event.currentTarget.showExpansion();
         $(event.currentTarget).find(".qavs_ichi").show();
         $(event.currentTarget).find(".zmdi-code-setting").hide();
         //event.currentTarget.querySelector("ons-speed-dial").showItems();
         //$(event.currentTarget).find(".ayah_id").css("display", "block");
-        event.currentTarget.showExpansion();
+        
         
     }
-
+console.log($(event.currentTarget).find(".expandable-content").eq(0).is(":visible"));
 }
-function set_favorites()
+function set_bookmarks()
 {
-    if (favoritelist[selected_surah])
+    if (bookmarklist[selected_surah])
     {
-        if ($("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).length > 0)
+        if ($("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).length > 0)
         {
             $('#loading_circle').css("display","none");
-            console.log("surah and ayah", selected_surah, favoritelist[selected_surah]);
-            document.querySelector("#ayah-" + selected_surah + "-" + favoritelist[selected_surah]).scrollIntoView();
-            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-favorite-outline");
-            $("#ayah-" + selected_surah + "-" + favoritelist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-favorite");
+            console.log("surah and ayah", selected_surah, bookmarklist[selected_surah]);
+            document.querySelector("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).scrollIntoView();
+            $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
+            $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
             var sectimer = setTimeout(function(){
                 console.log("sttt");
                 
             },300);
-            ons.notification.toast(lang[language].favorite_found_message + favoritelist[selected_surah], {timeout: 1000, animation: 'fall'});
+            ons.notification.toast(lang[language].bookmark_found_message + bookmarklist[selected_surah], {timeout: 1000, animation: 'fall'});
         } else {
             console.log("settimeout");
             var listitems = $(".list-item");
             listitems[listitems.length - 1].scrollIntoView({behavior:"instant"});
             setTimeout(function () {
-                set_favorites();
+                set_bookmarks();
             }, 300);
         }
     }
@@ -175,7 +176,7 @@ function create_row(i)
         var onsrow = document.createElement("ons-row");
         var onscol = document.createElement("ons-col");
         var onsi = document.createElement("i");
-        onsi.setAttribute("class", "zmdi zmdi-favorite-outline");
+        onsi.setAttribute("class", "zmdi zmdi-bookmark-outline");
         var sp = document.createElement("span");
         sp.setAttribute("class", "ayah_id");
         sp.innerText = big_data[i]['VerseID'];
@@ -189,11 +190,11 @@ function create_row(i)
         var onsspeed = document.createElement("div");
         onsspeed.setAttribute("class", "ayah_text");
         var onssdi = document.createElement("ons-button");
-        onssdi.setAttribute("onmousedown", "favorite_ayahid(event)");
+        onssdi.setAttribute("onmousedown", "bookmark_ayahid(event)");
         onssdi.setAttribute("chapter_no", big_data[i]["SuraID"]);
         onssdi.setAttribute("ayah_no", big_data[i]["VerseID"]);
         var onsicon2 = document.createElement("ons-icon");
-        onsicon2.setAttribute("icon", "md-favorite");
+        onsicon2.setAttribute("icon", "md-bookmark");
         onssdi.appendChild(onsicon2);
 
         var onssdi2 = document.createElement("ons-button");
@@ -256,18 +257,18 @@ function save_playposition()
     localStorage.playpositions = JSON.stringify(playpositions);
     ons.notification.toast(lang[language].playposition_text, {timeout: 1000, animation: "fall"});
 }
-function favorite_ayahid(event)
+function bookmark_ayahid(event)
 {
-    var favorite_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
-    var favorite_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
-    console.log(favorite_sura_no, favorite_ayah_no);
+    var bookmark_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
+    var bookmark_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
+    console.log(bookmark_sura_no, bookmark_ayah_no);
 
-    favoritelist[Number(favorite_sura_no)] = Number(favorite_ayah_no);
-    localStorage.favoritelist = JSON.stringify(favoritelist);
-    $(".zmdi-favorite").removeClass("zmdi-favorite").addClass("zmdi-favorite-outline");
-    var myfav = event.currentTarget.parentElement.parentElement.parentElement.getElementsByClassName("zmdi-favorite-outline")[0];
-    myfav.classList.remove("zmdi-favorite-outline");
-    myfav.classList.add("zmdi-favorite");    
+    bookmarklist[Number(bookmark_sura_no)] = Number(bookmark_ayah_no);
+    localStorage.bookmarklist = JSON.stringify(bookmarklist);
+    $(".zmdi-bookmark").removeClass("zmdi-bookmark").addClass("zmdi-bookmark-outline");
+    var myfav = event.currentTarget.parentElement.parentElement.parentElement.getElementsByClassName("zmdi-bookmark-outline")[0];
+    myfav.classList.remove("zmdi-bookmark-outline");
+    myfav.classList.add("zmdi-bookmark");    
        
 }
 function manage_object_stores(databaseName, selected_surah, rd) {

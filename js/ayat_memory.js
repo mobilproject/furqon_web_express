@@ -87,7 +87,7 @@ function get_favorite_ayats()
                         //console.log("The result is", dataset);
                         display_favorites(dataset);
                         dataset = [];
-                        console.log("displaying favorites");
+                        //console.log("displaying favorites");
                     }
                 };
 
