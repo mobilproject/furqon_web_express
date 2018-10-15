@@ -9,7 +9,7 @@ var languages = Boolean(localStorage.language) ? JSON.parse(localStorage.languag
 var language = Boolean(localStorage.menu_language) ? localStorage.menu_language : "uzbek";
 var selected_surah = 1;
 var selected_title;
-var favoritelist = Boolean(localStorage.favoritelist) ? JSON.parse(localStorage.favoritelist) : {};
+var bookmarklist = Boolean(localStorage.bookmarklist) ? JSON.parse(localStorage.bookmarklist) : {};
 var playpositions = Boolean(localStorage.playpositions) ? JSON.parse(localStorage.playpositions) : {};
 var deviceready;
 var lastdayopen = Date.now();
@@ -40,7 +40,7 @@ var lang = {
         close_app_buttons: ["Yes", "No"],
         first_message: ["Version updates", "Offline mode for text(after each first access)<br>Audio player<br>Continue from the last position of text and audio"],
         greeting: "Assalaamu alaykum",
-        favorite_found_message: "Bookmark found at verse: ",
+        bookmark_found_message: "Bookmark found at verse: ",
         chapter_loaded: "Now this chapter is available offline. You can download any other chapter the same way",
         choose_chapter: "Click a title to open a chapter",
         gr_text: "Dear brothers and sisters, I have tried to make the application easy to use as much as I could and I am continually working on improving it. <br>My goal is to bring high quality products to spread the truth. <br>The application is the result of knowledge and hard work of a person. <br> Your support in any form is highly appreciated and will surely be rewarded accordingly by Allah Almighty. <br> Please, share and purchase to support the cause."
@@ -67,7 +67,7 @@ var lang = {
         playposition_text: "Xotiraga joylandi",
         first_message: ["Versiya yangiliklari", "Avtonom rejim<br>Audio player<br>Matn va audio uchun kelgan joyidan davom etish"],
         greeting: "Assalomu alaykum",
-        favorite_found_message: "Xat cho`pli oyat: ",
+        bookmark_found_message: "Xat cho`pli oyat: ",
         chapter_loaded: "Ofarin! <br>Bu surani endi avtonom tarzda har doim o`qish va qolgan suralarni ham shu tarzda yuklab olish mumkin",
         choose_chapter: "Surani tanlash uchun nomini bosing",
         gr_text: "Qadrli muxlislar, men bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildim va bunda davom etmoqdaman. Maqsadimiz yuqori sifatli dasturlar taklif qilish va haqiqatni shu yo`l bilan yetkazish. <br>Dastur insonning mehnati, bilimi va harakati evaziga keladigan narsadir. Uni haqqini qo`lingizdan kelganicha qo`llab quvvatlash va tanishlaringizga ham ulashish orqali ado qiling. <br> Olloh Taolo sizdan va bizdan har bir xayrli amalimizni qabul qilsin."
@@ -94,7 +94,7 @@ var lang = {
         playposition_text: "сохранена последняя позиция",
         first_message: ["Новости версии", "Автономный режим<br>Аудиоплеер<br>Продолжить с последней позиции текста и аудио"],
         greeting: "Ассаляму аляйкум",
-        favorite_found_message: "Закладка найдена на стихе: ",
+        bookmark_found_message: "Закладка найдена на стихе: ",
         chapter_loaded: "Теперь эту суру можно читать автономно, а остальные суры могут быть загружены таким же образом",
         choose_chapter: "Нажмите, чтобы выбрать суру",
         gr_text: "Дорогие братья и сестры, я постарался чтобы эта программа стала наиболее удобна в пользовании и все еще продолжаю работу. <br>Моя цель расспространить верный путь посредством своей работы.<br>Приложение является результатом знаний и упорного труда человека. <br>Аллах Субханаху ва Таала вознаградит каждого за вклад обязательно. Присоединитесь же своим.<br>Пожалуйста поделитесь с друзьями и приобретайте, чтобы я мог дальше, лучше и больше писать."
@@ -175,7 +175,12 @@ document.addEventListener('init', function (event) {
     console.log(page.id); // can detect which page
     //
     //resetDate();
-    
+    try{
+    //titialFunc();
+    }
+    catch(e){
+        console.log(e);
+    }
     switch (page.id)
     {
         case "titles":
@@ -231,7 +236,7 @@ function set_about_page() {
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
     document.querySelector("#greetingtitle").innerHTML = lang[language].greeting;
     document.querySelector("#greetingtext").innerHTML = lang[language].gr_text;
-    document.querySelector("#abouttitle").innerHTML = lang[language].about;
+    document.querySelector("#muallifdantitle").innerHTML = lang[language].about;
 
 }
 
@@ -456,9 +461,8 @@ function display_surah_names(data)
             oli.setAttribute("title", data[i].title);
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
-            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">'+ data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title +'</ons-col></ons-row></div>';
-        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) { 
-            
+            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">'+data[i].chapterId +'</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
+        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
             document.getElementById("main_table").appendChild(oli);
         }
@@ -507,7 +511,7 @@ function set_languages(event)
 function initAd() {
     if (window.plugins && window.plugins.AdMob) {
         var ad_units = {
-            ios: {                
+            ios: {
                 banner: 'ca-app-pub-3838820812386239/2551267023', //PUT ADMOB ADCODE HERE
                 interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
             },
@@ -570,7 +574,7 @@ var hidePopover = function () {
     document
             .getElementById('popover')
             .hide();
-    showInterstitialFunc();
+    //showInterstitialFunc();
 };
 
 $(window).ready(function () {
@@ -586,11 +590,18 @@ $(window).ready(function () {
     });
     
     document.querySelector('ons-navigator').addEventListener('postpop', function () {
-        console.log("postpop", event.enterPage);
+        //console.log("postpop", event.enterPage);
+        try{
+        //showInterstitialFunc();
+    }
+        catch (exception) {
+            console.log(exception);
+        }
+
         switch (event.enterPage.getAttribute("id"))
     {
         case "titles":
-            console.log("surah title list");
+            //console.log("surah title list");
             document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
             break;
         case "surah_text":
@@ -609,6 +620,10 @@ $(window).ready(function () {
 function openSetting()
 {
     document.querySelector('#navigator').pushPage('settings.html');
+}
+function openAbout()
+{
+    document.querySelector('#navigator').pushPage('about.html');
 }
 function popPage()
 {
