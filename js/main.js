@@ -507,7 +507,7 @@ function set_languages(event)
 function initAd() {
     if (window.plugins && window.plugins.AdMob) {
         var ad_units = {
-            ios: {
+            ios: {                
                 banner: 'ca-app-pub-3838820812386239/2551267023', //PUT ADMOB ADCODE HERE
                 interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
             },
