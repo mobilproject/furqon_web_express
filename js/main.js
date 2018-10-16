@@ -103,8 +103,8 @@ var lang = {
 
 ons.ready(function () {
     console.log("Onsen UI is ready!");
-    
-    
+
+
     if (Boolean(localStorage.language))
     {
         language = localStorage.menu_language;
@@ -114,58 +114,58 @@ ons.ready(function () {
     }
     document.querySelector('#navigator').pushPage("home.html");
     document.addEventListener("deviceready", function () {
-    window.FirebasePlugin.getToken(function (token) {
-        // save this server-side and use it to push notifications to this device
-        console.log("Device ready token", token);
-        deviceready = true;
-    }, function (error) {
-        console.error(error);
-    });
+        initAd();
+        window.FirebasePlugin.getToken(function (token) {
+            // save this server-side and use it to push notifications to this device
+            console.log("Device ready token", token);
+            deviceready = true;
+        }, function (error) {
+            console.error(error);
+        });
 
-    // Get notified when a token is refreshed
-    window.FirebasePlugin.onTokenRefresh(function (token) {
-        // save this server-side and use it to push notifications to this device
-        console.log("Refresh to get new token: " + token);
-    }, function (error) {
-        alert(error);
-    });
+        // Get notified when a token is refreshed
+        window.FirebasePlugin.onTokenRefresh(function (token) {
+            // save this server-side and use it to push notifications to this device
+            console.log("Refresh to get new token: " + token);
+        }, function (error) {
+            alert(error);
+        });
 
-    // Get notified when the user opens a notification
-    window.FirebasePlugin.onNotificationOpen(function (notification) {
-        console.log(JSON.stringify(notification));
-        ons.notification.alert(notification.body);
-    }, function (error) {
-        console.error(error);
-    });
-    initAd();
-    registerAdEvents();
-
-    for (i in languages)
-    {
-        languages[i] = JSON.parse(languages[i]);
-    }
-
-    ons.setDefaultDeviceBackButtonListener(function (event) {
-        ons.notification.confirm({
-            message: lang[language].close_app,
-            title: lang[language].close_app_title,
-            buttonLabels: lang[language].close_app_buttons,
-            animation: 'default', // or 'none'
-            primaryButtonIndex: 1,
-            cancelable: true,
-            callback: function (index) {
-                // -1: Cancel
-                // 0-: Button index from the left
-                console.log(index, "index");
-                if (index == 0) { // OK button                    
-                    navigator.app.exitApp(); // Close the app
-                }
-            }
+        // Get notified when the user opens a notification
+        window.FirebasePlugin.onNotificationOpen(function (notification) {
+            console.log(JSON.stringify(notification));
+            ons.notification.alert(notification.body);
+        }, function (error) {
+            console.error(error);
         });
 
 
-    });
-}, false);
+        for (i in languages)
+        {
+            languages[i] = JSON.parse(languages[i]);
+        }
+
+        ons.setDefaultDeviceBackButtonListener(function (event) {
+            ons.notification.confirm({
+                message: lang[language].close_app,
+                title: lang[language].close_app_title,
+                buttonLabels: lang[language].close_app_buttons,
+                animation: 'default', // or 'none'
+                primaryButtonIndex: 1,
+                cancelable: true,
+                callback: function (index) {
+                    // -1: Cancel
+                    // 0-: Button index from the left
+                    console.log(index, "index");
+                    if (index == 0) { // OK button                    
+                        navigator.app.exitApp(); // Close the app
+                    }
+                }
+            });
+
+
+        });
+    }, false);
 });
 
 
@@ -175,10 +175,9 @@ document.addEventListener('init', function (event) {
     console.log(page.id); // can detect which page
     //
     //resetDate();
-    try{
-    //titialFunc();
-    }
-    catch(e){
+    try {
+        //titialFunc();
+    } catch (e) {
         console.log(e);
     }
     switch (page.id)
@@ -204,7 +203,7 @@ document.addEventListener('init', function (event) {
                     }
                 });
             }
-            
+
             break;
         case "surah_text":
             select_surah();
@@ -245,7 +244,7 @@ function set_settings()
     //document.querySelector("#settingstitle").innerHTML = lang[language].settings;
     document.querySelector("#appsettingstitle").innerHTML = lang[language].settings_page;
     document.querySelector("#menulangtitle").innerHTML = lang[language].menu_language;
-    document.querySelector("#textsettitle").innerHTML = lang[language].text_settings;    
+    document.querySelector("#textsettitle").innerHTML = lang[language].text_settings;
     document.querySelector("ons-list-item[lang-id='" + language + "']").querySelector("ons-radio").checked = true;
 
 
@@ -424,16 +423,16 @@ function audio_dialog(d)
 
 function addListeners()
 {
-  
-        
-    
+
+
+
 
 
 
 }
 
 function set_langauge()
-{    
+{
     if (event.currentTarget.querySelector("ons-radio").disabled)
     {
         ons.notification.toast(lang[language].toast_disabled, {timeout: 500, animation: "fall"});
@@ -446,9 +445,9 @@ function set_langauge()
 
 function display_surah_names(data)
 {
-    
-        
-        
+
+
+
     for (i in data)
     {
         //data[i] = JSON.parse(data[i]);
@@ -461,7 +460,7 @@ function display_surah_names(data)
             oli.setAttribute("title", data[i].title);
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
-            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">'+data[i].chapterId +'</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
+            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">' + data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
         } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
             document.getElementById("main_table").appendChild(oli);
@@ -474,8 +473,8 @@ function display_surah_names(data)
         window.plugins.AdMob.destroyBannerView();
 
     }
-    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;    
-    
+    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
+
 }
 
 function show_surah()
@@ -509,57 +508,42 @@ function set_languages(event)
 
 //initialize the goodies
 function initAd() {
-    if (window.plugins && window.plugins.AdMob) {
-        var ad_units = {
-            ios: {
-                banner: 'ca-app-pub-3838820812386239/2551267023', //PUT ADMOB ADCODE HERE
-                interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
-            },
-            android: {
-                banner: 'ca-app-pub-3838820812386239/6533462802', //PUT ADMOB ADCODE HERE
-                interstitial: 'ca-app-pub-3838820812386239/2551267023'	//PUT ADMOB ADCODE HERE
-            }
-        };
-        var admobid = (/(android)/i.test(navigator.userAgent)) ? ad_units.android : ad_units.ios;
+    admob.banner.config({
+        id: 'ca-app-pub-3838820812386239/6533462802',
+    })
 
-        window.plugins.AdMob.setOptions({
-            publisherId: admobid.banner,
-            interstitialAdId: admobid.interstitial,
-            adSize: window.plugins.AdMob.AD_SIZE.SMART_BANNER, //use SMART_BANNER, BANNER, LARGE_BANNER, IAB_MRECT, IAB_BANNER, IAB_LEADERBOARD
-            bannerAtTop: false, // set to true, to put banner at top
-            overlap: true, // banner will overlap webview
-            offsetTopBar: false, // set to true to avoid ios7 status bar overlap
-            isTesting: false, // receiving test ad
-            autoShow: true // auto show interstitial ad when loaded
-        });
+// Create banner
+    admob.banner.prepare()
 
-        registerAdEvents();
-    } else {
-        //alert( 'admob plugin not ready' );
-    }
+// Show the banner
+
+
+// Hide the banner
+//admob.banner.hide()
+
+// Remove the banner
+//admob.banner.remove()
+    admob.interstitial.config({
+        id: 'ca-app-pub-3838820812386239/2551267023',
+    })
+
+    admob.interstitial.prepare()
+
+    
 }
 //functions to allow you to know when ads are shown, etc.
-function registerAdEvents() {
-    document.addEventListener('onReceiveAd', function () {});
-    document.addEventListener('onFailedToReceiveAd', function (data) {});
-    document.addEventListener('onPresentAd', function () {});
-    document.addEventListener('onDismissAd', function () { });
-    document.addEventListener('onLeaveToAd', function () { });
-    document.addEventListener('onReceiveInterstitialAd', function () { });
-    document.addEventListener('onPresentInterstitialAd', function () { });
-    document.addEventListener('onDismissInterstitialAd', function () { });
-}
+
 //display the banner
 function showBannerFunc() {
-    window.plugins.AdMob.createBannerView();
+    admob.banner.show();
 }
 
 //display the interstitial
-function showInterstitialFunc(){    
-    window.plugins.AdMob.createInterstitialView();	//get the interstitials ready to be shown and show when it's loaded.
-    window.plugins.AdMob.requestInterstitialAd();
+function showInterstitialFunc() {    
+    admob.interstitial.show()
+
 }
-function showAboutAd(){
+function showAboutAd() {
     showPopover($("#adpop")[0]);
     document.getElementById("poptext").innerHTML = lang[language].adpop;
 }
@@ -581,39 +565,37 @@ $(window).ready(function () {
 
     document.querySelector('ons-navigator').addEventListener('prepop', function () {
         console.log("prepop");
-        try{
+        try {
             $("#surahaudio")[0].pause();
-        }
-        catch (e){
-            
+        } catch (e) {
+
         }
     });
-    
+
     document.querySelector('ons-navigator').addEventListener('postpop', function () {
         //console.log("postpop", event.enterPage);
-        try{
-        //showInterstitialFunc();
-    }
-        catch (exception) {
+        try {
+            //showInterstitialFunc();
+        } catch (exception) {
             console.log(exception);
         }
 
         switch (event.enterPage.getAttribute("id"))
-    {
-        case "titles":
-            //console.log("surah title list");
-            document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
-            break;
-        case "surah_text":
-            
-            break;
-        case "settings":
-            
-            break;
-        case "about":
-            
-            break;
-    }
+        {
+            case "titles":
+                //console.log("surah title list");
+                document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
+                break;
+            case "surah_text":
+
+                break;
+            case "settings":
+
+                break;
+            case "about":
+
+                break;
+        }
     });
 });
 
