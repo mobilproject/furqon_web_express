@@ -524,7 +524,7 @@ function initAd() {
 // Remove the banner
 //admob.banner.remove()
     admob.interstitial.config({
-        id: 'ca-app-pub-3838820812386239/2551267023',
+        id: 'ca-app-pub-3838820812386239/2551267023'
     })
 
     admob.interstitial.prepare()
@@ -540,6 +540,7 @@ function showBannerFunc() {
 
 //display the interstitial
 function showInterstitialFunc() {    
+    
     admob.interstitial.show()
 
 }
