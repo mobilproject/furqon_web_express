@@ -540,8 +540,13 @@ function showBannerFunc() {
 
 //display the interstitial
 function showInterstitialFunc() {    
-    
-    admob.interstitial.show()
+    try{
+    admob.interstitial.show();
+    }
+    catch(e)
+    {
+        
+    }
 
 }
 function showAboutAd() {
