@@ -9,26 +9,20 @@
         <link rel="stylesheet" href="components/loader.css">
         <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
         <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
-        <link rel="stylesheet" href="css/style.css">        
+        <link rel="stylesheet" href="css/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/localdb.js"></script>
-        <script type="text/javascript" src="js/surah_db.js"></script>
-        <script type="text/javascript" src="js/ayat_memory.js"></script>
+        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/main.js"></script>
+        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/localdb.js"></script>
+        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/surah_db.js"></script>
+        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/ayat_memory.js"></script>
 
     </head>
     <body>
-    <ons-navigator id="navigator" page=""></ons-navigator>    
+    <ons-navigator id="navigator" page=""></ons-navigator>
     <ons-template id="home.html">
         <ons-page id="titles">
             <ons-toolbar>
                 <div class="right">
-                    <ons-toolbar-button onclick="showAboutAd()">
-                        <ons-icon icon="md-info"></ons-icon>
-                    </ons-toolbar-button>
-                    <ons-toolbar-button id="adpop" onmousedown="showInterstitialFunc()">
-                        <ons-icon icon="md-toll"></ons-icon>
-                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="openSetting()">
                         <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
@@ -51,13 +45,10 @@
     <ons-template id="settings.html">
         <ons-page id="settings">
             <ons-toolbar>
-                <div class="right">                    
-                    <ons-toolbar-button onclick="showInterstitialFunc()">
-                        <ons-icon icon="md-toll"></ons-icon>
-                    </ons-toolbar-button>
+                <div class="right">
                     <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
-                    </ons-toolbar-button>                    
+                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="openSetting()">
                         <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
@@ -142,10 +133,6 @@
         <ons-page id="about">
             <ons-toolbar>
                 <div class="right">
-
-                    <ons-toolbar-button onclick="showInterstitialFunc()">
-                        <ons-icon icon="md-toll"></ons-icon>
-                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>
@@ -162,6 +149,9 @@
             <ons-card>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHfHYkViyMcWSXID5yRoYjlUUeG5bHhWng28Rq-Ss5RdJXxRYQA" alt="Onsen UI" style="width: 100%">
                 <div class="title">
+                    <div id="ppb">
+
+                    </div>
                     <p id="greetingtitle">Assalomu alaykum</p>
                 </div>
                 <div class="content">
@@ -170,7 +160,7 @@
                         <p id="greetingtext">Qadrli muxlis, biz bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildik va bunda davom etmoqdamiz. </p>
                     </div>
                     <ons-list>
-                        <audio controls>  
+                        <audio controls>
                             <source src="https://mobilproject.github.io/furqon_web_express/by_sura/0-kirish_suzi.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
@@ -186,10 +176,6 @@
         <ons-page id="surah_text">
             <ons-toolbar>
                 <div class="right">
-
-                    <ons-toolbar-button onclick="showInterstitialFunc()">
-                        <ons-icon icon="md-toll"></ons-icon>
-                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="popPage()">
                         <ons-icon icon="md-home"></ons-icon>
                     </ons-toolbar-button>
@@ -199,20 +185,20 @@
                 </div>
                 <div class="center">
                     <span id="surahtitle"></span><span id="sura_title"></span>
-                </div>             
+                </div>
 
-            </ons-toolbar>         
+            </ons-toolbar>
 
 
 
-            <ons-list>                
+            <ons-list>
                 <ons-lazy-repeat id="infinite-list"></ons-lazy-repeat>
-            </ons-list>            
+            </ons-list>
             <ons-bottom-toolbar>
                 <audio  height="auto" controls controlsList="nodownload" style="width:100%" id="surahaudio">
 
                 </audio>
-            </ons-bottom-toolbar> 
+            </ons-bottom-toolbar>
         </ons-page>
     </ons-template>
     <ons-modal direction="up" id="loading_circle">
@@ -226,7 +212,7 @@
 
 
 
-    </ons-template>   
+    </ons-template>
     <ons-template id="dialogcontent">
         <ons-dialog id="dialogitem">
 

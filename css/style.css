@@ -1,5 +1,13 @@
 /**/
-
+ons-button.button {
+    border-radius: 50%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: cadetblue;
+}
+#ppb{
+    text-align: center;
+}
 .page__content {
     background-color: rgba(167, 176, 0, 0.66);
 }

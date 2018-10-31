@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -114,7 +114,6 @@ ons.ready(function () {
     }
     document.querySelector('#navigator').pushPage("home.html");
     document.addEventListener("deviceready", function () {
-        initAd();
         window.FirebasePlugin.getToken(function (token) {
             // save this server-side and use it to push notifications to this device
             console.log("Device ready token", token);
@@ -138,7 +137,7 @@ ons.ready(function () {
         }, function (error) {
             console.error(error);
         });
-
+        initAd();
 
         for (i in languages)
         {
@@ -157,7 +156,7 @@ ons.ready(function () {
                     // -1: Cancel
                     // 0-: Button index from the left
                     console.log(index, "index");
-                    if (index == 0) { // OK button                    
+                    if (index == 0) { // OK button
                         navigator.app.exitApp(); // Close the app
                     }
                 }
@@ -175,11 +174,7 @@ document.addEventListener('init', function (event) {
     console.log(page.id); // can detect which page
     //
     //resetDate();
-    try {
-        //titialFunc();
-    } catch (e) {
-        console.log(e);
-    }
+
     switch (page.id)
     {
         case "titles":
@@ -207,23 +202,23 @@ document.addEventListener('init', function (event) {
             break;
         case "surah_text":
             select_surah();
-            //showBannerFunc();
+
             if (deviceready) {
-                window.plugins.AdMob.destroyBannerView();
+
             }
             break;
         case "settings":
             set_settings();
             if (deviceready)
             {
-                showBannerFunc();
+
             }
             break;
         case "about":
             set_about_page();
             if (deviceready)
             {
-                showBannerFunc();
+
             }
 
             break;
@@ -232,6 +227,22 @@ document.addEventListener('init', function (event) {
 
 function set_about_page() {
 
+    document.querySelector("#ppb").innerHTML = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">' +
+            '<input type="hidden" name="cmd" value="_s-xclick">' +
+            '<input type="hidden" name="hosted_button_id" value="S2DS9ET9PCZF2">' +
+            '<table>' +
+            '<tr><td><input type="hidden" name="on0" value="Himmatingiz">Himmatingiz</td></tr><tr><td><select name="os0">' +
+            '<option value="Himmat 1">Himmat 1 $1.00 USD</option>' +
+            '<option value="Himmat 3">Himmat 3 $3.00 USD</option>' +
+            '<option value="Himmat 7">Himmat 7 $7.00 USD</option>' +
+            '<option value="Himmat 19">Himmat 19 $19.00 USD</option>' +
+            '<option value="Himmat 99">Himmat 99 $99.00 USD</option>' +
+            '</select> </td></tr>' +
+            '</table>' +
+            '<input type="hidden" name="currency_code" value="USD">' +
+            '<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">' +
+            '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">' +
+            '</form>';
     document.querySelector("#muallifdantitle").innerHTML = lang[language].about_page;
     document.querySelector("#greetingtitle").innerHTML = lang[language].greeting;
     document.querySelector("#greetingtext").innerHTML = lang[language].gr_text;
@@ -358,7 +369,7 @@ function ajax(d)
                 cancelable: true,
                 // modifier: 'optional-modifier'
                 callback: function (index) {
-                    // Alert button is closed!                    
+                    // Alert button is closed!
                     document.querySelector('#loading_circle').hide();
                     switch (index)
                     {
@@ -421,16 +432,6 @@ function audio_dialog(d)
 
 }
 
-function addListeners()
-{
-
-
-
-
-
-
-}
-
 function set_langauge()
 {
     if (event.currentTarget.querySelector("ons-radio").disabled)
@@ -470,7 +471,7 @@ function display_surah_names(data)
     if (deviceready)
     {
 
-        window.plugins.AdMob.destroyBannerView();
+
 
     }
     document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
@@ -506,53 +507,7 @@ function set_languages(event)
     });
 }
 
-//initialize the goodies
-function initAd() {
-    admob.banner.config({
-        id: 'ca-app-pub-3838820812386239/6533462802',
-    })
 
-// Create banner
-    admob.banner.prepare()
-
-// Show the banner
-
-
-// Hide the banner
-//admob.banner.hide()
-
-// Remove the banner
-//admob.banner.remove()
-    admob.interstitial.config({
-        id: 'ca-app-pub-3838820812386239/2551267023'
-    })
-
-    admob.interstitial.prepare()
-
-    
-}
-//functions to allow you to know when ads are shown, etc.
-
-//display the banner
-function showBannerFunc() {
-    admob.banner.show();
-}
-
-//display the interstitial
-function showInterstitialFunc() {    
-    try{
-    admob.interstitial.show();
-    }
-    catch(e)
-    {
-        
-    }
-
-}
-function showAboutAd() {
-    showPopover($("#adpop")[0]);
-    document.getElementById("poptext").innerHTML = lang[language].adpop;
-}
 var showPopover = function (target) {
     document
             .getElementById('popover')
@@ -581,7 +536,7 @@ $(window).ready(function () {
     document.querySelector('ons-navigator').addEventListener('postpop', function () {
         //console.log("postpop", event.enterPage);
         try {
-            //showInterstitialFunc();
+
         } catch (exception) {
             console.log(exception);
         }
