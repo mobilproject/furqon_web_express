@@ -1,23 +1,25 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-        <script src="components/loader.js"></script>
-        <script src="lib/onsenui/js/onsenui.min.js"></script>
-        <link rel="stylesheet" href="components/loader.css">
-        <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
-        <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
-        <link rel="stylesheet" href="css/style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/main.js"></script>
-        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/localdb.js"></script>
-        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/surah_db.js"></script>
-        <script type="text/javascript" src="https://mobilproject.github.io/furqon_web_express/js/ayat_memory.js"></script>
 
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/main.min.js"></script>
+    <script type="text/javascript" src="js/localdb.min.js"></script>
+    <script type="text/javascript" src="js/surah_db.min.js"></script>
+    <script type="text/javascript" src="js/ayat_memory.min.js"></script>
+
+</head>
+
+<body>
     <ons-navigator id="navigator" page=""></ons-navigator>
     <ons-template id="home.html">
         <ons-page id="titles">
@@ -63,7 +65,7 @@
                 <ons-list-title>
                     <span id="menulangtitle">menulangtitle</span>
                 </ons-list-title>
-                <ons-list-item  onmousedown="set_langauge(event)" lang-id="uzbek">
+                <ons-list-item onmousedown="set_langauge(event)" lang-id="uzbek">
                     <label class="right">
                         <ons-radio name="color" input-id="radio-1"></ons-radio>
                     </label>
@@ -71,7 +73,7 @@
                         O`zbek
                     </label>
                 </ons-list-item>
-                <ons-list-item  onmousedown="set_langauge(event)" lang-id="english">
+                <ons-list-item onmousedown="set_langauge(event)" lang-id="english">
                     <label class="right">
                         <ons-radio name="color" input-id="radio-2" checked></ons-radio>
                     </label>
@@ -81,7 +83,7 @@
                 </ons-list-item>
                 <ons-list-item onmousedown="set_langauge(event)" lang-id="russian">
                     <label class="right">
-                        <ons-radio name="color" input-id="radio-3" ></ons-radio>
+                        <ons-radio name="color" input-id="radio-3"></ons-radio>
                     </label>
                     <label for="radio-3" class="center">
                         Русский
@@ -98,7 +100,7 @@
                         O'zbekcha
                     </div>
                     <div class="right">
-                        <ons-switch  input-id='uzbekcha' db_id='120' onchange="set_languages(event)" class="lang"></ons-switch>
+                        <ons-switch input-id='uzbekcha' db_id='120' onchange="set_languages(event)" class="lang"></ons-switch>
                     </div>
                 </ons-list-item>
                 <ons-list-item>
@@ -106,7 +108,7 @@
                         English
                     </div>
                     <div class="right">
-                        <ons-switch  input-id='english' db_id='59' onchange="set_languages(event)" class="lang" ></ons-switch>
+                        <ons-switch input-id='english' db_id='59' onchange="set_languages(event)" class="lang"></ons-switch>
                     </div>
                 </ons-list-item>
                 <ons-list-item>
@@ -114,7 +116,7 @@
                         Русский
                     </div>
                     <div class="right">
-                        <ons-switch  input-id='russian' db_id='79' onchange="set_languages(event)" class="lang" ></ons-switch>
+                        <ons-switch input-id='russian' db_id='79' onchange="set_languages(event)" class="lang"></ons-switch>
                     </div>
                 </ons-list-item>
                 <ons-list-item>
@@ -122,7 +124,7 @@
                         عربى
                     </div>
                     <div class="right">
-                        <ons-switch  input-id='arabic' db_id='1' onchange="set_languages(event)" class="lang"></ons-switch>
+                        <ons-switch input-id='arabic' db_id='1' onchange="set_languages(event)" class="lang"></ons-switch>
                     </div>
                 </ons-list-item>
             </ons-list>
@@ -147,21 +149,45 @@
 
 
             <ons-card>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHfHYkViyMcWSXID5yRoYjlUUeG5bHhWng28Rq-Ss5RdJXxRYQA" alt="Onsen UI" style="width: 100%">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHfHYkViyMcWSXID5yRoYjlUUeG5bHhWng28Rq-Ss5RdJXxRYQA"
+                    alt="Onsen UI" style="width: 100%">
                 <div class="title">
-                    <div id="ppb">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="cmd" value="_s-xclick">
+                        <input type="hidden" name="hosted_button_id" value="S2DS9ET9PCZF2">
+                        <table>
+                            <tr>
+                                <td><input type="hidden" name="on0" value="Himmatingiz">Himmatingiz</td>
+                            </tr>
+                            <tr>
+                                <td><select name="os0">
+                                        <option value="Himmat 1">Himmat 1 $1.00 USD</option>
+                                        <option value="Himmat 3">Himmat 3 $3.00 USD</option>
+                                        <option value="Himmat 7">Himmat 7 $7.00 USD</option>
+                                        <option value="Himmat 19">Himmat 19 $19.00 USD</option>
+                                        <option value="Himmat 99">Himmat 99 $99.00 USD</option>
+                                    </select> </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="currency_code" value="USD">
+                        <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif"
+                            border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
+                            height="1">
+                    </form>
 
-                    </div>
                     <p id="greetingtitle">Assalomu alaykum</p>
                 </div>
                 <div class="content">
                     <div>
 
-                        <p id="greetingtext">Qadrli muxlis, biz bu dasturni sizga foydalanish qulay bo`lishi uchun baholi qudrat harakat qildik va bunda davom etmoqdamiz. </p>
+                        <p id="greetingtext">Qadrli muxlis, biz bu dasturni sizga foydalanish qulay bo`lishi uchun
+                            baholi qudrat harakat qildik va bunda davom etmoqdamiz. </p>
                     </div>
                     <ons-list>
                         <audio controls>
-                            <source src="https://mobilproject.github.io/furqon_web_express/by_sura/0-kirish_suzi.mp3" type="audio/mpeg">
+                            <source src="https://mobilproject.github.io/furqon_web_express/by_sura/0-kirish_suzi.mp3"
+                                type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
 
@@ -195,7 +221,7 @@
                 <ons-lazy-repeat id="infinite-list"></ons-lazy-repeat>
             </ons-list>
             <ons-bottom-toolbar>
-                <audio  height="auto" controls controlsList="nodownload" style="width:100%" id="surahaudio">
+                <audio height="auto" controls controlsList="nodownload" style="width:100%" id="surahaudio">
 
                 </audio>
             </ons-bottom-toolbar>
@@ -204,7 +230,7 @@
     <ons-modal direction="up" id="loading_circle">
         <div style="text-align: center">
             <p>
-            <ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span id="loadingtitle"></span>
+                <ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span id="loadingtitle"></span>
             </p>
         </div>
     </ons-modal>
@@ -226,9 +252,10 @@
             <p id="poptext">
             </p>
             <p>
-            <ons-button onclick="hidePopover()">OK</ons-button>
+                <ons-button onclick="hidePopover()">OK</ons-button>
             </p>
         </div>
     </ons-popover>
 </body>
+
 </html>
