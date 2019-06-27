@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,7 +15,7 @@ openRequest.onerror = function (event) {
 openRequest.onsuccess = function (event) {
     indexdb = event.target.result;
     console.log("database opened", indexdb);
-    
+
 };
 openRequest.onupgradeneeded = function (event) {
     indexdb = event.target.result;
@@ -46,14 +46,14 @@ function input_title_data(titlenames) {
     });
     transaction.oncomplete = function (event) {
         console.log("All done!");
-        get_surah_names();        
+        get_surah_names();
     };
 
 }
 
 function get_surah_names()
 {
-   try{
+    try {
         var transaction = indexdb.transaction(["titles"]);
         var objectStore = transaction.objectStore("titles");
         var request = objectStore.get(1);
@@ -84,7 +84,7 @@ function get_surah_names()
                         dataset.push(cursor.value);
                         cursor.continue();
                     } else {
-                        //console.log("The result is", dataset);
+                        console.log("The result is", dataset);
                         display_surah_names(dataset);
                         dataset = [];
                         console.log("displaying titles");
@@ -102,9 +102,8 @@ function get_surah_names()
                 ajax(data);
             }
         };
-    }
-    catch(e)
+    } catch (e)
     {
-        
+
     }
 }

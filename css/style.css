@@ -1,6 +1,13 @@
 /**/
+div #homediv{
+    padding: 10px;
+    display: grid;
+    grid-template-areas:"logo" "suranomi" "hidoyat" "saraoyat" "izlash";
+    grid-gap: 10px;
+}
+
 ons-button.button {
-    border-radius: 50%;
+    ;
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: cadetblue;
@@ -35,21 +42,21 @@ ons-button.button--material.button {
     float: right;
 }
 span.ayah_id {
-        padding: 5px;        
-        border-radius: 15px;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-        border-bottom-left-radius: 15px;        
-        min-width:20px;
-        
-        font-size:small;
-        color: black;
-        margin: 5px;
+    padding: 5px;
+    border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    min-width:20px;
+
+    font-size:small;
+    color: black;
+    margin: 5px;
 }
 
 .ayah_text.arabic {
-    font-size: xx-large;    
+    font-size: xx-large;
     line-height: normal;
 }
 .arabic {
@@ -72,7 +79,7 @@ span.qavs_ichi {
 }
 
 span.ayah_symbol {
-  display: grid;
+    display: grid;
     font-size: x-large;
 }
 
@@ -82,7 +89,7 @@ span.ayah_text {
     text-align: justify;
 }
 .center.list-item__center.arabic {
-   width: 40vw;
+    width: 40vw;
     text-align: right;
     font-size: x-large;
 }

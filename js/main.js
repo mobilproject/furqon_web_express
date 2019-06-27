@@ -545,7 +545,12 @@ $(window).ready(function () {
         {
             case "titles":
                 //console.log("surah title list");
-                document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
+                try {
+                    document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
+                } catch (exception) {
+
+                }
+
                 break;
             case "surah_text":
 
@@ -560,6 +565,10 @@ $(window).ready(function () {
     });
 });
 
+function openTitles()
+{
+    document.querySelector('#navigator').pushPage('titles.html');
+}
 function openSetting()
 {
     document.querySelector('#navigator').pushPage('settings.html');
@@ -570,5 +579,6 @@ function openAbout()
 }
 function popPage()
 {
+
     document.querySelector('#navigator').popPage();
 }
