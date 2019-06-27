@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 var indexdb;
-var databaseName = "myDB";
+var databaseName = "surah_titles";
 var databaseVersion = 1;
 
 var openRequest = indexedDB.open(databaseName);

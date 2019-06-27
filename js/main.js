@@ -567,7 +567,15 @@ $(window).ready(function () {
                 break;
         }
     });
+
+    //ADD EVENT LISTENERS
+    document.querySelector("body").addEventListener("keyup", nextAyat);
 });
+
+var nextAyat = function () {
+    console.log("hh");
+    $("#ayah-number").text("2");
+}
 
 function openTitles()
 {
