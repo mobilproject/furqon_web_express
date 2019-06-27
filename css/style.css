@@ -1,4 +1,7 @@
 /**/
+audio.randomaudio {
+    width: 100%;
+}
 div #homediv{
     padding: 10px;
     display: grid;
