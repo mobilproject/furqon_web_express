@@ -333,7 +333,7 @@ function ajax(d)
             if (data.indexOf("chapterId") > 0)
             {
                 var data = JSON.parse(data);
-                //display_surah_names(data);
+                display_surah_names(data);
                 for (i in data)
                 {
 
@@ -464,7 +464,11 @@ function display_surah_names(data)
             oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">' + data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
         } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
-            document.getElementById("main_table").appendChild(oli);
+            try {
+                document.getElementById("main_table").appendChild(oli);
+            } catch (e) {
+
+            }
         }
     }
     //location.hash = "sura-" + (Number(selected_surah) - 1);
