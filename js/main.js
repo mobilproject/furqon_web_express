@@ -320,7 +320,7 @@ function select_surah(event) {
 function ajax(d)
 {
     $.ajax({
-        url: "https:inventivesolutionste.ipage.com/ajax_quran.php",
+        url: "https://inventivesolutionste.ipage.com/ajax_quran.php",
         type: "POST",
         contentType: "application/x-www-form-urlencoded",
         data: d,
