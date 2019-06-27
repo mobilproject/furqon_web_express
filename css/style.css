@@ -1,4 +1,16 @@
-/**/
+.title.card__title {
+    text-align: center;
+    font-size: xx-large;
+}
+.ayah.content.card__content {
+    padding: 30px;
+    font-size: 3em;
+    color: black;
+    background-color: #a9d65b;
+    border-radius: 10px;
+    text-shadow: 0px 0px 1px black;
+    margin: 20px;
+}
 audio.randomaudio {
     width: 100%;
 }
