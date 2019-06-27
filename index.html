@@ -16,21 +16,51 @@
         <script type="text/javascript" src="js/localdb.js"></script>
         <script type="text/javascript" src="js/surah_db.js"></script>
         <script type="text/javascript" src="js/ayat_memory.js"></script>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-3838820812386239",
-    enable_page_level_ads: true
-  });
-</script>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-3838820812386239",
+                enable_page_level_ads: true
+            });
+        </script>
     </head>
 
     <body>
     <ons-navigator id="navigator" page=""></ons-navigator>
     <ons-template id="home.html">
+        <ons-page id="home">
+            <ons-toolbar>
+                <div class="right">
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openAbout()">
+                        <ons-icon icon="md-help"></ons-icon>
+                    </ons-toolbar-button>
+
+                </div>
+                <div class="center">
+                    <span id="homescreen"></span>
+                </div>
+            </ons-toolbar>
+
+            <div id="homediv">
+                <p style="grid-area:logo; text-align: center;">
+                    <img style="width: 128px;" src="image/Asset 1ldpi.png"></p>
+                <ons-button modifier="large" style="grid-area:suranomi" onclick="openTitles()">Sura Nomlari</ons-button>
+                <ons-button modifier="large" style="grid-area:hidoyat" onclick="openRandomAyah()">Hidoyat</ons-button>
+                <ons-button modifier="large" style="grid-area:saraoyat" onclick="openFavourites()">Sara Oyatlar</ons-button>
+                <ons-button modifier="large" style="grid-area:izlash" onclick="openSearch()">Izlash</ons-button>
+            </div>
+        </ons-page>
+    </ons-template>
+    <ons-template id="titles.html">
         <ons-page id="titles">
             <ons-toolbar>
                 <div class="right">
+                    <ons-toolbar-button onclick="popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
+                    </ons-toolbar-button>
                     <ons-toolbar-button onclick="openSetting()">
                         <ons-icon icon="md-settings"></ons-icon>
                     </ons-toolbar-button>
@@ -46,6 +76,46 @@
 
             <ons-list id="main_table">
             </ons-list>
+
+        </ons-page>
+    </ons-template>
+    <ons-template id="randomayah.html">
+        <ons-page id="randomayah">
+            <ons-toolbar>
+                <div class="right">
+                    <ons-toolbar-button onclick="popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openAbout()">
+                        <ons-icon icon="md-help"></ons-icon>
+                    </ons-toolbar-button>
+
+                </div>
+                <div class="center">
+                    <span id="selectsurahtitle"></span>
+                </div>
+            </ons-toolbar>
+            <ons-card>
+                <img src="https://monaca.io/img/logos/download_image_onsenui_01.png" alt="Onsen UI" style="width: 100%">
+                <div class="title">
+                    Awesome framework
+                </div>
+                <div class="content">
+                    <div>
+                        <ons-button><ons-icon icon="ion-thumbsup"></ons-icon></ons-button>
+                        <ons-button><ons-icon icon="ion-share"></ons-icon></ons-button>
+                    </div>
+                    <ons-list>
+                        <ons-list-header>Bindings</ons-list-header>
+                        <ons-list-item>Vue</ons-list-item>
+                        <ons-list-item>Angular</ons-list-item>
+                        <ons-list-item>React</ons-list-item>
+                    </ons-list>
+                </div>
+            </ons-card>
 
         </ons-page>
     </ons-template>
