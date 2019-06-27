@@ -569,6 +569,18 @@ function openTitles()
 {
     document.querySelector('#navigator').pushPage('titles.html');
 }
+function openRandomAyah()
+{
+    document.querySelector('#navigator').pushPage('randomayah.html');
+}
+function openFavourites()
+{
+    document.querySelector('#navigator').pushPage('favourites.html');
+}
+function openSearch()
+{
+    document.querySelector('#navigator').pushPage('search.html');
+}
 function openSetting()
 {
     document.querySelector('#navigator').pushPage('settings.html');

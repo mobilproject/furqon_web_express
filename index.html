@@ -47,7 +47,7 @@
             <div id="homediv">
                 <p style="grid-area:logo; text-align: center;">
                     <img style="width: 128px;" src="image/Asset 1ldpi.png"></p>
-                <ons-button modifier="large" style="grid-area:suranomi" onclick="openTitles()">Sura Nomlari</ons-button>
+                <ons-button modifier="large" style="grid-area:suranomi" onclick="openTitles()">Suralar</ons-button>
                 <ons-button modifier="large" style="grid-area:hidoyat" onclick="openRandomAyah()">Hidoyat</ons-button>
                 <ons-button modifier="large" style="grid-area:saraoyat" onclick="openFavourites()">Sara Oyatlar</ons-button>
                 <ons-button modifier="large" style="grid-area:izlash" onclick="openSearch()">Izlash</ons-button>
@@ -116,6 +116,58 @@
                     </ons-list>
                 </div>
             </ons-card>
+
+        </ons-page>
+    </ons-template>
+    <ons-template id="favourites.html">
+        <ons-page id="favourites">
+            <ons-toolbar>
+                <div class="right">
+                    <ons-toolbar-button onclick="popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openAbout()">
+                        <ons-icon icon="md-help"></ons-icon>
+                    </ons-toolbar-button>
+
+                </div>
+                <div class="center">
+                    <span id="selectsurahtitle"></span>
+                </div>
+            </ons-toolbar>
+
+        </ons-page>
+    </ons-template>
+    <ons-template id="search.html">
+        <ons-page id="search">
+            <ons-toolbar>
+                <div class="right">
+                    <ons-toolbar-button onclick="popPage()">
+                        <ons-icon icon="md-home"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openSetting()">
+                        <ons-icon icon="md-settings"></ons-icon>
+                    </ons-toolbar-button>
+                    <ons-toolbar-button onclick="openAbout()">
+                        <ons-icon icon="md-help"></ons-icon>
+                    </ons-toolbar-button>
+
+                </div>
+                <div class="center">
+                    <span id="selectsurahtitle"></span>
+                </div>
+            </ons-toolbar>
+
+            <p style="padding: 5px">
+            <ons-input id="needle" modifier="underbar" placeholder="miracle" float></ons-input>
+            </p>
+
+            <p style="margin-top: 1px;">
+            <ons-button class="search" onclick="searchText()">Izla</ons-button>
+            </p>
 
         </ons-page>
     </ons-template>

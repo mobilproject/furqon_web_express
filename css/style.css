@@ -5,6 +5,14 @@ div #homediv{
     grid-template-areas:"logo" "suranomi" "hidoyat" "saraoyat" "izlash";
     grid-gap: 10px;
 }
+ons-input#needle {
+    background-color: azure;
+    width: -webkit-fill-available;
+}
+ons-button.search{
+    width: 100%;
+    text-align: center;
+}
 
 ons-button.button {
     ;
