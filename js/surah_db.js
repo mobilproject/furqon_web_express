@@ -363,6 +363,38 @@ function get_by_suraid() {
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
 }
+
+function addAudioSynchData() {
+    var objectStore = sdb.transaction(selected_surah, "readwrite").objectStore(selected_surah);
+    var ind = objectStore.index("VerseID");
+    var request = ind.getAll("1");
+    request.onerror = function (event) {
+        // Handle errors!
+    };
+    request.onsuccess = function (event) {
+        // Get the old value that we want to update
+        var data = event.target.result;
+
+        // update the value(s) in the object that you want to change
+        for (i = 0; i < data.length; i++) {
+            data[i].audio_at = 42;
+
+            // Put this updated object back into the database.
+            var requestUpdate = objectStore.put(data[i]);
+            requestUpdate.onerror = function (event) {
+                // Do something with the error
+                console.warn(event.target.result);
+            };
+            requestUpdate.onsuccess = function (event) {
+                // Success - the data is updated!
+                console.log(event.target.result);
+            };
+        }
+
+    };
+}
+
+
 function languageID(l)
 {
     l = Number(l);
