@@ -50,7 +50,7 @@ function input_title_data(titlenames) {
     };
 
 }
-
+var dataset = [];
 function get_surah_names()
 {
     try {
@@ -67,7 +67,7 @@ function get_surah_names()
                 //load titles from here
                 var transaction = indexdb.transaction(["titles"]);
                 var objectStore = transaction.objectStore("titles");
-                var dataset = [];
+                dataset = [];
                 var request = objectStore.openCursor();
 
                 request.onerror = function (event) {
@@ -84,7 +84,7 @@ function get_surah_names()
                         dataset.push(cursor.value);
                         cursor.continue();
                     } else {
-                        console.log("The result is", dataset);
+                        //console.log("The result is", dataset);
                         display_surah_names(dataset);
                         dataset = [];
                         console.log("displaying titles");
@@ -105,5 +105,65 @@ function get_surah_names()
     } catch (e)
     {
 
+    }
+}
+
+function get_current_suraname() {
+    try {
+        var transaction = indexdb.transaction(["titles"]);
+        var objectStore = transaction.objectStore("titles");
+        var ind = objectStore.index("chapterId");
+        var request = ind.getAll(selected_surah.toString());
+        request.onerror = function (event) {
+            // Handle errors!
+        };
+        request.onsuccess = function (event) {
+            // Do something with the request.result!
+            console.log(event.target.result);
+            if (event.target.result)
+            {
+                //load titles from here
+                var transaction = indexdb.transaction(["titles"]);
+                var objectStore = transaction.objectStore("titles");
+                dataset = [];
+                var ind = objectStore.index("chapterId");
+                var request = ind.openCursor();
+
+                request.onerror = function (event) {
+                    // Handle errors!
+                    console.log(event);
+                };
+
+                request.onsuccess = function (event) {
+                    // Do something with the request.result!
+                    var cursor = event.target.result;
+
+                    if (cursor)
+                    {
+                        dataset.push(cursor.value);
+                        cursor.continue();
+                    } else {
+                        //console.log("The result is", dataset);
+                        //display_surah_names(dataset);
+                        $("#random-sura-name").text(dataset[1].title);
+                        dataset = [];
+                        console.log("displaying titles");
+                    }
+                };
+
+            } else {
+                //the titles dont exist
+                //create
+                console.log("requesting titles from server");
+                var data = {
+                    action: "names_as_objects",
+                    language_id: language_id
+                };
+                ajax(data);
+            }
+        };
+    } catch (e)
+    {
+        console.warn(e);
     }
 }

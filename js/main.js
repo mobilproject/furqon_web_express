@@ -446,13 +446,8 @@ function set_langauge()
 
 function display_surah_names(data)
 {
-
-
-
     for (i in data)
     {
-        //data[i] = JSON.parse(data[i]);
-        //console.log(data[i]["languageNo"]);
         if (data[i]["languageNo"] == 1)
         {
             var oli = document.createElement("ons-list-item");
@@ -471,15 +466,10 @@ function display_surah_names(data)
             }
         }
     }
-    //location.hash = "sura-" + (Number(selected_surah) - 1);
     if (deviceready)
     {
-
-
-
     }
     document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
-
 }
 
 function show_surah()
@@ -559,6 +549,10 @@ $(window).ready(function () {
             case "surah_text":
 
                 break;
+            case "randomayah":
+                console.log("random ayat");
+                get_current_suraname();
+                break;
             case "settings":
 
                 break;
@@ -573,8 +567,17 @@ $(window).ready(function () {
 });
 
 var nextAyat = function () {
-    console.log("hh");
-    $("#ayah-number").text("2");
+    console.log(event.keyCode);
+    current_ayah_no = Number($("#ayah-number").text());
+    if (event.keyCode == 37 && current_ayah_no > 1) {
+        current_ayah_no--;
+    } else if (event.keyCode == 39) {
+        current_ayah_no++;
+
+    }
+    $("#ayah-number").text(current_ayah_no);
+    document.querySelector("audio").currentTime * 1000;
+
 }
 
 function openTitles()
@@ -605,4 +608,115 @@ function popPage()
 {
 
     document.querySelector('#navigator').popPage();
+}
+
+function restore_bookmark()
+{
+
+
+
+    try {
+        set_bookmarks();
+    } catch (e) {
+
+    }
+
+
+}
+function ayah_click(event) {
+    if ($(event.currentTarget).find(".expandable-content").is(":visible"))
+    {
+
+        $(event.currentTarget).find(".qavs_ichi").hide();
+        $(event.currentTarget).find(".zmdi-code-setting").show();
+        //event.currentTarget.querySelector("ons-speed-dial").hideItems();
+        //$(event.currentTarget).find(".ayah_id").hide();
+    } else {
+        event.currentTarget.showExpansion();
+        $(event.currentTarget).find(".qavs_ichi").show();
+        $(event.currentTarget).find(".zmdi-code-setting").hide();
+        //event.currentTarget.querySelector("ons-speed-dial").showItems();
+        //$(event.currentTarget).find(".ayah_id").css("display", "block");
+
+
+    }
+    console.log($(event.currentTarget).find(".expandable-content").eq(0).is(":visible"));
+}
+function set_bookmarks()
+{
+    if (bookmarklist[selected_surah])
+    {
+        if ($("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).length > 0)
+        {
+            $('#loading_circle').css("display", "none");
+            console.log("surah and ayah", selected_surah, bookmarklist[selected_surah]);
+            document.querySelector("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah]).scrollIntoView();
+            $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.remove("zmdi-bookmark-outline");
+            $("#ayah-" + selected_surah + "-" + bookmarklist[selected_surah])[0].getElementsByClassName("zmdi")[0].classList.add("zmdi-bookmark");
+            var sectimer = setTimeout(function () {
+                console.log("sttt");
+
+            }, 300);
+            ons.notification.toast(lang[language].bookmark_found_message + bookmarklist[selected_surah], {timeout: 1000, animation: 'fall'});
+        } else {
+            console.log("settimeout");
+            var listitems = $(".list-item");
+            listitems[listitems.length - 1].scrollIntoView({behavior: "instant"});
+            setTimeout(function () {
+                set_bookmarks();
+            }, 300);
+        }
+    } else {
+        document.querySelector('#loading_circle').hide();
+    }
+
+    if (playpositions[selected_surah])
+    {
+        $("#surahaudio")[0].currentTime = playpositions[selected_surah] - 5;
+    }
+
+
+}
+function share_ayah(event)
+{
+    // this is the complete list of currently supported params you can pass to the plugin (all optional)
+    var options = {
+        message: event.currentTarget.parentElement.parentElement.parentElement.getElementsByClassName("oyatmatni")[0].innerText + " (Qur'an, " + event.currentTarget.getAttribute("chapter_no") + ":" + event.currentTarget.getAttribute("ayah_no") + ");",
+        subject: 'the subject', // fi. for email
+
+    };
+
+    var onSuccess = function (result) {
+        console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+        console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+    };
+
+    var onError = function (msg) {
+        console.log("Sharing failed with message: " + msg);
+    };
+
+    window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+}
+function save_playposition()
+{
+    var playpos = Math.floor(document.querySelector("#surahaudio").currentTime);
+    console.log("save_playposition", selected_surah, playpos);
+
+    playpositions[Number(selected_surah)] = Number(playpos);
+    localStorage.playpositions = JSON.stringify(playpositions);
+    ons.notification.toast(lang[language].playposition_text, {timeout: 1000, animation: "fall"});
+}
+function bookmark_ayahid(event)
+{
+    var bookmark_sura_no = Number(event.currentTarget.getAttribute("chapter_no"));
+    var bookmark_ayah_no = Number(event.currentTarget.getAttribute("ayah_no"));
+    console.log(bookmark_sura_no, bookmark_ayah_no);
+
+    bookmarklist[Number(bookmark_sura_no)] = Number(bookmark_ayah_no);
+    localStorage.bookmarklist = JSON.stringify(bookmarklist);
+    $(".zmdi-bookmark").removeClass("zmdi-bookmark").addClass("zmdi-bookmark-outline");
+    var myfav = event.currentTarget.parentElement.parentElement.parentElement.getElementsByClassName("zmdi-bookmark-outline")[0];
+    myfav.classList.remove("zmdi-bookmark-outline");
+    myfav.classList.add("zmdi-bookmark");
+
 }
