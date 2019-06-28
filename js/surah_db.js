@@ -401,6 +401,7 @@ function get_by_randomsuraid() {
                     if (big_data.length > 0)
                     {
                         console.log(big_data);
+                        document.querySelector("audio").src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3"
                         $("#ayah-number").text(1);
                         $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1));
                         get_current_suraname();

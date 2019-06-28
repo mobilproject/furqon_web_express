@@ -127,7 +127,7 @@ function get_current_suraname() {
                 var objectStore = transaction.objectStore("titles");
                 dataset = [];
                 var ind = objectStore.index("chapterId");
-                var request = ind.openCursor();
+                var request = ind.getAll(selected_surah.toString());
 
                 request.onerror = function (event) {
                     // Handle errors!
@@ -138,17 +138,11 @@ function get_current_suraname() {
                     // Do something with the request.result!
                     var cursor = event.target.result;
 
-                    if (cursor)
-                    {
-                        dataset.push(cursor.value);
-                        cursor.continue();
-                    } else {
-                        //console.log("The result is", dataset);
-                        //display_surah_names(dataset);
-                        $("#random-sura-name").text(dataset[1].title);
-                        dataset = [];
-                        console.log("displaying titles");
-                    }
+
+                    //console.log("The result is", dataset);
+                    $("#random-sura-name").text(cursor[1].title);
+                    //dataset = [];
+                    console.log("displaying titles");
                 };
 
             } else {
