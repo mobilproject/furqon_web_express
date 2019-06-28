@@ -363,33 +363,98 @@ function get_by_suraid() {
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
 }
+function hide_comments(i) {
+    var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
+    izohsiz = izohsiz.replace(/\)/g, '</span>');
+
+    return izohsiz;
+}
+function get_by_randomsuraid() {
+    if (sdb.objectStoreNames.contains(selected_surah))
+    {
+        document.querySelector("#loadingtitle").innerHTML = lang[language].loading;
+        document.querySelector('#loading_circle').show();
+        console.log(selected_surah, "exists, proceed to data retrieval");
+        var store = sdb.transaction(selected_surah, "readonly").objectStore(selected_surah);
+        var index = store.index('SuraID');
+        keyRange = IDBKeyRange.only(["SuraID"]);
+        console.log(index);
+        // To use one of the key ranges, pass it in as the first argument of openCursor()/openKeyCursor()
+        var request = index.count(keyRange);
+        request.onsuccess = function (event) {
+            big_data = [];
+            var cursor = event.target.result;
+            console.log(cursor, "row counts");
+            request = index.openCursor();
+            request.onsuccess = function (event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    //include only selected languages
+                    if (languageID(cursor.value.DatabaseID))
+                    {
+                        big_data.push(cursor.value);
+                    }
+                    cursor.continue();
+                } else {
+                    //console.log("loading complete", big_data);
+                    document.querySelector('#loading_circle').hide();
+                    if (big_data.length > 0)
+                    {
+                        console.log(big_data);
+                        $("#ayah-number").text(1);
+                        $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1));
+                        get_current_suraname();
+
+                    } else {
+                        //no data
+                        console.log(big_data.length, "big data empty for ", selected_surah);
+                        ajax(izoh_data);
+                    }
+
+
+
+                }
+            };
+            console.log(cursor, "cursor length");
+        };
+        request.onerror = function (e)
+        {
+            console.log(e, "error loading data");
+        }
+
+    } else {
+        sdb.close();
+        console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
+    }
+}
 
 function addAudioSynchData() {
     var objectStore = sdb.transaction(selected_surah, "readwrite").objectStore(selected_surah);
-    var ind = objectStore.index("VerseID");
-    var request = ind.getAll("1");
+    var request = objectStore.openCursor();
     request.onerror = function (event) {
         // Handle errors!
     };
     request.onsuccess = function (event) {
         // Get the old value that we want to update
-        var data = event.target.result;
 
+        var cursor = event.target.result;
+        //console.log(cursor);
         // update the value(s) in the object that you want to change
-        for (i = 0; i < data.length; i++) {
-            data[i].audio_at = 42;
-
-            // Put this updated object back into the database.
-            var requestUpdate = objectStore.put(data[i]);
-            requestUpdate.onerror = function (event) {
-                // Do something with the error
-                console.warn(event.target.result);
-            };
-            requestUpdate.onsuccess = function (event) {
-                // Success - the data is updated!
-                console.log(event.target.result);
-            };
+        if (cursor) {
+            if (cursor.value.VerseID == current_verse) {
+                var data = cursor.value;
+                ct = document.querySelector("audio").currentTime;
+                data.audio_at = ct;
+                var request = cursor.update(data);
+                request.onsuccess = function () {
+                    console.log('audio synch data added ' + current_verse + ", " + ct);
+                };
+            }
+            cursor.continue();
+        } else {
+            console.log('Entries displayed.');
         }
+
 
     };
 }

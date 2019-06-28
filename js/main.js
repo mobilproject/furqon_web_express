@@ -200,6 +200,9 @@ document.addEventListener('init', function (event) {
             }
 
             break;
+        case "randomayah":
+            get_by_randomsuraid();
+            break;
         case "surah_text":
             select_surah();
 
@@ -551,7 +554,8 @@ $(window).ready(function () {
                 break;
             case "randomayah":
                 console.log("random ayat");
-                get_current_suraname();
+                //get_by_randomsuraid();
+
                 break;
             case "settings":
 
@@ -567,19 +571,22 @@ $(window).ready(function () {
 });
 
 var nextAyat = function () {
-    console.log(event.keyCode);
+    //console.log(event.keyCode);
     current_ayah_no = Number($("#ayah-number").text());
     if (event.keyCode == 37 && current_ayah_no > 1) {
         current_ayah_no--;
-    } else if (event.keyCode == 39) {
+    } else if (event.keyCode == 39 && current_ayah_no < big_data.length) {
         current_ayah_no++;
-
     }
+    current_verse = current_ayah_no;
     $("#ayah-number").text(current_ayah_no);
-    document.querySelector("audio").currentTime * 1000;
-
+    //document.querySelector("audio").currentTime * 1000;
+    $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1));
+    console.log(big_data[Number(current_ayah_no) - 1].audio_at, current_verse);
+    document.querySelector("audio").currentTime = big_data[Number(current_ayah_no) - 1].audio_at;
+    //addAudioSynchData();
 }
-
+var current_verse = 1;
 function openTitles()
 {
     document.querySelector('#navigator').pushPage('titles.html');
