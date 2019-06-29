@@ -7,7 +7,7 @@
 var language_id = 1;
 var languages = Boolean(localStorage.language) ? JSON.parse(localStorage.language) : [120];
 var language = Boolean(localStorage.menu_language) ? localStorage.menu_language : "uzbek";
-var selected_surah = 2;
+var selected_surah = 1;
 var selected_title;
 var bookmarklist = Boolean(localStorage.bookmarklist) ? JSON.parse(localStorage.bookmarklist) : {};
 var playpositions = Boolean(localStorage.playpositions) ? JSON.parse(localStorage.playpositions) : {};
@@ -581,8 +581,10 @@ var nextAyat = function () {
     current_verse = current_ayah_no;
     $("#ayah-number").text(current_ayah_no);
     //document.querySelector("audio").currentTime * 1000;
-    $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1));
-    console.log(big_data[Number(current_ayah_no) - 1].audio_at, current_verse);
+    $("#random-ayah-text").fadeOut(500, function () {
+        $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1)).fadeIn(500);
+    });
+    //console.log(big_data[Number(current_ayah_no) - 1].audio_at, current_verse);
     try {
         //document.querySelector("audio").currentTime = big_data[Number(current_ayah_no) - 1].audio_at;
         addAudioSynchData();

@@ -403,7 +403,8 @@ function get_by_randomsuraid() {
                         console.log(big_data);
                         document.querySelector("audio").src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3"
                         $("#ayah-number").text(1);
-                        $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1));
+                        $("#random-ayah-text").fadeOut();
+                        $("#random-ayah-text").html("");
                         get_current_suraname();
 
                     } else {
