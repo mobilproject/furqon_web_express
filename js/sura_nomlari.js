@@ -5,9 +5,9 @@
  */
 var indexdb;
 var databaseName = "surah_titles";
-var databaseVersion = 1;
+var databaseVersion = 5;
 
-var openRequest = indexedDB.open(databaseName);
+var openRequest = indexedDB.open(databaseName, databaseVersion);
 
 openRequest.onerror = function (event) {
     console.log(event.errorCode);
@@ -22,20 +22,48 @@ openRequest.onupgradeneeded = function (event) {
     indexdb.onerror = function () {
         console.log("error loading the database");
     };
+    if (event.oldVersion < 5) {
 
-    var store = indexdb.createObjectStore("titles", {autoIncrement: true});
-    //copy of the actual database table
-    store.createIndex("chapterId", "chapterId", {unique: false});
-    store.createIndex("title", "title", {unique: true});
-    store.createIndex("languageNo", "languageNo", {unique: false});
+        if (check_title_store("titles")) {
+            indexdb.deleteObjectStore("titles");
+        }
+        //the titles dont exist
+        //create
+        var store = indexdb.createObjectStore("titles", {autoIncrement: true});
+        //copy of the actual database table
+        store.createIndex("chapterId", "chapterId", {unique: false});
+        store.createIndex("title", "title", {unique: true});
+        store.createIndex("languageNo", "languageNo", {unique: false});
 
-    store.transaction.oncomplete = function (event) {
-        console.log("database upgraded successfully!");
-        //populate data
-        get_surah_names();
-    };
+        store.transaction.oncomplete = function (event) {
+            console.log("database upgraded successfully!");
+            //populate data
+            get_surah_names();
+        };
+
+    } else {
+        var store = indexdb.createObjectStore("titles", {autoIncrement: true});
+        //copy of the actual database table
+        store.createIndex("chapterId", "chapterId", {unique: false});
+        store.createIndex("title", "title", {unique: true});
+        store.createIndex("languageNo", "languageNo", {unique: false});
+
+        store.transaction.oncomplete = function (event) {
+            console.log("database upgraded successfully!");
+            //populate data
+            get_surah_names();
+        };
+    }
 };
-
+function check_title_store(titles)
+{
+    if (indexdb.objectStoreNames.contains(titles))
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
 function input_title_data(titlenames) {
 
     var transaction = indexdb.transaction(['titles'], "readwrite");
@@ -48,7 +76,6 @@ function input_title_data(titlenames) {
         console.log("All done!");
         //get_surah_names();
     };
-
 }
 var dataset = [];
 function get_surah_names()
@@ -62,8 +89,12 @@ function get_surah_names()
         };
         request.onsuccess = function (event) {
             // Do something with the request.result!
+            console.log(event.target.result);
+
+
             if (event.target.result)
             {
+
                 //load titles from here
                 var transaction = indexdb.transaction(["titles"]);
                 var objectStore = transaction.objectStore("titles");
@@ -92,6 +123,7 @@ function get_surah_names()
                 };
 
             } else {
+
                 //the titles dont exist
                 //create
                 console.log("requesting titles from server");
@@ -107,6 +139,8 @@ function get_surah_names()
 
     }
 }
+
+
 
 function get_current_suraname() {
     try {

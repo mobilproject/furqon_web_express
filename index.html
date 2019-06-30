@@ -74,10 +74,28 @@
                 </div>
             </ons-toolbar>
 
-            <ons-list id="main_table">
-            </ons-list>
 
+            <ons-tabbar swipeable position="auto">
+                <ons-tab page="tab1.html" label="Quran" active>
+                </ons-tab>
+                <ons-tab page="tab2.html" label="Revelation" active-icon="">
+                </ons-tab>
+            </ons-tabbar>
+            <template id="tab1.html">
+                <ons-page id="Tab1">
+                    <ons-list id="main_table">
+                    </ons-list>
+                </ons-page>
+            </template>
+
+            <template id="tab2.html">
+                <ons-page id="Tab2">
+                    <ons-list id="main_table_revelation">
+                    </ons-list>
+                </ons-page>
+            </template>
         </ons-page>
+
     </ons-template>
     <ons-template id="randomayah.html">
         <ons-page id="randomayah">
@@ -147,7 +165,9 @@
             </ons-toolbar>
 
         </ons-page>
+
     </ons-template>
+
     <ons-template id="search.html">
         <ons-page id="search">
             <ons-toolbar>

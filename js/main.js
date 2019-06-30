@@ -330,8 +330,8 @@ function ajax(d)
         contentType: "application/x-www-form-urlencoded",
         data: d,
         beforeSend: function (xhr) {
-            document.querySelector("#loadingtitle").innerHTML = lang[language].loading;
-            document.querySelector('#loading_circle').show();
+            //document.querySelector("#loadingtitle").innerHTML = lang[language].loading;
+            $('#loading_circle').show();
         },
         success: function (data) {
             document.querySelector('#loading_circle').hide();
