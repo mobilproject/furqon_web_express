@@ -448,9 +448,10 @@ function set_langauge()
         console.log(event.currentTarget);
     }
 }
-
+var revorder;
 function display_surah_names(data)
 {
+    revorder = document.createElement("div");
     for (i in data)
     {
         if (data[i]["languageNo"] == 1)
@@ -471,11 +472,40 @@ function display_surah_names(data)
             }
         }
     }
+    data.sort(function (a, b) {
+        //console.log(a, b);
+        return Number(a.orderNo) - Number(b.orderNo);
+    });
+    console.log(data);
+    for (i in data)
+    {
+
+        if (data[i]["languageNo"] == 1)
+        {
+            var oli = document.createElement("ons-list-item");
+            oli.setAttribute("tappable", "true");
+            oli.setAttribute("id", "sura-" + data[i].chapterId);
+            oli.setAttribute("title", data[i].title);
+            oli.setAttribute("surahNo", data[i].chapterId);
+            oli.setAttribute("onmouseup", "show_surah(event)");
+            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">' + data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
+        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
+            oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
+            try {
+                revorder.appendChild(oli);
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+    }
     if (deviceready)
     {
     }
     document.querySelector("#selectsurahtitle").innerHTML = lang[language].home_title;
 }
+document.addEventListener('prechange', function (event) {
+    document.getElementById("main_table_revelation").innerHTML = revorder.innerHTML;
+});
 
 function show_surah()
 {
@@ -642,7 +672,9 @@ function restore_bookmark()
 
 }
 function ayah_click(event) {
-    if ($(event.currentTarget).find(".expandable-content").is(":visible"))
+
+    console.log($(event.currentTarget).find(".qavs_ichi").css("display"));
+    if ($(event.currentTarget).find(".qavs_ichi").css("display") == "inline")
     {
 
         $(event.currentTarget).find(".qavs_ichi").hide();
@@ -650,7 +682,7 @@ function ayah_click(event) {
         //event.currentTarget.querySelector("ons-speed-dial").hideItems();
         //$(event.currentTarget).find(".ayah_id").hide();
     } else {
-        event.currentTarget.showExpansion();
+        //event.currentTarget.showExpansion();
         $(event.currentTarget).find(".qavs_ichi").show();
         $(event.currentTarget).find(".zmdi-code-setting").hide();
         //event.currentTarget.querySelector("ons-speed-dial").showItems();
@@ -659,6 +691,7 @@ function ayah_click(event) {
 
     }
     console.log($(event.currentTarget).find(".expandable-content").eq(0).is(":visible"));
+
 }
 function set_bookmarks()
 {
