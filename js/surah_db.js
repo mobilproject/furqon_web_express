@@ -363,6 +363,11 @@ function get_by_suraid() {
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
 }
+
+function searchText() {
+    sdb.objectStoreNames;
+}
+
 function hide_comments(i) {
     var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
     izohsiz = izohsiz.replace(/\)/g, '</span>');
@@ -428,6 +433,80 @@ function get_by_randomsuraid() {
         sdb.close();
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
+}
+//SUBTITLE synch
+var ri = 0;//set it again after synching audio with subs
+var stpos = 0;
+var subdelay;
+function rec_subs() {
+    if (subdelay) {
+        clearTimeout(subdelay);
+    }
+    if (stpos > 0) {
+        subdelay = setTimeout(setsubs, (stpos * 1000));
+        stpos = 0;
+    } else {
+        try {
+            if (big_data.length > 0 && Boolean(big_data[ri].audio_at)) {
+                subdelay = setTimeout(setsubs, (timedif(ri) * 1000));
+
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+function setsubs() {
+    //console.log(timedif(ri), ri);
+    $("#random-ayah-text").fadeOut(500, function () {
+        $("#random-ayah-text").html(hide_comments(ri > 0 ? ri - 1 : 0)).fadeIn(500);
+    });
+
+    $("#ayah-number").text(big_data[ri].VerseID);
+    if (ri < big_data.length) {
+        ri++;
+        rec_subs();
+    } else {
+        clearTimeout(subdelay);
+    }
+
+}
+function timedif(vv) {
+    if (ri > 0) {
+        return big_data[ri].audio_at - big_data[ri - 1].audio_at;
+    }
+    return big_data[ri].audio_at;
+}
+//END of subtitle synch
+
+
+
+function play_start() {
+    var player = event.target;
+//calculate currentTime difference
+//find the correct position
+    console.log("play");
+    if (big_data.length > 0 && big_data[0].audio_at) {
+        for (var i = 0; i < big_data.length; i++) {
+            if (big_data[i].audio_at > player.currentTime) {
+                ri = i;
+                stpos = big_data[i].audio_at - player.currentTime;
+                console.log(ri, big_data[i].audio_at, stpos, player.currentTime);
+                rec_subs();
+                //$("#random-ayah-text").fadeIn();
+
+                break;
+            }
+
+        }
+
+    }
+}
+function play_paused() {
+    console.log("pause");
+    clearTimeout(subdelay);
+    ri = 0;
+    stpos = 0;
 }
 
 function addAudioSynchData() {

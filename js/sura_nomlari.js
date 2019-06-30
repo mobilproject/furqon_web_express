@@ -46,7 +46,7 @@ function input_title_data(titlenames) {
     });
     transaction.oncomplete = function (event) {
         console.log("All done!");
-        get_surah_names();
+        //get_surah_names();
     };
 
 }

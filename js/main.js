@@ -202,6 +202,8 @@ document.addEventListener('init', function (event) {
             break;
         case "randomayah":
             get_by_randomsuraid();
+            document.querySelector("audio").addEventListener("play", play_start);
+            document.querySelector("audio").addEventListener("pause", play_paused);
             break;
         case "surah_text":
             select_surah();
@@ -336,7 +338,7 @@ function ajax(d)
             if (data.indexOf("chapterId") > 0)
             {
                 var data = JSON.parse(data);
-                display_surah_names(data);
+
                 for (i in data)
                 {
 
@@ -568,30 +570,32 @@ $(window).ready(function () {
 
     //ADD EVENT LISTENERS
     document.querySelector("body").addEventListener("keyup", nextAyat);
+
 });
 
 var nextAyat = function () {
-    //console.log(event.keyCode);
+    console.log(event.keyCode);
     current_ayah_no = Number($("#ayah-number").text());
     if (event.keyCode == 37 && current_ayah_no > 1) {
         current_ayah_no--;
     } else if (event.keyCode == 39 && current_ayah_no < big_data.length) {
         current_ayah_no++;
     }
-    current_verse = current_ayah_no;
-    $("#ayah-number").text(current_ayah_no);
-    //document.querySelector("audio").currentTime * 1000;
-    $("#random-ayah-text").fadeOut(500, function () {
-        $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1)).fadeIn(500);
-    });
-    //console.log(big_data[Number(current_ayah_no) - 1].audio_at, current_verse);
-    try {
-        //document.querySelector("audio").currentTime = big_data[Number(current_ayah_no) - 1].audio_at;
-        addAudioSynchData();
-    } catch (e) {
-        addAudioSynchData();
+    if (event.keyCode == 37 || event.keyCode == 39) {
+        current_verse = current_ayah_no;
+        $("#ayah-number").text(current_ayah_no);
+        //document.querySelector("audio").currentTime * 1000;
+        $("#random-ayah-text").fadeOut(500, function () {
+            $("#random-ayah-text").html(hide_comments(Number(current_verse) - 1)).fadeIn(500);
+        });
+        //console.log(big_data[Number(current_ayah_no) - 1].audio_at, current_verse);
+        try {
+            //document.querySelector("audio").currentTime = big_data[Number(current_ayah_no) - 1].audio_at;
+            addAudioSynchData();
+        } catch (e) {
+            addAudioSynchData();
+        }
     }
-
 }
 var current_verse = 1;
 function openTitles()
