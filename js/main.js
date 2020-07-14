@@ -325,7 +325,7 @@ function select_surah(event) {
 function ajax(d)
 {
     $.ajax({
-        url: "https://created.link/php/ajax_quran.php",
+        url: "https://created.link/php/ajax_quran_test.php",
         type: "POST",
         contentType: "application/x-www-form-urlencoded",
         data: d,
