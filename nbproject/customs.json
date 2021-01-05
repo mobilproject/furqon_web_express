@@ -1,0 +1,35 @@
+{
+    "elements": {
+        "ons-tabbar": {},
+        "ons-popover": {},
+        "ons-list-item": {},
+        "ons-icon": {},
+        "ons-button": {},
+        "ons-modal": {},
+        "ons-list": {},
+        "ons-toolbar-button": {},
+        "ons-input": {},
+        "ons-tab": {},
+        "ons-page": {},
+        "ons-toolbar": {},
+        "ons-switch": {},
+        "ons-navigator": {
+            "attributes": {
+                "id": {},
+                "page": {}
+            }
+        },
+        "ons-list-header": {},
+        "ons-template": {},
+        "ons-dialog": {},
+        "ons-radio": {},
+        "ons-bottom-toolbar": {},
+        "ons-card": {},
+        "ons-list-title": {},
+        "ons-lazy-repeat": {}
+    },
+    "attributes": {
+        "id": {},
+        "page":{}
+    }
+}
