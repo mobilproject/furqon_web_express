@@ -1,10 +1,19 @@
 /* 
- * Author Ahmad - sn engineer, teacher and content creator
+ * Author Ahmad - an engineer, teacher and content creator
  * Date: 2021 January 21 
  */
 
 var searchString = window.location.search.replace("?","");
-var searchArgs = getParameters(searchString)
+var searchArgs = getParameters(searchString);
+
+
+/**
+ * Search and find the verse by the reference
+ */
+function searchForAyah(searchArgs[0], searchArgs[1]) 
+{
+    
+}
 
 function getParameters(s){
     var s_one = "";
@@ -25,8 +34,8 @@ function getParameters(s){
             //parameter pattern doesn`t match
         }
     }else{
-        //string is NULL
+        //string is NULL        
     }    
-    return new Array(s_one, s_two);
+    return (s_one, s_two);
 }
 
