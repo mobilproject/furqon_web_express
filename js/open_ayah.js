@@ -10,7 +10,9 @@ var searchArgs = getParameters(searchString);
 /**
  * Search and find the verse by the reference
  */
-function searchForAyah(searchArgs[0], searchArgs[1]) 
+searchForAyah(searchArgs[0], searchArgs[1]);
+
+function searchForAyah(p1, p2)
 {
     
 }
@@ -36,6 +38,6 @@ function getParameters(s){
     }else{
         //string is NULL        
     }    
-    return (s_one, s_two);
+    return [s_one, s_two];
 }
 
