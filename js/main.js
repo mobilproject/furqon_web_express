@@ -602,16 +602,17 @@ $(window).ready(function () {
     document.querySelector("body").addEventListener("keyup", nextAyat);
 
 });
-
+current_verse = 1;
 var nextAyat = function () {
     console.log(event.keyCode);
     current_ayah_no = Number($("#ayah-number").text());
+    
     if (event.keyCode == 37 && current_ayah_no > 1) {
         current_ayah_no--;
     } else if (event.keyCode == 39 && current_ayah_no < big_data.length) {
         current_ayah_no++;
     }
-    if (event.keyCode == 37 || event.keyCode == 39) {
+    if (event.keyCode == 37 || event.keyCode == 39 || searchByAyahFlag) {
         current_verse = current_ayah_no;
         $("#ayah-number").text(current_ayah_no);
         //document.querySelector("audio").currentTime * 1000;
@@ -627,7 +628,7 @@ var nextAyat = function () {
         }
     }
 }
-var current_verse = 1;
+
 function openTitles()
 {
     document.querySelector('#navigator').pushPage('titles.html');

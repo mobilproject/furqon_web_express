@@ -30,16 +30,25 @@ function getParameters(s){
                 s_one = s_ar[0].split("=")[1];
                 s_two = s_ar[1].split("=")[1];
                 console.log(s_ar);
-                openRandomAyah();
+                setTimeout(()=>{
+                    //TODO
+                    //also display a button with message on the main page,
+                    //to allow manual open, in case of failure
+                    searchByAyahFlag = true;
+                    openRandomAyah();
+                }, 3000);
+                
                 return [s_one, s_two];                
             }else{
                 //we may never hit this
+                
             }
         }else{
             //parameter pattern doesn`t match
         }
     }else{
         //string is NULL        
+        searchByAyahFlag = false;
     }    
     return [s_one, s_two];
 }

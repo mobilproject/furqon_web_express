@@ -378,7 +378,13 @@ function hide_comments(i) {
     return izohsiz;
 }
 function get_by_randomsuraid() {
-    if (sdb.objectStoreNames.contains(selected_surah))
+    //first check for the incoming search parameters    
+    if(searchArgs.length>1)
+    {
+        selected_surah = searchArgs[0];
+        selected_ayah = searchArgs[1];
+    }
+    if (sdb && sdb.objectStoreNames.contains(selected_surah))
     {
         document.querySelector("#loadingtitle").innerHTML = lang[language].loading;
         document.querySelector('#loading_circle').show();
@@ -408,9 +414,16 @@ function get_by_randomsuraid() {
                     document.querySelector('#loading_circle').hide();
                     if (big_data.length > 0)
                     {
-                        console.log(big_data);
+                        //console.log(big_data);
                         document.querySelector("audio").src = "https://mobilproject.github.io/furqon_web_express/by_sura/" + selected_surah + ".mp3"
-                        $("#ayah-number").text(1);
+                        if(selected_ayah!=undefined)
+                        {                            
+                            $("#ayah-number").text(selected_ayah);
+                            nextAyat();
+                            console.log("loading complete", selected_ayah);
+                        }else {
+                            $("#ayah-number").text(1);
+                        }                            
                         $("#random-ayah-text").fadeOut();
                         $("#random-ayah-text").html("");
                         get_current_suraname();
@@ -433,7 +446,8 @@ function get_by_randomsuraid() {
         }
 
     } else {
-        sdb.close();
+        if(sdb)
+            sdb.close();
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
 }
