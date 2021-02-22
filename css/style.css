@@ -143,6 +143,7 @@ ons-card.card {
 }
 .zmdi.zmdi-code-setting {
     color: steelblue;
+    cursor: pointer;
 }
 
 .zmdi.zmdi-bookmark {

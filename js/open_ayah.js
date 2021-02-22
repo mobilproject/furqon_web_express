@@ -36,7 +36,7 @@ function getParameters(s){
                     //to allow manual open, in case of failure
                     searchByAyahFlag = true;
                     openRandomAyah();
-                }, 3000);
+                }, 1000);
                 
                 return [s_one, s_two];                
             }else{

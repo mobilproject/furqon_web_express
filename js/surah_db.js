@@ -373,10 +373,15 @@ function searchText() {
 
 function hide_comments(i) {
     var izohsiz = big_data[i]['AyahText'].replace(/\(/g, '<i class="zmdi zmdi-code-setting"></i><span class="qavs_ichi">');
-    izohsiz = izohsiz.replace(/\)/g, '</span>');
-
+    izohsiz = izohsiz.replace(/\)/g, '</span>');    
+    console.log("iii " + i);
+    setTimeout(function(){
+                $(".zmdi.zmdi-code-setting").click(function(){expandComments();});
+               $(".qavs_ichi").click(function(){collapseComments();});
+    },500);
     return izohsiz;
 }
+
 function get_by_randomsuraid() {
     //first check for the incoming search parameters    
     if(searchArgs.length>1)
@@ -475,8 +480,10 @@ function rec_subs() {
 }
 function setsubs() {
     //console.log(timedif(ri), ri);
-    $("#random-ayah-text").fadeOut(500, function () {
+    $("#random-ayah-text").fadeOut(500, function () {        
         $("#random-ayah-text").html(hide_comments(ri > 0 ? ri - 1 : 0)).fadeIn(500);
+            
+
     });
 
     $("#ayah-number").text(big_data[ri].VerseID);
@@ -486,7 +493,6 @@ function setsubs() {
     } else {
         clearTimeout(subdelay);
     }
-
 }
 function timedif(vv) {
     if (ri > 0) {
@@ -581,3 +587,15 @@ function check_store(selected_surah)
         return false;
     }
 }
+
+
+expandComments = ()=>{
+    $(".qavs_ichi").show();
+    $(".zmdi.zmdi-code-setting").hide();
+}
+collapseComments = ()=>{
+    $(".qavs_ichi").hide();
+    $(".zmdi.zmdi-code-setting").show();
+}
+
+
