@@ -4,8 +4,8 @@
  */
 
 var searchString = window.location.search.replace("?","");
-
-var searchArgs = getParameters(searchString);
+searchArgs = getParameters(searchString);
+            
 
 
 /**

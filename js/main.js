@@ -178,6 +178,7 @@ document.addEventListener('init', function (event) {
     switch (page.id)
     {
         case "titles":
+            searchByAyahFlag = false;
             console.log("surah title list");
             get_surah_names();
             //show only once
@@ -206,13 +207,15 @@ document.addEventListener('init', function (event) {
             document.querySelector("audio").addEventListener("pause", play_paused);
             break;
         case "surah_text":
+            searchByAyahFlag = false;
             select_surah();
-
+            
             if (deviceready) {
 
             }
             break;
         case "settings":
+            searchByAyahFlag = false;
             set_settings();
             if (deviceready)
             {
@@ -220,6 +223,7 @@ document.addEventListener('init', function (event) {
             }
             break;
         case "about":
+            searchByAyahFlag = false;            
             set_about_page();
             if (deviceready)
             {

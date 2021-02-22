@@ -590,7 +590,7 @@ function languageID(l)
 }
 function check_store(selected_surah)
 {
-    if (sdb.objectStoreNames.contains(selected_surah))
+    if (sdb && sdb.objectStoreNames.contains(selected_surah))
     {
         return true;
     } else {
