@@ -235,7 +235,7 @@ function startTransaction(rd) {
             /////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////
             //HERE CALL display function
-            get_by_suraid();
+            get_by_randomsuraid();
         };
         transaction.onerror = function (event) {
             // Don't forget to handle errors!
@@ -249,7 +249,11 @@ function startTransaction(rd) {
 }
 
 function get_surah() {
-    selected_surah = 1;
+    if(searchArgs.length>1){
+        selected_surah = searchArgs[0];
+    }else {
+        selected_surah = 1;
+    }    
     languages = [120];
     if (sdb.objectStoreNames.contains(selected_surah))
     {
@@ -284,6 +288,7 @@ function get_surah() {
                     {
                         document.querySelector('#loading_circle').hide();
                         console.log(big_data.length);
+                        show_surah_content_now();
                     } else {
                         //no data
                         console.log(big_data.length, "big data empty for ", selected_surah);
@@ -363,6 +368,7 @@ function get_by_suraid() {
 
     } else {
         sdb.close();
+        
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
 }
@@ -388,6 +394,7 @@ function get_by_randomsuraid() {
     {
         selected_surah = searchArgs[0];
         selected_ayah = searchArgs[1];
+        searchByAyahFlag = true;
     }
     if (sdb && sdb.objectStoreNames.contains(selected_surah))
     {
@@ -453,6 +460,9 @@ function get_by_randomsuraid() {
     } else {
         if(sdb)
             sdb.close();
+        if(searchArgs.length>1){
+            get_surah();
+        }
         console.log("closed sdb, selected_surah does not exist, will CREATE a store now");
     }
 }
