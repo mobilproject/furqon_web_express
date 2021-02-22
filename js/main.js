@@ -458,10 +458,10 @@ function display_surah_names(data)
     data.sort(function (a, b) {
         //console.log(a, b);
         //Number(a.orderNo) - Number(b.orderNo)
-        if ( Number(a.orderNo) == Number(b.orderNo) && Number(a.languageNo) < Number(b.languageNo) ){
+        if ( Number(a.orderNo) < Number(b.orderNo)){
             return -1;
         }
-        if (Number(a.orderNo) == Number(b.orderNo) && Number(a.languageNo) > Number(b.languageNo) ){
+        if (Number(a.orderNo) > Number(b.orderNo)){
             return 1;
         }
         return 0;        
@@ -469,26 +469,68 @@ function display_surah_names(data)
     
     var kk=0;
     revorder = document.createElement("div");
-    for (i=0; i<data.length;i++)
-    {
-        if ((i%2)==0 && data[i]["languageNo"] == 1)
-        {
+    for (i=0; i<data.length; i++)
+    {        
+        if(i%2==0){
             var oli = document.createElement("ons-list-item");
             oli.setAttribute("tappable", "true");
-            oli.setAttribute("id", "sura-" + data[i].chapterId);
-            oli.setAttribute("title", data[i].title);
+            oli.setAttribute("id", "sura-" + data[i].chapterId);            
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
-            oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">' + data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
-        } else if (data[i]["languageNo"] == 10 && (i%2)>0) {
-            oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
-            try {
+            oli.setAttribute("class", "list-item");            
+        
+            
+            var dlil = document.createElement("div");
+            var or_a = document.createElement("ons-row");
+            var oc_a = document.createElement("ons-col");
+            var sai = document.createElement("span");
+            var dcal = document.createElement("div");
+            var dcalrow = document.createElement("ons-row");
+            var dcalocol = document.createElement("ons-col");
+            var or_u = document.createElement("ons-row");
+            var oc_u = document.createElement("ons-col");
+            dlil.setAttribute("class", "left list-item__left");
+            sai.setAttribute("class", "ayah_id");
+            dcal.setAttribute("class", "center arabic list-item__center");
+            oli.appendChild(dlil);
+            dlil.appendChild(or_a);
+            or_a.appendChild(oc_a);
+            oc_a.appendChild(sai);
+            oli.appendChild(dcal);
+            dcal.appendChild(dcalrow);
+            dcalrow.appendChild(dcalocol);
+            
+            or_u.appendChild(oc_u);
+            oli.appendChild(or_u);
+        }    
+            if(data[i]["languageNo"] == 1)
+            {
+                dcalocol.textContent = data[i].title;
+                sai.textContent = data[i].chapterId;                
+            }else{                
+                oc_u.textContent = data[i].title;
+                oli.setAttribute("title", data[i].title);
+                
+            }
+            
+        
+        try {
                 document.getElementById("main_table").appendChild(oli);
             } catch (e) {
-
             }
+        
+    
+        
+        
+            
+            
+            
+            
+            
+    
+            
         }
-    }
+   
     
     /*console.log(data);
     for (i in data)
