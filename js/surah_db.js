@@ -255,7 +255,7 @@ function get_surah() {
         selected_surah = 1;
     }    
     languages = [120];
-    if (sdb.objectStoreNames.contains(selected_surah))
+    if (sdb && sdb.objectStoreNames.contains(selected_surah))
     {
         document.querySelector("#loadingtitle").innerHTML = lang[language].loading;
         document.querySelector('#loading_circle').show();
