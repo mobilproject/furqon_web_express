@@ -31,19 +31,22 @@ function show_surah_content_now()
     var infiniteList = document.getElementById('infinite-list');
     if (infiniteList == null) {
     }
-    var itemcount = big_data.length;
-    console.log(infiniteList);
-    infiniteList.delegate = {
-        createItemContent: function (i) {
-            //console.log(create_row(i), infiniteList);
-            return create_row(i);
-        },
-        countItems: function () {
-            //console.log("list item count", big_data.length);
-            return itemcount;
-        }
-    };
-    infiniteList.refresh();
+    else{
+        var itemcount = big_data.length;
+        console.log(infiniteList);
+        infiniteList.delegate = {
+            createItemContent: function (i) {
+                //console.log(create_row(i), infiniteList);
+                return create_row(i);
+            },
+            countItems: function () {
+                //console.log("list item count", big_data.length);
+                return itemcount;
+            }
+        };
+        infiniteList.refresh();
+    }
+    
     $("#surahaudio").off().on("pause", function () {
         save_playposition();
     });

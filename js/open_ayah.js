@@ -29,6 +29,8 @@ function getParameters(s){
                 s_one = s_ar[0].split("=")[1];
                 s_two = s_ar[1].split("=")[1];
                 console.log(s_ar);
+                return [s_one, s_two];
+                openRandomAyah();
             }else{
                 //we may never hit this
             }

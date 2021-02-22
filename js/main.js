@@ -644,6 +644,10 @@ function openSearch()
 {
     document.querySelector('#navigator').pushPage('search.html');
 }
+function openAyah()
+{
+    document.querySelector('#navigator').pushPage('oneayah.html');
+}
 function openSetting()
 {
     document.querySelector('#navigator').pushPage('settings.html');
