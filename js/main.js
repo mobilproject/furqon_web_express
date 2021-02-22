@@ -455,10 +455,23 @@ function set_langauge()
 var revorder;
 function display_surah_names(data)
 {
+    data.sort(function (a, b) {
+        //console.log(a, b);
+        //Number(a.orderNo) - Number(b.orderNo)
+        if ( Number(a.orderNo) == Number(b.orderNo) && Number(a.languageNo) < Number(b.languageNo) ){
+            return -1;
+        }
+        if (Number(a.orderNo) == Number(b.orderNo) && Number(a.languageNo) > Number(b.languageNo) ){
+            return 1;
+        }
+        return 0;        
+    });
+    
+    var kk=0;
     revorder = document.createElement("div");
-    for (i in data)
+    for (i=0; i<data.length;i++)
     {
-        if (data[i]["languageNo"] == 1)
+        if ((i%2)==0 && data[i]["languageNo"] == 1)
         {
             var oli = document.createElement("ons-list-item");
             oli.setAttribute("tappable", "true");
@@ -467,7 +480,7 @@ function display_surah_names(data)
             oli.setAttribute("surahNo", data[i].chapterId);
             oli.setAttribute("onmouseup", "show_surah(event)");
             oli.innerHTML = '<div class="left"><ons-row><ons-col><span class="ayah_id">' + data[i].chapterId + '</span></ons-col></ons-row></div><div class="center arabic"><ons-row><ons-col>' + data[i].title + '</ons-col></ons-row></div>';
-        } else if (data[i]["languageNo"] != 1 && data[i].title != undefined) {
+        } else if (data[i]["languageNo"] == 10 && (i%2)>0) {
             oli.innerHTML += "<ons-row><ons-col>" + data[i].title + "</ons-col></ons-row>";
             try {
                 document.getElementById("main_table").appendChild(oli);
@@ -476,11 +489,8 @@ function display_surah_names(data)
             }
         }
     }
-    data.sort(function (a, b) {
-        //console.log(a, b);
-        return Number(a.orderNo) - Number(b.orderNo);
-    });
-    console.log(data);
+    
+    /*console.log(data);
     for (i in data)
     {
 
@@ -501,7 +511,7 @@ function display_surah_names(data)
                 console.warn(e);
             }
         }
-    }
+    }*/
     if (deviceready)
     {
     }
