@@ -75,7 +75,7 @@ ons-list-item.list-item {
     color: black;
 }
 ons-button.button--material.button {
-    border-radius: 50%;
+    
     margin: 0 2px 0 2px;
     background: #6495ed8a;
     float: right;
