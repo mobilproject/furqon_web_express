@@ -41,6 +41,13 @@ ons-button.homebuttons.button.button--large:hover {
     text-align: justify;
     box-shadow: inset 1px 1px 2px black;
 }
+ons-button.homebuttons.button.button--large {
+    font-size: large;
+    font-family: serif;
+    padding: 10px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
 }
 
 audio.randomaudio {
