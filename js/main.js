@@ -209,7 +209,8 @@ document.addEventListener('init', function (event) {
         case "surah_text":
             searchByAyahFlag = false;
             select_surah();
-            
+            document.querySelector("audio").addEventListener("play", play_start);
+            document.querySelector("audio").addEventListener("pause", play_paused);
             if (deviceready) {
 
             }
