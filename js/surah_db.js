@@ -235,7 +235,8 @@ function startTransaction(rd) {
             /////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////
             //HERE CALL display function
-            get_by_randomsuraid();
+            //get_by_randomsuraid();
+            get_by_suraid();
         };
         transaction.onerror = function (event) {
             // Don't forget to handle errors!
