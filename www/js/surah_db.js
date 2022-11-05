@@ -349,8 +349,8 @@ function get_by_suraid() {
 
                     if (big_data.length > 0)
                     {
-                        //get_by_suraid();
-                        show_surah_content_now();
+                        get_by_suraid();
+                        //show_surah_content_now();
                     } else {
                         //no data
                         console.log(big_data.length, "big data empty for ", selected_surah);
